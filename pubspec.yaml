@@ -1,13 +1,14 @@
 name: sff_lib
-description: A starting point for Dart libraries or applications.
-version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+description: Small package designed to simplify working with files/directories.
+version: 0.0.1
+repository: https://github.com/yuraMovsesyan/sff_lib
 
 environment:
   sdk: ^3.2.6
 
-# Add regular dependencies here.
 dependencies:
+  async: ^2.11.0
+  path: ^1.9.0
   # path: ^1.8.0
 
 dev_dependencies:
