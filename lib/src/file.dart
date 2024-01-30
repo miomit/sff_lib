@@ -51,7 +51,6 @@ Stream<(File, File)> findDuplicates(Directory dir) async* {
       final file = File(entitie.path);
       var isDuplicat = false;
 
-      // TODO реализовать бинарный поиск
       for (final f in files) {
         if (await compareFilesEquality(f, file)) {
           yield (f, file);
