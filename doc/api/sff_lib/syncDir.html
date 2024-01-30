@@ -63,7 +63,7 @@
     <section class="multi-line-signature">
         
 
-<span class="returntype">void</span>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.2.6/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter">(<span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span>, </span><span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span></span>)</span>&gt;</span></span>
 <span class="name ">syncDir</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="syncDir-param-dir1"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir1</span>, </span></li>
 <li><span class="parameter" id="syncDir-param-dir2"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir2</span></span></li>
 </ol>)
@@ -81,16 +81,14 @@ to another, and then in the same way but on the reverse</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">void syncDir(Directory dir1, Directory dir2) async {
-  await copyDirRec(
-    dir1,
-    dir2
-  );
+  <pre class="language-dart"><code class="language-dart">Stream&lt;(File, File)&gt; syncDir(Directory dir1, Directory dir2) async* {
+  await for (final log in copyDirRec(dir1, dir2)) {
+    yield log;
+  }
 
-  await copyDirRec(
-    dir2,
-    dir1
-  );
+  await for (final log in copyDirRec(dir2, dir1)) {
+    yield log;
+  }
 }</code></pre>
 </section>
 
@@ -124,7 +122,7 @@ to another, and then in the same way but on the reverse</p>
 <footer>
   <span class="no-break">
     sff_lib
-      1.0.0
+      0.0.1
   </span>
 
   

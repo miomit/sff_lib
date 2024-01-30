@@ -63,7 +63,7 @@
     <section class="multi-line-signature">
         
 
-<span class="returntype"><a href="https://api.dart.dev/stable/3.2.6/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.2.6/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter">(<span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span>, </span><span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span></span>)</span>&gt;</span></span>
 <span class="name ">copyDirRec</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="copyDirRec-param-dirIn"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dirIn</span>, </span></li>
 <li><span class="parameter" id="copyDirRec-param-dirOut"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dirOut</span></span></li>
 </ol>)
@@ -81,7 +81,7 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; copyDirRec(Directory dirIn, Directory dirOut) async {
+  <pre class="language-dart"><code class="language-dart">Stream&lt;(File, File)&gt; copyDirRec(Directory dirIn, Directory dirOut) async* {
   if (!dirOut.existsSync()) {
     dirOut.createSync();
   }
@@ -89,14 +89,20 @@
   await for (final entitie in dirIn.list()) {
     if (entitie.statSync().type == FileSystemEntityType.file) {
       if (!File(&quot;${dirOut.path}&#47;${entitie.uri.pathSegments.last}&quot;).existsSync()) {
-        File(entitie.path).copySync(&quot;${dirOut.path}&#47;${entitie.uri.pathSegments.last}&quot;);
+        final file = File(entitie.path);
+        final fileCopy = file.copySync(&quot;${dirOut.path}&#47;${entitie.uri.pathSegments.last}&quot;);
+        yield (file, fileCopy);
       }
     }
     else if (entitie.statSync().type == FileSystemEntityType.directory) {
-      await copyDirRec(
+      final stream = copyDirRec(
         Directory(&quot;${dirIn.path}&#47;${basename(entitie.path)}&quot;),
         Directory(&quot;${dirOut.path}&#47;${basename(entitie.path)}&quot;)
       );
+
+      await for (final log in stream) {
+        yield log;
+      }
     }
   }
 }</code></pre>
@@ -132,7 +138,7 @@
 <footer>
   <span class="no-break">
     sff_lib
-      1.0.0
+      0.0.1
   </span>
 
   

@@ -87,7 +87,7 @@
 
         <dt id="copyDirRec" class="callable">
   <span class="name"><a href="../sff_lib/copyDirRec.html">copyDirRec</a></span><span class="signature">(<wbr><span class="parameter" id="copyDirRec-param-dirIn"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dirIn</span>, </span><span class="parameter" id="copyDirRec-param-dirOut"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dirOut</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.2.6/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.2.6/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter">(<span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span>, </span><span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span></span>)</span>&gt;</span></span>
   </span>
   
 
@@ -98,9 +98,22 @@
 
 </dd>
 
+        <dt id="findDuplicates" class="callable">
+  <span class="name"><a href="../sff_lib/findDuplicates.html">findDuplicates</a></span><span class="signature">(<wbr><span class="parameter" id="findDuplicates-param-dir"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.2.6/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter">(<span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span>, </span><span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span></span>)</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Stream the channel that transmits the original file and its duplicate
+  
+
+</dd>
+
         <dt id="syncDir" class="callable">
   <span class="name"><a href="../sff_lib/syncDir.html">syncDir</a></span><span class="signature">(<wbr><span class="parameter" id="syncDir-param-dir1"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir1</span>, </span><span class="parameter" id="syncDir-param-dir2"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir2</span></span>)
-    <span class="returntype parameter">&#8594; void</span>
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.2.6/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter">(<span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span>, </span><span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span></span>)</span>&gt;</span></span>
   </span>
   
 
@@ -151,7 +164,7 @@ to another, and then in the same way but on the reverse
 <footer>
   <span class="no-break">
     sff_lib
-      1.0.0
+      0.0.1
   </span>
 
   

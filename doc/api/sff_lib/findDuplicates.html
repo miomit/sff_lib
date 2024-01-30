@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the compareFilesEquality function from the sff_lib library, for the Dart programming language.">
-  <title>compareFilesEquality function - sff_lib library - Dart API</title>
+  <meta name="description" content="API docs for the findDuplicates function from the sff_lib library, for the Dart programming language.">
+  <title>findDuplicates function - sff_lib library - Dart API</title>
 
 
   
@@ -30,9 +30,9 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">sff_lib</a></li>
     <li><a href="../sff_lib/sff_lib-library.html">sff_lib</a></li>
-    <li class="self-crumb">compareFilesEquality function</li>
+    <li class="self-crumb">findDuplicates function</li>
   </ol>
-  <div class="self-name">compareFilesEquality</div>
+  <div class="self-name">findDuplicates</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -56,16 +56,15 @@
       data-above-sidebar="sff_lib&#47;sff_lib-library-sidebar.html"
       data-below-sidebar="">
       <div>
-<h1><span class="kind-function">compareFilesEquality</span> function 
+<h1><span class="kind-function">findDuplicates</span> function 
  
 </h1></div>
 
     <section class="multi-line-signature">
         
 
-<span class="returntype"><a href="https://api.dart.dev/stable/3.2.6/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.2.6/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
-<span class="name ">compareFilesEquality</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="compareFilesEquality-param-file1"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span> <span class="parameter-name">file1</span>, </span></li>
-<li><span class="parameter" id="compareFilesEquality-param-file2"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span> <span class="parameter-name">file2</span></span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.2.6/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter">(<span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span>, </span><span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span></span>)</span>&gt;</span></span>
+<span class="name ">findDuplicates</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="findDuplicates-param-dir"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir</span></span></li>
 </ol>)
 
         
@@ -73,50 +72,35 @@
     </section>
     
 <section class="desc markdown">
-  <p>comparing two files for identity by content</p>
+  <p>Stream the channel that transmits the original file and its duplicate</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Future&lt;bool&gt; compareFilesEquality(File file1, File file2) async {
+  <pre class="language-dart"><code class="language-dart">Stream&lt;(File, File)&gt; findDuplicates(Directory dir) async* {
 
-  if (file1.statSync().size != file2.statSync().size) {
-    return false;
-  }
+  List&lt;File&gt; files = [];
 
-  &#47;&#47; An auxiliary function for comparing
-  &#47;&#47; two lists for identity
-  listEqual(List&lt;int&gt; l1, List&lt;int&gt; l2) {
-    if (l1.length != l2.length) {
-      return false;
-    }
+  await for (final entitie in dir.list( recursive: true)) {
+    if (entitie.statSync().type == FileSystemEntityType.file) {
+      final file = File(entitie.path);
+      var isDuplicat = false;
 
-    for (int i = 0; i &lt; l1.length; i++){
-      if (l1[i] != l2[i]){
-        return false;
+      for (final f in files) {
+        if (await compareFilesEquality(f, file)) {
+          yield (f, file);
+          isDuplicat = true;
+          break;
+        }
+      }
+
+      if (!isDuplicat) {
+        files.add(file);
       }
     }
-
-    return true;
   }
-
-  var a = false;
-  List&lt;int&gt; buff = const[];
-
-  await for(final val in StreamGroup.merge([file1.openRead(), file2.openRead()])) {
-    if (a = !a) {
-      buff = val;
-      continue;
-    }
-
-    if (!listEqual(buff, val)) {
-      return false;
-    }
-  }
-
-  return true;
 }</code></pre>
 </section>
 
@@ -134,7 +118,7 @@
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
     <li><a href="../index.html">sff_lib</a></li>
     <li><a href="../sff_lib/sff_lib-library.html">sff_lib</a></li>
-    <li class="self-crumb">compareFilesEquality function</li>
+    <li class="self-crumb">findDuplicates function</li>
 </ol>
 
 
