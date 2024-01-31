@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:async/async.dart' show StreamGroup;
+import 'package:crypto/crypto.dart';
+import 'package:convert/convert.dart' show AccumulatorSink;
 
 /// comparing two files for identity by content
 Future<bool> compareFilesEquality(File file1, File file2) async {
@@ -64,4 +66,17 @@ Stream<(File, File)> findDuplicates(Directory dir) async* {
       }
     }
   }
+}
+
+/// Method that generates a hash code from the contents of a file
+Future<Digest> generateHashFile(File file, [Hash hashMethod = sha1]) async {
+    var output = AccumulatorSink<Digest>();
+    var input = hashMethod.startChunkedConversion(output);
+
+    await for(final val in file.openRead()) {
+      input.add(val);
+    }
+
+    input.close();
+    return output.events.single;
 }
