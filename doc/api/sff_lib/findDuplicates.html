@@ -64,7 +64,10 @@
         
 
 <span class="returntype"><a href="https://api.dart.dev/stable/3.2.6/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter">(<span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span>, </span><span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span></span>)</span>&gt;</span></span>
-<span class="name ">findDuplicates</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="findDuplicates-param-dir"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir</span></span></li>
+<span class="name ">findDuplicates</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="findDuplicates-param-dir"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir</span>, </span></li>
+<li><span class="parameter" id="findDuplicates-param-filter">[<span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">filter</span>(<ol class="parameter-list"><li><span class="parameter" id="param-"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-core/String-class.html">String</a></span></span></li>
+</ol>
+)?]</span></li>
 </ol>)
 
         
@@ -79,25 +82,19 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Stream&lt;(File, File)&gt; findDuplicates(Directory dir) async* {
-
-  List&lt;File&gt; files = [];
+  <pre class="language-dart"><code class="language-dart">Stream&lt;(File, File)&gt; findDuplicates(Directory dir, [bool Function(String)? filter]) async* {
+  Map&lt;Digest, File&gt; files = {};
 
   await for (final entitie in dir.list( recursive: true)) {
     if (entitie.statSync().type == FileSystemEntityType.file) {
+      if (filter != null &amp;&amp; !filter(entitie.path)) continue;
       final file = File(entitie.path);
-      var isDuplicat = false;
+      var hash = await generateHashFile(file);
 
-      for (final f in files) {
-        if (await compareFilesEquality(f, file)) {
-          yield (f, file);
-          isDuplicat = true;
-          break;
-        }
-      }
-
-      if (!isDuplicat) {
-        files.add(file);
+      if (files[hash] != null) {
+        yield (files[hash]!, file);
+      } else {
+        files[hash] = file;
       }
     }
   }
@@ -134,7 +131,7 @@
 <footer>
   <span class="no-break">
     sff_lib
-      0.0.3
+      0.0.4
   </span>
 
   
