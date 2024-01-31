@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the findDuplicates function from the sff_lib library, for the Dart programming language.">
-  <title>findDuplicates function - sff_lib library - Dart API</title>
+  <meta name="description" content="API docs for the generateHashFile function from the sff_lib library, for the Dart programming language.">
+  <title>generateHashFile function - sff_lib library - Dart API</title>
 
 
   
@@ -30,9 +30,9 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">sff_lib</a></li>
     <li><a href="../sff_lib/sff_lib-library.html">sff_lib</a></li>
-    <li class="self-crumb">findDuplicates function</li>
+    <li class="self-crumb">generateHashFile function</li>
   </ol>
-  <div class="self-name">findDuplicates</div>
+  <div class="self-name">generateHashFile</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -56,15 +56,16 @@
       data-above-sidebar="sff_lib&#47;sff_lib-library-sidebar.html"
       data-below-sidebar="">
       <div>
-<h1><span class="kind-function">findDuplicates</span> function 
+<h1><span class="kind-function">generateHashFile</span> function 
  
 </h1></div>
 
     <section class="multi-line-signature">
         
 
-<span class="returntype"><a href="https://api.dart.dev/stable/3.2.6/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter">(<span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span>, </span><span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span></span>)</span>&gt;</span></span>
-<span class="name ">findDuplicates</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="findDuplicates-param-dir"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir</span></span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.2.6/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://pub.dev/documentation/crypto/3.0.3/crypto/Digest-class.html">Digest</a></span>&gt;</span></span>
+<span class="name ">generateHashFile</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="generateHashFile-param-file"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span> <span class="parameter-name">file</span>, </span></li>
+<li><span class="parameter" id="generateHashFile-param-hashMethod">[<span class="type-annotation"><a href="https://pub.dev/documentation/crypto/3.0.3/crypto/Hash-class.html">Hash</a></span> <span class="parameter-name">hashMethod</span> = <span class="default-value">sha1</span>]</span></li>
 </ol>)
 
         
@@ -72,35 +73,23 @@
     </section>
     
 <section class="desc markdown">
-  <p>Stream the channel that transmits the original file and its duplicate</p>
+  <p>Method that generates a hash code from the contents of a file</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Stream&lt;(File, File)&gt; findDuplicates(Directory dir) async* {
+  <pre class="language-dart"><code class="language-dart">Future&lt;Digest&gt; generateHashFile(File file, [Hash hashMethod = sha1]) async {
+    var output = AccumulatorSink&lt;Digest&gt;();
+    var input = hashMethod.startChunkedConversion(output);
 
-  List&lt;File&gt; files = [];
-
-  await for (final entitie in dir.list( recursive: true)) {
-    if (entitie.statSync().type == FileSystemEntityType.file) {
-      final file = File(entitie.path);
-      var isDuplicat = false;
-
-      for (final f in files) {
-        if (await compareFilesEquality(f, file)) {
-          yield (f, file);
-          isDuplicat = true;
-          break;
-        }
-      }
-
-      if (!isDuplicat) {
-        files.add(file);
-      }
+    await for(final val in file.openRead()) {
+      input.add(val);
     }
-  }
+
+    input.close();
+    return output.events.single;
 }</code></pre>
 </section>
 
@@ -118,7 +107,7 @@
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
     <li><a href="../index.html">sff_lib</a></li>
     <li><a href="../sff_lib/sff_lib-library.html">sff_lib</a></li>
-    <li class="self-crumb">findDuplicates function</li>
+    <li class="self-crumb">generateHashFile function</li>
 </ol>
 
 
