@@ -51,13 +51,13 @@ findDuplicates(Directory dir, {bool recursive = true, bool Function(String)? fil
     await for (final entitie in dir.list(recursive: recursive)) {
       if (entitie.statSync().type == FileSystemEntityType.file) {
         if (filter != null && !filter(entitie.path)) continue;
-        final file = File(entitie.path);
-        var hash = await generateHashFile(file);
+        final entitieFile = File(entitie.path);
+        var hash = await generateHashFile(entitieFile);
 
         if (files[hash] != null) {
-          yield (files[hash]!, file);
+          yield (files[hash]!, entitieFile);
         } else {
-          files[hash] = file;
+          files[hash] = entitieFile;
         }      
       }
     }
