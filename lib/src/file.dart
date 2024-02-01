@@ -46,19 +46,22 @@ Future<bool> compareFilesEquality(File file1, File file2) async {
 /// Stream the channel that transmits the original file and its duplicate
 Stream<(File, File)> findDuplicates(Directory dir, [bool Function(String)? filter]) async* {
   Map<Digest, File> files = {}; 
+  try {
+    await for (final entitie in dir.list(recursive: true)) {
+      if (entitie.statSync().type == FileSystemEntityType.file) {
+        if (filter != null && !filter(entitie.path)) continue;
+        final file = File(entitie.path);
+        var hash = await generateHashFile(file);
 
-  await for (final entitie in dir.list( recursive: true)) {
-    if (entitie.statSync().type == FileSystemEntityType.file) {
-      if (filter != null && !filter(entitie.path)) continue;
-      final file = File(entitie.path);
-      var hash = await generateHashFile(file);
-
-      if (files[hash] != null) {
-        yield (files[hash]!, file);
-      } else {
-        files[hash] = file;
-      }      
+        if (files[hash] != null) {
+          yield (files[hash]!, file);
+        } else {
+          files[hash] = file;
+        }      
+      }
     }
+  } on PathAccessException {
+    print("Insufficient permissions to read subdirectories :(");
   }
 }
 
