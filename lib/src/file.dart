@@ -45,11 +45,15 @@ Future<bool> compareFilesEquality(File file1, File file2) async {
 
 /// Stream the channel that transmits the original file and its duplicate
 Stream<(File, File)>
-findDuplicates(Directory dir, {bool recursive = true, bool Function(String)? filter}) async* {
+findDuplicates(Directory dir, {File? file, bool recursive = true, bool Function(String)? filter}) async* {
   Map<Digest, File> files = {}; 
   try {
+    if (file != null) {
+      files[await generateHashFile(file)] = file;
+    }
     await for (final entitie in dir.list(recursive: recursive)) {
       if (entitie.statSync().type == FileSystemEntityType.file) {
+        if (file != null && file.path == entitie.path) continue;
         if (filter != null && !filter(entitie.path)) continue;
         final entitieFile = File(entitie.path);
         var hash = await generateHashFile(entitieFile);
@@ -57,7 +61,9 @@ findDuplicates(Directory dir, {bool recursive = true, bool Function(String)? fil
         if (files[hash] != null) {
           yield (files[hash]!, entitieFile);
         } else {
-          files[hash] = entitieFile;
+          if (file == null) {
+            files[hash] = entitieFile;
+          }
         }      
       }
     }
