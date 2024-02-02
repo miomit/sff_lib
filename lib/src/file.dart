@@ -43,7 +43,11 @@ Future<bool> compareFilesEquality(File file1, File file2) async {
   return true;
 }
 
-/// Stream the channel that transmits the original file and its duplicate
+/// Stream the channel that transmits ([File], [File]) the original file and its duplicate
+/// 
+/// For find in several directories, the [Directory] list is passed in the parameters.
+/// 
+/// it is possible to filter the content, which in turn increases the crawl
 Stream<(File, File)>
 findDuplicates(List<Directory> dirs, {File? file, bool recursive = true, bool Function(String)? filter}) async* {
   if (dirs.isEmpty) return;
