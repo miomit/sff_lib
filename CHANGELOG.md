@@ -1,3 +1,7 @@
+## 0.0.5
+
+- extended functionality for .
+
 ## 0.0.4
 
 - Update API.
