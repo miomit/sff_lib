@@ -99,14 +99,14 @@
 </dd>
 
         <dt id="findDuplicates" class="callable">
-  <span class="name"><a href="../sff_lib/findDuplicates.html">findDuplicates</a></span><span class="signature">(<wbr><span class="parameter" id="findDuplicates-param-dir"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir</span>, </span><span class="parameter" id="findDuplicates-param-filter">[<span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">filter</span>(<span class="parameter" id="param-"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-core/String-class.html">String</a></span></span>)?]</span>)
+  <span class="name"><a href="../sff_lib/findDuplicates.html">findDuplicates</a></span><span class="signature">(<wbr><span class="parameter" id="findDuplicates-param-dirs"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span>&gt;</span></span> <span class="parameter-name">dirs</span>, </span><span class="parameter" id="findDuplicates-param-file">{<span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a>?</span> <span class="parameter-name">file</span>, </span><span class="parameter" id="findDuplicates-param-recursive"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">recursive</span> = <span class="default-value">true</span>, </span><span class="parameter" id="findDuplicates-param-filter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">filter</span>(<span class="parameter" id="param-"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-core/String-class.html">String</a></span></span>)?}</span>)
     <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.2.6/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter">(<span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span>, </span><span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span></span>)</span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  Stream the channel that transmits the original file and its duplicate
+  Stream the channel that transmits (<a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a>, <a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a>) the original file and its duplicate
   
 
 </dd>
@@ -177,7 +177,7 @@ to another, and then in the same way but on the reverse
 <footer>
   <span class="no-break">
     sff_lib
-      0.0.4
+      0.0.5
   </span>
 
   
