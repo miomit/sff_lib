@@ -52,28 +52,23 @@ Stream<(File, File)>
 findDuplicates(List<Directory> dirs, {File? file, bool recursive = true, bool Function(String)? filter}) async* {
   if (dirs.isEmpty) return;
   Map<Digest, File> files = {}; 
-  try {
-    if (file != null) {
-      files[await generateHashFile(file)] = file;
-    }
-    await for (final entitie in StreamGroup.merge([for (final dir in dirs) dir.list(recursive: recursive)])) {
-      if (entitie.statSync().type == FileSystemEntityType.file) {
-        if (file != null && file.path == entitie.path) continue;
-        if (filter != null && !filter(entitie.path)) continue;
-        final entitieFile = File(entitie.path);
-        var hash = await generateHashFile(entitieFile);
+  
+  if (file != null) {
+    files[await generateHashFile(file)] = file;
+  }
+  await for (final entitieFile in StreamGroup.merge([for (final dir in dirs) recListFile(dir)])) {
+    if (file != null && file.path == entitieFile.path) continue;
+    if (filter != null && !filter(entitieFile.path)) continue;
+    
+    var hash = await generateHashFile(entitieFile);
 
-        if (files[hash] != null) {
-          yield (files[hash]!, entitieFile);
-        } else {
-          if (file == null) {
-            files[hash] = entitieFile;
-          }
-        }      
+    if (files[hash] != null) {
+      yield (files[hash]!, entitieFile);
+    } else {
+      if (file == null) {
+        files[hash] = entitieFile;
       }
-    }
-  } on PathAccessException {
-    print("Insufficient permissions to read subdirectories :(");
+    }      
   }
 }
 
