@@ -33,11 +33,6 @@ Stream<(File, File)> copyDirRec(Directory dirIn, Directory dirOut) async* {
 /// recursively copies the contents from the first directory 
 /// to another, and then in the same way but on the reverse
 Stream<(File, File)> syncDir(Directory dir1, Directory dir2) async* {
-  await for (final log in copyDirRec(dir1, dir2)) {
-    yield log;
-  }
-
-  await for (final log in copyDirRec(dir2, dir1)) {
-    yield log;
-  }
+  yield* copyDirRec(dir1, dir2);
+  yield* copyDirRec(dir2, dir1);
 }
