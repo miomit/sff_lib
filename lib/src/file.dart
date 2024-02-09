@@ -77,7 +77,25 @@ findDuplicates(List<Directory> dirs, {File? file, bool recursive = true, bool Fu
   }
 }
 
-/// recursively traverses contents of the directory, and returns the [File] type
+/// recursively traverses contents of the directory, and returns the [File] type.
+/// 
+/// If there are not enough permissions to view the directory, then the directory is skipped.
+/// 
+/// This method solves problem of closing stream during recursive traversal (https://github.com/dart-lang/sdk/issues/54803).
+/// 
+/// exmaple:
+/// 
+/// dir
+///   - subDir1
+///      - file_b
+///      - file_c
+///   - subDir2
+///   - rootDir <- PathAccessException: Directory listing failed, path = 'dir/rootDir' (OS Error: Permission denied, errno = 13)
+///   - file2
+///   - file2
+/// 
+/// dir.list(recursive: ture) - closes the stream with an error PathAccessException.
+/// recListFile(dir) - skips content in derictory dir/rootDir to avoid closing the stream.
 Stream<File>
 recListFile (Directory dir) async* {
   try {
