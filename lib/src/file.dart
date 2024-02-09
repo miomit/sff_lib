@@ -77,6 +77,26 @@ findDuplicates(List<Directory> dirs, {File? file, bool recursive = true, bool Fu
   }
 }
 
+/// recursively traverses contents of the directory, and returns the [File] type
+Stream<File>
+recListFile (Directory dir) async* {
+  try {
+    await for (final entitie in dir.list()) {
+      switch (entitie.statSync().type){
+        case FileSystemEntityType.file:
+          yield File(entitie.path); 
+        break;
+        case FileSystemEntityType.directory:
+          yield* recListFile(Directory(entitie.path));
+        break;
+        default: break;
+      }
+    }
+  } on PathAccessException {
+    print("Insufficient permissions to read subdirectories :( (${dir.path})");
+  }
+}
+
 /// Method that generates a hash code from the contents of a file
 Future<Digest> generateHashFile(File file, [Hash hashMethod = sha1]) async {
     var output = AccumulatorSink<Digest>();
