@@ -30,6 +30,17 @@ Stream<(File, File)> copyDirRec(Directory dirIn, Directory dirOut) async* {
   }
 }
 
+/// Recursively copying a file with its contents, and deletes the copied content.
+///
+/// Warning: the first argument [File] returned is a deleted file.
+Stream<(File, File)>
+moveDir(Directory dir1, Directory dir2) async* {
+  await for (final (file_org, file_copy) in copyDirRec(dir1, dir2)) {
+    file_org.deleteSync();
+    yield (file_org, file_copy);
+  }
+}
+
 /// recursively copies the contents from the first directory 
 /// to another, and then in the same way but on the reverse
 Stream<(File, File)> syncDir(Directory dir1, Directory dir2) async* {
