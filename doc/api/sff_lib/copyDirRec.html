@@ -95,14 +95,10 @@
       }
     }
     else if (entitie.statSync().type == FileSystemEntityType.directory) {
-      final stream = copyDirRec(
+      yield* copyDirRec(
         Directory(&quot;${dirIn.path}&#47;${basename(entitie.path)}&quot;),
         Directory(&quot;${dirOut.path}&#47;${basename(entitie.path)}&quot;)
       );
-
-      await for (final log in stream) {
-        yield log;
-      }
     }
   }
 }</code></pre>

@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the syncDir function from the sff_lib library, for the Dart programming language.">
-  <title>syncDir function - sff_lib library - Dart API</title>
+  <meta name="description" content="API docs for the moveDir function from the sff_lib library, for the Dart programming language.">
+  <title>moveDir function - sff_lib library - Dart API</title>
 
 
   
@@ -30,9 +30,9 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">sff_lib</a></li>
     <li><a href="../sff_lib/sff_lib-library.html">sff_lib</a></li>
-    <li class="self-crumb">syncDir function</li>
+    <li class="self-crumb">moveDir function</li>
   </ol>
-  <div class="self-name">syncDir</div>
+  <div class="self-name">moveDir</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -56,7 +56,7 @@
       data-above-sidebar="sff_lib&#47;sff_lib-library-sidebar.html"
       data-below-sidebar="">
       <div>
-<h1><span class="kind-function">syncDir</span> function 
+<h1><span class="kind-function">moveDir</span> function 
  
 </h1></div>
 
@@ -64,8 +64,8 @@
         
 
 <span class="returntype"><a href="https://api.dart.dev/stable/3.2.6/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter">(<span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span>, </span><span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span></span>)</span>&gt;</span></span>
-<span class="name ">syncDir</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="syncDir-param-dir1"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir1</span>, </span></li>
-<li><span class="parameter" id="syncDir-param-dir2"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir2</span></span></li>
+<span class="name ">moveDir</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="moveDir-param-dir1"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir1</span>, </span></li>
+<li><span class="parameter" id="moveDir-param-dir2"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir2</span></span></li>
 </ol>)
 
         
@@ -73,17 +73,20 @@
     </section>
     
 <section class="desc markdown">
-  <p>recursively copies the contents from the first directory
-to another, and then in the same way but on the reverse</p>
+  <p>Recursively copying a file with its contents, and deletes the copied content.</p>
+<p>Warning: the first argument <a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a> returned is a deleted file.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Stream&lt;(File, File)&gt; syncDir(Directory dir1, Directory dir2) async* {
-  yield* copyDirRec(dir1, dir2);
-  yield* copyDirRec(dir2, dir1);
+  <pre class="language-dart"><code class="language-dart">Stream&lt;(File, File)&gt;
+moveDir(Directory dir1, Directory dir2) async* {
+  await for (final (file_org, file_copy) in copyDirRec(dir1, dir2)) {
+    file_org.deleteSync();
+    yield (file_org, file_copy);
+  }
 }</code></pre>
 </section>
 
@@ -101,7 +104,7 @@ to another, and then in the same way but on the reverse</p>
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
     <li><a href="../index.html">sff_lib</a></li>
     <li><a href="../sff_lib/sff_lib-library.html">sff_lib</a></li>
-    <li class="self-crumb">syncDir function</li>
+    <li class="self-crumb">moveDir function</li>
 </ol>
 
 

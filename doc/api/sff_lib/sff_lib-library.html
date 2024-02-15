@@ -99,7 +99,7 @@
 </dd>
 
         <dt id="findDuplicates" class="callable">
-  <span class="name"><a href="../sff_lib/findDuplicates.html">findDuplicates</a></span><span class="signature">(<wbr><span class="parameter" id="findDuplicates-param-dirs"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span>&gt;</span></span> <span class="parameter-name">dirs</span>, </span><span class="parameter" id="findDuplicates-param-file">{<span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a>?</span> <span class="parameter-name">file</span>, </span><span class="parameter" id="findDuplicates-param-recursive"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">recursive</span> = <span class="default-value">true</span>, </span><span class="parameter" id="findDuplicates-param-filter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">filter</span>(<span class="parameter" id="param-"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-core/String-class.html">String</a></span></span>)?}</span>)
+  <span class="name"><a href="../sff_lib/findDuplicates.html">findDuplicates</a></span><span class="signature">(<wbr><span class="parameter" id="findDuplicates-param-dirs"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span>&gt;</span></span> <span class="parameter-name">dirs</span>, </span><span class="parameter" id="findDuplicates-param-file">{<span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a>?</span> <span class="parameter-name">file</span>, </span><span class="parameter" id="findDuplicates-param-filter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">filter</span>(<span class="parameter" id="param-"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-core/String-class.html">String</a></span></span>)?}</span>)
     <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.2.6/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter">(<span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span>, </span><span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span></span>)</span>&gt;</span></span>
   </span>
   
@@ -120,6 +120,32 @@
 </dt>
 <dd>
   Method that generates a hash code from the contents of a file
+  
+
+</dd>
+
+        <dt id="moveDir" class="callable">
+  <span class="name"><a href="../sff_lib/moveDir.html">moveDir</a></span><span class="signature">(<wbr><span class="parameter" id="moveDir-param-dir1"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir1</span>, </span><span class="parameter" id="moveDir-param-dir2"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir2</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.2.6/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter">(<span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span>, </span><span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span></span>)</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Recursively copying a file with its contents, and deletes the copied content.
+  
+
+</dd>
+
+        <dt id="recListFile" class="callable">
+  <span class="name"><a href="../sff_lib/recListFile.html">recListFile</a></span><span class="signature">(<wbr><span class="parameter" id="recListFile-param-dir"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.2.6/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  recursively traverses contents of the directory, and returns the <a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a> type.
   
 
 </dd>
