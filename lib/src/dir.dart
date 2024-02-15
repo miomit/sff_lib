@@ -41,9 +41,9 @@ Stream<(File, File)> copyDirRec(Directory dirIn, Directory dirOut) async* {
 /// Warning: the first argument [File] returned is a deleted file.
 Stream<(File, File)>
 moveDir(Directory dir1, Directory dir2) async* {
-  await for (final (file_org, file_copy) in copyDirRec(dir1, dir2)) {
-    file_org.deleteSync();
-    yield (file_org, file_copy);
+  await for (final (fileOrg, fileCopy) in copyDirRec(dir1, dir2)) {
+    fileOrg.deleteSync();
+    yield (fileOrg, fileCopy);
   }
 }
 
