@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:path/path.dart' show basename;
+import 'package:sff_lib/sff_lib.dart';
 
 /// Recursively copying a file with its contents
 ///
@@ -15,6 +16,15 @@ Stream<(File, File)> copyDirRec(Directory dirIn, Directory dirOut) async* {
         final file = File(entitie.path);
         final fileCopy = file.copySync("${dirOut.path}/${entitie.uri.pathSegments.last}");
         yield (file, fileCopy);
+      } else {
+        final fileIn = File(entitie.path);
+        final fileOut = File("${dirOut.path}/${entitie.uri.pathSegments.last}");
+
+        if (!await compareFilesEquality(fileIn, fileOut)) {
+          fileOut.deleteSync();
+          final fileCopy = fileIn.copySync("${dirOut.path}/${entitie.uri.pathSegments.last}");
+          yield (fileIn, fileCopy);
+        }
       }
     }
     else if (entitie.statSync().type == FileSystemEntityType.directory) {
