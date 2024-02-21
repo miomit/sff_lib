@@ -10,8 +10,7 @@ Future<bool> compareFilesEquality(File file1, File file2) async {
     return false;
   }
 
-  // An auxiliary function for comparing 
-  // two lists for identity
+  // help function for comparing two lists for identity
   listEqual(List<int> l1, List<int> l2) {
     if (l1.length != l2.length) {
       return false;
