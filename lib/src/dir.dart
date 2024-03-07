@@ -5,13 +5,13 @@ import 'package:sff_lib/sff_lib.dart';
 /// Recursively copying a file with its contents
 ///
 /// If a file with the same name exists, no copying will be performed.
-Stream<(File, File)> copyDirRec(Directory dirIn, Directory dirOut) async* {
+Stream<(File, File)> copyDirRec(Directory dirIn, Directory dirOut, [bool isCopyFile = true]) async* {
   if (!dirOut.existsSync()) {
     dirOut.createSync();
   }
 
   await for (final entitie in dirIn.list()) {
-    if (entitie.statSync().type == FileSystemEntityType.file) {
+    if (isCopyFile && entitie.statSync().type == FileSystemEntityType.file) {
       if (!File("${dirOut.path}/${entitie.uri.pathSegments.last}").existsSync()) {
         final file = File(entitie.path);
         final fileCopy = file.copySync("${dirOut.path}/${entitie.uri.pathSegments.last}");
