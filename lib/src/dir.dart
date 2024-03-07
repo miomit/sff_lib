@@ -30,7 +30,8 @@ Stream<(File, File)> copyDirRec(Directory dirIn, Directory dirOut, [bool isCopyF
     else if (entitie.statSync().type == FileSystemEntityType.directory) {
       yield* copyDirRec(
         Directory("${dirIn.path}/${basename(entitie.path)}"),
-        Directory("${dirOut.path}/${basename(entitie.path)}")
+        Directory("${dirOut.path}/${basename(entitie.path)}"),
+        isCopyFile,
       );
     }
   }
