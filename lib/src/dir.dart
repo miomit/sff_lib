@@ -16,15 +16,6 @@ Stream<(File, File)> copyDirRec(Directory dirIn, Directory dirOut, [bool isCopyF
         final file = File(entitie.path);
         final fileCopy = file.copySync("${dirOut.path}/${entitie.uri.pathSegments.last}");
         yield (file, fileCopy);
-      } else {
-        final fileIn = File(entitie.path);
-        final fileOut = File("${dirOut.path}/${entitie.uri.pathSegments.last}");
-
-        if (!await compareFilesEquality(fileIn, fileOut)) {
-          fileOut.deleteSync();
-          final fileCopy = fileIn.copySync("${dirOut.path}/${entitie.uri.pathSegments.last}");
-          yield (fileIn, fileCopy);
-        }
       }
     }
     else if (entitie.statSync().type == FileSystemEntityType.directory) {
