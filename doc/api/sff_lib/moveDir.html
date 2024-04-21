@@ -29,7 +29,7 @@
   <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">sff_lib</a></li>
-    <li><a href="../sff_lib/sff_lib-library.html">sff_lib</a></li>
+    <li><a href="../sff_lib/sff_lib-library.html">sff_lib.dart</a></li>
     <li class="self-crumb">moveDir function</li>
   </ol>
   <div class="self-name">moveDir</div>
@@ -63,9 +63,9 @@
     <section class="multi-line-signature">
         
 
-<span class="returntype"><a href="https://api.dart.dev/stable/3.2.6/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter">(<span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span>, </span><span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span></span>)</span>&gt;</span></span>
-<span class="name ">moveDir</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="moveDir-param-dir1"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir1</span>, </span></li>
-<li><span class="parameter" id="moveDir-param-dir2"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir2</span></span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.3.3/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter">(<span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.3.3/dart-io/File-class.html">File</a></span>, </span><span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.3.3/dart-io/File-class.html">File</a></span></span>)</span>&gt;</span></span>
+<span class="name ">moveDir</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="moveDir-param-dir1"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.3.3/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir1</span>, </span></li>
+<li><span class="parameter" id="moveDir-param-dir2"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.3.3/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir2</span></span></li>
 </ol>)
 
         
@@ -74,7 +74,7 @@
     
 <section class="desc markdown">
   <p>Recursively copying a file with its contents, and deletes the copied content.</p>
-<p>Warning: the first argument <a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a> returned is a deleted file.</p>
+<p>Warning: the first argument <a href="https://api.dart.dev/stable/3.3.3/dart-io/File-class.html">File</a> returned is a deleted file.</p>
 </section>
 
 
@@ -83,9 +83,9 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Stream&lt;(File, File)&gt;
 moveDir(Directory dir1, Directory dir2) async* {
-  await for (final (file_org, file_copy) in copyDirRec(dir1, dir2)) {
-    file_org.deleteSync();
-    yield (file_org, file_copy);
+  await for (final (fileOrg, fileCopy) in copyDirRec(dir1, dir2)) {
+    fileOrg.deleteSync();
+    yield (fileOrg, fileCopy);
   }
 }</code></pre>
 </section>
@@ -120,7 +120,7 @@ moveDir(Directory dir1, Directory dir2) async* {
 <footer>
   <span class="no-break">
     sff_lib
-      0.0.5
+      0.0.7
   </span>
 
   

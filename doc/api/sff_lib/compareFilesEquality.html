@@ -29,7 +29,7 @@
   <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">sff_lib</a></li>
-    <li><a href="../sff_lib/sff_lib-library.html">sff_lib</a></li>
+    <li><a href="../sff_lib/sff_lib-library.html">sff_lib.dart</a></li>
     <li class="self-crumb">compareFilesEquality function</li>
   </ol>
   <div class="self-name">compareFilesEquality</div>
@@ -63,9 +63,9 @@
     <section class="multi-line-signature">
         
 
-<span class="returntype"><a href="https://api.dart.dev/stable/3.2.6/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.2.6/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
-<span class="name ">compareFilesEquality</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="compareFilesEquality-param-file1"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span> <span class="parameter-name">file1</span>, </span></li>
-<li><span class="parameter" id="compareFilesEquality-param-file2"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span> <span class="parameter-name">file2</span></span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.3.3/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.3.3/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+<span class="name ">compareFilesEquality</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="compareFilesEquality-param-file1"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.3.3/dart-io/File-class.html">File</a></span> <span class="parameter-name">file1</span>, </span></li>
+<li><span class="parameter" id="compareFilesEquality-param-file2"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.3.3/dart-io/File-class.html">File</a></span> <span class="parameter-name">file2</span></span></li>
 </ol>)
 
         
@@ -81,42 +81,7 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Future&lt;bool&gt; compareFilesEquality(File file1, File file2) async {
-
-  if (file1.statSync().size != file2.statSync().size) {
-    return false;
-  }
-
-  &#47;&#47; An auxiliary function for comparing
-  &#47;&#47; two lists for identity
-  listEqual(List&lt;int&gt; l1, List&lt;int&gt; l2) {
-    if (l1.length != l2.length) {
-      return false;
-    }
-
-    for (int i = 0; i &lt; l1.length; i++){
-      if (l1[i] != l2[i]){
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  var a = false;
-  List&lt;int&gt; buff = const[];
-
-  await for(final val in StreamGroup.merge([file1.openRead(), file2.openRead()])) {
-    if (a = !a) {
-      buff = val;
-      continue;
-    }
-
-    if (!listEqual(buff, val)) {
-      return false;
-    }
-  }
-
-  return true;
+  return (await generateHashFile(file1)) == (await generateHashFile(file2));
 }</code></pre>
 </section>
 
@@ -150,7 +115,7 @@
 <footer>
   <span class="no-break">
     sff_lib
-      0.0.5
+      0.0.7
   </span>
 
   

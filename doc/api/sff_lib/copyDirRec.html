@@ -29,7 +29,7 @@
   <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">sff_lib</a></li>
-    <li><a href="../sff_lib/sff_lib-library.html">sff_lib</a></li>
+    <li><a href="../sff_lib/sff_lib-library.html">sff_lib.dart</a></li>
     <li class="self-crumb">copyDirRec function</li>
   </ol>
   <div class="self-name">copyDirRec</div>
@@ -63,9 +63,10 @@
     <section class="multi-line-signature">
         
 
-<span class="returntype"><a href="https://api.dart.dev/stable/3.2.6/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter">(<span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span>, </span><span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/File-class.html">File</a></span></span>)</span>&gt;</span></span>
-<span class="name ">copyDirRec</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="copyDirRec-param-dirIn"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dirIn</span>, </span></li>
-<li><span class="parameter" id="copyDirRec-param-dirOut"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.2.6/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dirOut</span></span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.3.3/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter">(<span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.3.3/dart-io/File-class.html">File</a></span>, </span><span class="field"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.3.3/dart-io/File-class.html">File</a></span></span>)</span>&gt;</span></span>
+<span class="name ">copyDirRec</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="copyDirRec-param-dirIn"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.3.3/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dirIn</span>, </span></li>
+<li><span class="parameter" id="copyDirRec-param-dirOut"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.3.3/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dirOut</span>, </span></li>
+<li><span class="parameter" id="copyDirRec-param-isCopyFile">[<span class="type-annotation"><a href="https://api.dart.dev/stable/3.3.3/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">isCopyFile</span> = <span class="default-value">true</span>]</span></li>
 </ol>)
 
         
@@ -81,13 +82,13 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Stream&lt;(File, File)&gt; copyDirRec(Directory dirIn, Directory dirOut) async* {
+  <pre class="language-dart"><code class="language-dart">Stream&lt;(File, File)&gt; copyDirRec(Directory dirIn, Directory dirOut, [bool isCopyFile = true]) async* {
   if (!dirOut.existsSync()) {
     dirOut.createSync();
   }
 
   await for (final entitie in dirIn.list()) {
-    if (entitie.statSync().type == FileSystemEntityType.file) {
+    if (isCopyFile &amp;&amp; entitie.statSync().type == FileSystemEntityType.file) {
       if (!File(&quot;${dirOut.path}&#47;${entitie.uri.pathSegments.last}&quot;).existsSync()) {
         final file = File(entitie.path);
         final fileCopy = file.copySync(&quot;${dirOut.path}&#47;${entitie.uri.pathSegments.last}&quot;);
@@ -97,7 +98,8 @@
     else if (entitie.statSync().type == FileSystemEntityType.directory) {
       yield* copyDirRec(
         Directory(&quot;${dirIn.path}&#47;${basename(entitie.path)}&quot;),
-        Directory(&quot;${dirOut.path}&#47;${basename(entitie.path)}&quot;)
+        Directory(&quot;${dirOut.path}&#47;${basename(entitie.path)}&quot;),
+        isCopyFile,
       );
     }
   }
@@ -134,7 +136,7 @@
 <footer>
   <span class="no-break">
     sff_lib
-      0.0.5
+      0.0.7
   </span>
 
   
