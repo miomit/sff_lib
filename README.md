@@ -32,4 +32,4 @@ copyDirRec(
 
 This library is under development. With each new version, a new feature will be added.
 
-Also, do not forget to look at the [documentation](https://rawcdn.githack.com/yuraMovsesyan/sff_lib/6c8a1a6f29fa0899936f3403a3c66cb6d46b2c80/doc/api/index.html).
+Also, do not forget to look at the [documentation](https://rawcdn.githack.com/miomit/sff_lib/f0e516f335d3e9d9be8d79ef7826c6532b82a83a/doc/api/index.html).
