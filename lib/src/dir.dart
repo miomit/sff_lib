@@ -5,7 +5,8 @@ import 'package:sff_lib/sff_lib.dart';
 /// Recursively copying a file with its contents
 ///
 /// If a file with the same name exists, no copying will be performed.
-Stream<(File, File)> copyDirRec(Directory dirIn, Directory dirOut, [bool isCopyFile = true]) async* {
+Stream<(File, File)>
+copyDirRec(Directory dirIn, Directory dirOut, {bool isCopyFile = true, bool Function(String)? filter}) async* {
   if (!dirOut.existsSync()) {
     dirOut.createSync();
   }
@@ -13,6 +14,7 @@ Stream<(File, File)> copyDirRec(Directory dirIn, Directory dirOut, [bool isCopyF
   await for (final entitie in dirIn.list()) {
     if (isCopyFile && entitie.statSync().type == FileSystemEntityType.file) {
       if (!File("${dirOut.path}/${entitie.uri.pathSegments.last}").existsSync()) {
+        if (filter != null && !filter(entitie.path)) continue;
         final file = File(entitie.path);
         final fileCopy = file.copySync("${dirOut.path}/${entitie.uri.pathSegments.last}");
         yield (file, fileCopy);
@@ -22,7 +24,8 @@ Stream<(File, File)> copyDirRec(Directory dirIn, Directory dirOut, [bool isCopyF
       yield* copyDirRec(
         Directory("${dirIn.path}/${basename(entitie.path)}"),
         Directory("${dirOut.path}/${basename(entitie.path)}"),
-        isCopyFile,
+        isCopyFile: isCopyFile,
+        filter: filter,
       );
     }
   }
@@ -41,7 +44,8 @@ moveDir(Directory dir1, Directory dir2) async* {
 
 /// recursively copies the contents from the first directory 
 /// to another, and then in the same way but on the reverse
-Stream<(File, File)> syncDir(Directory dir1, Directory dir2) async* {
-  yield* copyDirRec(dir1, dir2);
-  yield* copyDirRec(dir2, dir1);
+Stream<(File, File)>
+syncDir(Directory dir1, Directory dir2, {bool isCopyFile = true, bool Function(String)? filter}) async* {
+  yield* copyDirRec(dir1, dir2, isCopyFile: isCopyFile, filter: filter);
+  yield* copyDirRec(dir2, dir1, isCopyFile: isCopyFile, filter: filter);
 }
