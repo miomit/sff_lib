@@ -4,8 +4,12 @@ import 'package:path/path.dart' show basename;
 /// Recursively copying a file with its contents
 ///
 /// If a file with the same name exists, no copying will be performed.
-Stream<(File, File)> copyDirRec(Directory dirIn, Directory dirOut,
-    {bool isCopyFile = true, bool Function(String)? filter}) async* {
+Stream<(File, File)> copyDirRec(
+  Directory dirIn,
+  Directory dirOut, {
+  bool isCopyFile = true,
+  bool Function(String)? filter,
+}) async* {
   if (!dirOut.existsSync()) {
     dirOut.createSync();
   }
@@ -34,7 +38,10 @@ Stream<(File, File)> copyDirRec(Directory dirIn, Directory dirOut,
 /// Recursively copying a file with its contents, and deletes the copied content.
 ///
 /// Warning: the first argument [File] returned is a deleted file.
-Stream<(File, File)> moveDir(Directory dir1, Directory dir2) async* {
+Stream<(File, File)> moveDir(
+  Directory dir1,
+  Directory dir2,
+) async* {
   await for (final (fileOrg, fileCopy) in copyDirRec(dir1, dir2)) {
     fileOrg.deleteSync();
     yield (fileOrg, fileCopy);
@@ -43,8 +50,12 @@ Stream<(File, File)> moveDir(Directory dir1, Directory dir2) async* {
 
 /// recursively copies the contents from the first directory
 /// to another, and then in the same way but on the reverse
-Stream<(File, File)> syncDir(Directory dir1, Directory dir2,
-    {bool isCopyFile = true, bool Function(String)? filter}) async* {
+Stream<(File, File)> syncDir(
+  Directory dir1,
+  Directory dir2, {
+  bool isCopyFile = true,
+  bool Function(String)? filter,
+}) async* {
   yield* copyDirRec(dir1, dir2, isCopyFile: isCopyFile, filter: filter);
   yield* copyDirRec(dir2, dir1, isCopyFile: isCopyFile, filter: filter);
 }
