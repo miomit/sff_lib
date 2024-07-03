@@ -5,6 +5,7 @@ enum Action {
   move,
   rename,
   delete,
+  compare,
 }
 
 class FileLog {
