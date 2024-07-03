@@ -8,3 +8,4 @@ export 'src/dir.dart';
 export 'src/file.dart';
 export 'src/storage.dart';
 export 'src/sff.dart';
+export 'src/file_log.dart';
