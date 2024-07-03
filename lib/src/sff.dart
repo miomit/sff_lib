@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:sff_lib/sff_lib.dart' show Storage, Permission;
+import 'package:sff_lib/sff_lib.dart' show Storage, Permission, FileLog;
 import 'package:sff_lib/src/file.dart' as sff_file;
 import 'package:sff_lib/src/dir.dart' as sff_dir;
 
@@ -27,7 +27,7 @@ class Sff {
     }
   }
 
-  Stream<(File, File)> findDuplicates({
+  Stream<FileLog> findDuplicates({
     File? file,
     bool Function(String)? filter,
   }) {
@@ -41,7 +41,7 @@ class Sff {
     );
   }
 
-  Stream<(File, File)> sync({
+  Stream<FileLog> sync({
     bool isCopyFile = true,
     bool Function(String)? filter,
   }) async* {
@@ -57,7 +57,7 @@ class Sff {
     }
   }
 
-  Stream<(File, File)> copyRec({
+  Stream<FileLog> copyRec({
     bool isCopyDirOutOnly = true,
     bool isCopyFile = true,
     bool Function(String)? filter,

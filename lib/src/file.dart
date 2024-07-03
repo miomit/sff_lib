@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:async/async.dart' show StreamGroup;
 import 'package:crypto/crypto.dart';
 import 'package:convert/convert.dart' show AccumulatorSink;
+import 'package:sff_lib/sff_lib.dart' show FileLog, Action;
 
 /// comparing two files for identity by content
 Future<bool> compareFilesEquality(
@@ -16,7 +17,7 @@ Future<bool> compareFilesEquality(
 /// For find in several directories, the [Directory] list is passed in the parameters.
 ///
 /// it is possible to filter the content, which in turn increases the crawl
-Stream<(File, File)> findDuplicates(
+Stream<FileLog> findDuplicates(
   List<Directory> dirs, {
   File? file,
   bool Function(String)? filter,
@@ -35,7 +36,11 @@ Stream<(File, File)> findDuplicates(
     var hash = await generateHashFile(entitieFile);
 
     if (files[hash] != null) {
-      yield (files[hash]!, entitieFile);
+      yield FileLog(
+        file1: files[hash]!,
+        file2: entitieFile,
+        action: Action.compare,
+      );
     } else {
       if (file == null) {
         files[hash] = entitieFile;
@@ -63,6 +68,7 @@ Stream<(File, File)> findDuplicates(
 ///
 /// dir.list(recursive: ture) - closes the stream with an error PathAccessException.
 /// recListFile(dir) - skips content in derictory dir/rootDir to avoid closing the stream.
+// TODO: Stream<File> -> Stream<FileLog>
 Stream<File> recListFile(
   Directory dir,
 ) async* {
