@@ -62,6 +62,16 @@ Stream<FileLog> syncDir(
   bool isCopyFile = true,
   bool Function(String)? filter,
 }) async* {
-  yield* copyDirRec(dir1, dir2, isCopyFile: isCopyFile, filter: filter);
-  yield* copyDirRec(dir2, dir1, isCopyFile: isCopyFile, filter: filter);
+  yield* copyDirRec(
+    dir1,
+    dir2,
+    isCopyFile: isCopyFile,
+    filter: filter,
+  );
+  yield* copyDirRec(
+    dir2,
+    dir1,
+    isCopyFile: isCopyFile,
+    filter: filter,
+  );
 }
