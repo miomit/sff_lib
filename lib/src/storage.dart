@@ -1,6 +1,6 @@
 import 'dart:io';
 
-enum Permission { copy, write, all }
+enum Permission { read, write, all }
 
 class Storage {
   final Directory _dir;
