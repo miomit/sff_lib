@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:js_interop';
 
 enum Permission { copy, write, all }
 
