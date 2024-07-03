@@ -6,7 +6,9 @@ class Storage {
   final Directory _dir;
   final Permission _perm;
 
-  Storage(this._dir, this._perm);
+  String? name;
+
+  Storage(this._dir, this._perm, [this.name]);
 
   Directory getDir() => _dir;
   String getPath() => _dir.path;
