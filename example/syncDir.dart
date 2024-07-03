@@ -5,8 +5,8 @@ import 'package:sff_lib/sff_lib.dart';
 void main() {
   syncDir(
     Directory('/media/yura/Elements/Music'),
-    Directory('/home/yura/Music')
-  ).listen((event) {
-    print("\n------\n${event.$1}\n${event.$2}");
+    Directory('/home/yura/Music'),
+  ).listen((fl) {
+    print(fl);
   });
 }
