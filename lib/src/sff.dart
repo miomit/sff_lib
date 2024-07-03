@@ -9,9 +9,12 @@ class Sff {
   final List<Storage> _dirOut = [];
   final List<Storage> _dirSync = [];
 
+  String? name;
+
   Sff(
-    List<Storage> storageList,
-  ) {
+    List<Storage> storageList, {
+    this.name,
+  }) {
     for (var storage in storageList) {
       switch (storage.getPerm()) {
         case Permission.read:
