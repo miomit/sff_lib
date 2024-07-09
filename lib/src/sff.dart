@@ -1,6 +1,8 @@
 import 'dart:io';
 
-import 'package:sff_lib/sff_lib.dart' show Storage, Permission, FileLog;
+import 'package:async/async.dart';
+import 'package:sff_lib/sff_lib.dart'
+    show Storage, Permission, FileLog, SffYaml;
 import 'package:sff_lib/src/file.dart' as sff_file;
 import 'package:sff_lib/src/dir.dart' as sff_dir;
 
@@ -28,6 +30,41 @@ class Sff {
           break;
       }
     }
+  }
+
+  static Stream<FileLog> runConfigFile(String path) {
+    List<Stream<FileLog>> res = [];
+    final config = SffYaml.parse(File(path).readAsStringSync());
+
+    //copyRec
+    if (config.run["copy"] case List copyList) {
+      for (String key in copyList) {
+        if (config.event[key] != null) {
+          res.add(
+            Sff(
+              config.event[key]!,
+              name: key,
+            ).copyRec(),
+          );
+        }
+      }
+    }
+
+    //sync
+    if (config.run["sync"] case List syncList) {
+      for (String key in syncList) {
+        if (config.event[key] != null) {
+          res.add(
+            Sff(
+              config.event[key]!,
+              name: key,
+            ).sync(),
+          );
+        }
+      }
+    }
+
+    return StreamGroup.merge(res);
   }
 
   Stream<FileLog> findDuplicates({
