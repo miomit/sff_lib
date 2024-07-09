@@ -11,8 +11,12 @@ class SffYaml {
     for (var yaml in (loadYaml(input) as Map).entries) {
       if (yaml.key == "run") {
         if (yaml.value case Map runMap) {
-          run["copy"] = runMap["copy"];
-          run["sync"] = runMap["sync"];
+          if (runMap["copy"] != null) {
+            run["copy"] = runMap["copy"];
+          }
+          if (runMap["sync"] != null) {
+            run["sync"] = runMap["sync"];
+          }
         }
       } else if (yaml.key == "event") {
         if (yaml.value case Map eventMap) {
@@ -51,5 +55,30 @@ class SffYaml {
         }
       }
     }
+  }
+
+  @override
+  String toString() {
+    String yamlRes = "";
+
+    if (run.isNotEmpty) {
+      yamlRes += "run:\n";
+      for (var r in run.entries) {
+        yamlRes += "\t${r.key}: ${r.value}\n";
+      }
+    }
+    if (event.isNotEmpty) {
+      yamlRes += "event:\n";
+      for (var e in event.entries) {
+        yamlRes += "\t${e.key}:\n";
+        for (var store in e.value) {
+          yamlRes += "\t\t${store.name}:\n";
+          yamlRes += "\t\t\tpath: ${store.getPath()}\n";
+          yamlRes += "\t\t\tperm: ${store.getPerm().name}\n";
+        }
+      }
+    }
+
+    return yamlRes;
   }
 }
