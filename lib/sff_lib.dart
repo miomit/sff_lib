@@ -9,3 +9,4 @@ export 'src/file.dart';
 export 'src/storage.dart';
 export 'src/sff.dart';
 export 'src/file_log.dart';
+export 'src/sff_yaml.dart';

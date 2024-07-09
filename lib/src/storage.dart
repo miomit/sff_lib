@@ -16,4 +16,11 @@ class Storage {
 
   bool isExists() => _dir.existsSync();
   int size() => _dir.statSync().size;
+
+  @override
+  String toString() {
+    var res = name == null ? "" : "[$name]: ";
+    res += "(${_dir.path}) $_perm";
+    return res;
+  }
 }
