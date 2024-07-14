@@ -2,9 +2,13 @@ import 'dart:io';
 import 'package:path/path.dart' show basename;
 import 'package:sff_lib/sff_lib.dart' show FileLog, Action;
 
-/// Recursively copying a file with its contents
+/// Recursively copying a file with its contents.
 ///
-/// If a file with the same name exists, no copying will be performed.
+/// If a file with the same name exists, copying will not be executed.
+///
+/// If isCopyFile is false, so copies only tree directorias without file.
+///
+/// Function filter takes the file path and returned bool type.
 Stream<FileLog> copyDirRec(
   Directory dirIn,
   Directory dirOut, {
@@ -54,8 +58,12 @@ Stream<FileLog> moveDir(
   }
 }
 
-/// recursively copies the contents from the first directory
-/// to another, and then in the same way but on the reverse
+/// Recursively copies the contents from the first directory
+/// to another, and then in the same way but on the reverse.
+///
+/// If isCopyFile is false, so copies only tree directorias without file.
+///
+/// Function filter takes the file path and returned bool type.
 Stream<FileLog> syncDir(
   Directory dir1,
   Directory dir2, {

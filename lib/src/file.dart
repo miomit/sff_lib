@@ -4,7 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'package:convert/convert.dart' show AccumulatorSink;
 import 'package:sff_lib/sff_lib.dart' show FileLog, Action;
 
-/// comparing two files for identity by content
+/// Comparing two files for content equality.
 Future<bool> compareFilesEquality(
   File file1,
   File file2,
@@ -12,11 +12,13 @@ Future<bool> compareFilesEquality(
   return (await generateHashFile(file1)) == (await generateHashFile(file2));
 }
 
-/// Stream the channel that transmits ([File], [File]) the original file and its duplicate
+/// Stream the channel that transmits (FileLog),
+/// where the first is the original file and second is a duplicate.
 ///
-/// For find in several directories, the [Directory] list is passed in the parameters.
+/// For multiple directory searches,
+/// the [Directory] list is passed in the parameters.
 ///
-/// it is possible to filter the content, which in turn increases the crawl
+/// Function filter takes the file path and returned bool type.
 Stream<FileLog> findDuplicates(
   List<Directory> dirs, {
   File? file,
@@ -49,14 +51,16 @@ Stream<FileLog> findDuplicates(
   }
 }
 
-/// recursively traverses contents of the directory, and returns the [File] type.
+/// Recursively browses the contents of a directory and returns type [File].
 ///
-/// If there are not enough permissions to view the directory, then the directory is skipped.
+/// If there are not enough permissions to view the directory,
+/// then the directory is skipped.
 ///
-/// This method solves problem of closing stream during recursive traversal (https://github.com/dart-lang/sdk/issues/54803).
+/// This method solves problem of closing stream during recursive traversal
+/// (https://github.com/dart-lang/sdk/issues/54803).
 ///
 /// exmaple:
-///
+/// ```
 /// dir
 ///   - subDir1
 ///      - file_b
@@ -65,10 +69,10 @@ Stream<FileLog> findDuplicates(
 ///   - rootDir <- PathAccessException: Directory listing failed, path = 'dir/rootDir' (OS Error: Permission denied, errno = 13)
 ///   - file2
 ///   - file2
+/// ```
 ///
-/// dir.list(recursive: ture) - closes the stream with an error PathAccessException.
-/// recListFile(dir) - skips content in derictory dir/rootDir to avoid closing the stream.
-// TODO: Stream<File> -> Stream<FileLog>
+/// `dir.list(recursive: ture)` - closes the stream with an error PathAccessException.
+/// `recListFile(dir)` - skips content in derictory dir/rootDir to avoid closing the stream.
 Stream<File> recListFile(
   Directory dir,
 ) async* {
@@ -90,7 +94,7 @@ Stream<File> recListFile(
   }
 }
 
-/// Method that generates a hash code from the contents of a file
+/// Method that generates a hash code from the contents of a file.
 Future<Digest> generateHashFile(
   File file, [
   Hash hashMethod = sha1,

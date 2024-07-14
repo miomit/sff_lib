@@ -6,6 +6,8 @@ import 'package:sff_lib/sff_lib.dart'
 import 'package:sff_lib/src/file.dart' as sff_file;
 import 'package:sff_lib/src/dir.dart' as sff_dir;
 
+/// A class for executing actions on sets
+/// of directories ([Storage]) simultaneously.
 class Sff {
   final List<Storage> _dirIn = [];
   final List<Storage> _dirOut = [];

@@ -23,9 +23,7 @@ Look in `/example` folder.
 copyDirRec(
     Directory('/home/yura/Images'),
     Directory('/media/yura/Elements/Images')
-).listen((event) {
-    print("${event.$1} -> ${event.$2}");
-});
+).listen(print);
 ```
 
 ## Additional information

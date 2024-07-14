@@ -6,7 +6,5 @@ void main() {
   syncDir(
     Directory('/media/yura/Elements/Music'),
     Directory('/home/yura/Music'),
-  ).listen((fl) {
-    print(fl);
-  });
+  ).listen(print);
 }
