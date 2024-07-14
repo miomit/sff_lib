@@ -11,7 +11,7 @@
   
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
   
   <link rel="stylesheet" href="../static-assets/github.css?v1">
   <link rel="stylesheet" href="../static-assets/styles.css?v1">
@@ -36,14 +36,14 @@
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
-  <div class="toggle" id="theme-button">
+  <div class="toggle" id="theme-button" title="Toggle brightness">
     <label for="theme">
       <input type="checkbox" id="theme" value="light-theme">
       <span id="dark-theme-button" class="material-symbols-outlined">
-        brightness_4
+        dark_mode
       </span>
       <span id="light-theme-button" class="material-symbols-outlined">
-        brightness_5
+        light_mode
       </span>
     </label>
   </div>
@@ -63,8 +63,8 @@
     <section class="multi-line-signature">
         
 
-<span class="returntype"><a href="https://api.dart.dev/stable/3.3.3/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.3.3/dart-io/File-class.html">File</a></span>&gt;</span></span>
-<span class="name ">recListFile</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="recListFile-param-dir"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.3.3/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir</span></span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.4.3/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.4.3/dart-io/File-class.html">File</a></span>&gt;</span></span>
+<span class="name ">recListFile</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="recListFile-param-dir"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.4.3/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir</span></span></li>
 </ol>)
 
         
@@ -72,43 +72,43 @@
     </section>
     
 <section class="desc markdown">
-  <p>recursively traverses contents of the directory, and returns the <a href="https://api.dart.dev/stable/3.3.3/dart-io/File-class.html">File</a> type.</p>
-<p>If there are not enough permissions to view the directory, then the directory is skipped.</p>
-<p>This method solves problem of closing stream during recursive traversal (<a href="https://github.com/dart-lang/sdk/issues/54803">https://github.com/dart-lang/sdk/issues/54803</a>).</p>
+  <p>Recursively browses the contents of a directory and returns type <a href="https://api.dart.dev/stable/3.4.3/dart-io/File-class.html">File</a>.</p>
+<p>If there are not enough permissions to view the directory,
+then the directory is skipped.</p>
+<p>This method solves problem of closing stream during recursive traversal
+(<a href="https://github.com/dart-lang/sdk/issues/54803">https://github.com/dart-lang/sdk/issues/54803</a>).</p>
 <p>exmaple:</p>
-<p>dir</p>
-<ul>
-<li>subDir1
-<ul>
-<li>file_b</li>
-<li>file_c</li>
-</ul>
-</li>
-<li>subDir2</li>
-<li>rootDir &lt;- PathAccessException: Directory listing failed, path = 'dir/rootDir' (OS Error: Permission denied, errno = 13)</li>
-<li>file2</li>
-<li>file2</li>
-</ul>
-<p>dir.list(recursive: ture) - closes the stream with an error PathAccessException.
-recListFile(dir) - skips content in derictory dir/rootDir to avoid closing the stream.</p>
+<pre class="language-dart"><code>dir
+  - subDir1
+     - file_b
+     - file_c
+  - subDir2
+  - rootDir &lt;- PathAccessException: Directory listing failed, path = 'dir/rootDir' (OS Error: Permission denied, errno = 13)
+  - file2
+  - file2
+</code></pre>
+<p><code>dir.list(recursive: ture)</code> - closes the stream with an error PathAccessException.
+<code>recListFile(dir)</code> - skips content in derictory dir/rootDir to avoid closing the stream.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Stream&lt;File&gt;
-recListFile (Directory dir) async* {
+  <pre class="language-dart"><code class="language-dart">Stream&lt;File&gt; recListFile(
+  Directory dir,
+) async* {
   try {
     await for (final entitie in dir.list()) {
-      switch (entitie.statSync().type){
+      switch (entitie.statSync().type) {
         case FileSystemEntityType.file:
           yield File(entitie.path);
-        break;
+          break;
         case FileSystemEntityType.directory:
           yield* recListFile(Directory(entitie.path));
-        break;
-        default: break;
+          break;
+        default:
+          break;
       }
     }
   } on PathAccessException {
@@ -147,7 +147,7 @@ recListFile (Directory dir) async* {
 <footer>
   <span class="no-break">
     sff_lib
-      0.0.7
+      0.0.6
   </span>
 
   

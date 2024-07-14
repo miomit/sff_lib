@@ -3,6 +3,7 @@ import 'dart:io' show Directory;
 import 'package:sff_lib/src/storage.dart';
 import 'package:yaml/yaml.dart' show loadYaml;
 
+/// Class of yaml file parsing.
 class SffYaml {
   Map<String, List<Storage>> event = {};
   Map<String, List> run = {};

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+/// Enumerating all kinds of actions on files.
 enum Action {
   copy,
   move,
@@ -8,6 +9,7 @@ enum Action {
   compare,
 }
 
+/// Сlass for saving the result of file operations
 class FileLog {
   File file1;
   File? file2;

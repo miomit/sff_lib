@@ -11,7 +11,5 @@ void main() {
     ],
     file: File("C:\\Users\\user_\\Изображения\\Ава\\1257855.jpg"),
     filter: (path) => p.extension(path) == ".jpg",
-  ).listen((fl) {
-    print(fl);
-  });
+  ).listen(print);
 }
