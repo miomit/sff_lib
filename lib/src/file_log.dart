@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:sff_lib/src/file_details.dart';
 
 /// Enumerating all kinds of actions on files.
 enum Action {
@@ -11,8 +11,8 @@ enum Action {
 
 /// Сlass for saving the result of file operations
 class FileLog {
-  File file1;
-  File? file2;
+  FileDetails file1;
+  FileDetails? file2;
 
   Action action;
 

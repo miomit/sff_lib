@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:path/path.dart' as p;
 import 'package:sff_lib/sff_lib.dart';
+import 'package:sff_lib/src/file_details.dart';
 
 void main() {
   findDuplicates(
@@ -9,7 +9,9 @@ void main() {
       Directory('C:\\Users\\user_\\Изображения'),
       Directory('C:\\Users\\user_\\Документы')
     ],
-    file: File("C:\\Users\\user_\\Изображения\\Ава\\1257855.jpg"),
-    filter: (path) => p.extension(path) == ".jpg",
+    fileDet: FileDetails(
+      path: "C:\\Users\\user_\\Изображения\\Ава\\1257855.jpg",
+    ),
+    filter: (fd) => fd.extension == ".jpg",
   ).listen(print);
 }
