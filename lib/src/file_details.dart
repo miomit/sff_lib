@@ -74,4 +74,8 @@ class FileDetails {
         dirPath = p.dirname(path) {
     type = FileType.getType(extension);
   }
+
+  static bool equals(FileDetails fd1, FileDetails fd2) {
+    return p.equals(fd1.path, fd2.path);
+  }
 }
