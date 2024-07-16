@@ -1,6 +1,6 @@
 name: sff_lib
 description: Small package designed to simplify working with files/directories.
-version: 0.0.8
+version: 0.0.8+1
 repository: https://github.com/yuraMovsesyan/sff_lib
 
 environment:
