@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:path/path.dart' as p;
 
+/// Enumeration to determine file type.
 enum FileType {
   document,
   picture,
@@ -8,6 +9,8 @@ enum FileType {
   audio,
   video;
 
+  /// Get type by extension,
+  /// otherwise returns null.
   static FileType? getType(String ext) => switch (ext) {
         '.jpeg' ||
         '.jpg' ||
@@ -49,6 +52,8 @@ enum FileType {
       };
 }
 
+/// Сlass to classify a file
+/// and splitting the path into path to directory, name and extension.
 class FileDetails {
   final String path;
 
