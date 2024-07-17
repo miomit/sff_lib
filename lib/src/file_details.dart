@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'package:crypto/crypto.dart';
 import 'package:path/path.dart' as p;
+import 'package:sff_lib/src/file.dart' show generateHashFile;
 
 /// Enumeration to determine file type.
 enum FileType {
@@ -64,8 +66,15 @@ class FileDetails {
 
   FileType? type;
 
+  Digest? _hash;
+
   File get file => File(path);
   bool get isExist => file.existsSync();
+
+  Future<Digest> get hash async {
+    _hash ??= await generateHashFile(file);
+    return _hash!;
+  }
 
   FileDetails({
     required this.path,

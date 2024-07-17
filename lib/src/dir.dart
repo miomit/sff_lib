@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:path/path.dart' show basename;
 import 'package:sff_lib/sff_lib.dart' show FileLog, Action;
+import 'package:sff_lib/src/file_details.dart';
 
 /// Recursively copying a file with its contents.
 ///
@@ -28,8 +29,8 @@ Stream<FileLog> copyDirRec(
         final fileCopy =
             file.copySync("${dirOut.path}/${entitie.uri.pathSegments.last}");
         yield FileLog(
-          file1: file,
-          file2: fileCopy,
+          file1: FileDetails(path: file.path),
+          file2: FileDetails(path: fileCopy.path),
           action: Action.copy,
         );
       }
@@ -52,7 +53,7 @@ Stream<FileLog> moveDir(
   Directory dir2,
 ) async* {
   await for (final fl in copyDirRec(dir1, dir2)) {
-    fl.file1.deleteSync();
+    fl.file1.file.deleteSync();
     fl.action = Action.move;
     yield fl;
   }

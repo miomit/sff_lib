@@ -3,6 +3,7 @@ import 'package:async/async.dart' show StreamGroup;
 import 'package:crypto/crypto.dart';
 import 'package:convert/convert.dart' show AccumulatorSink;
 import 'package:sff_lib/sff_lib.dart' show FileLog, Action;
+import 'package:sff_lib/src/file_details.dart';
 
 /// Comparing two files for content equality.
 Future<bool> compareFilesEquality(
@@ -21,31 +22,33 @@ Future<bool> compareFilesEquality(
 /// Function filter takes the file path and returned bool type.
 Stream<FileLog> findDuplicates(
   List<Directory> dirs, {
-  File? file,
-  bool Function(String)? filter,
+  FileDetails? fileDet,
+  bool Function(FileDetails)? filter,
 }) async* {
   if (dirs.isEmpty) return;
-  Map<Digest, File> files = {};
+  Map<Digest, FileDetails> files = {};
 
-  if (file != null) {
-    files[await generateHashFile(file)] = file;
+  if (fileDet != null) {
+    files[await fileDet.hash] = fileDet;
   }
-  await for (final entitieFile
+  await for (final entitieFileDet
       in StreamGroup.merge([for (final dir in dirs) recListFile(dir)])) {
-    if (file != null && file.path == entitieFile.path) continue;
-    if (filter != null && !filter(entitieFile.path)) continue;
+    if (fileDet != null && FileDetails.equals(fileDet, entitieFileDet)) {
+      continue;
+    }
+    if (filter != null && !filter(entitieFileDet)) continue;
 
-    var hash = await generateHashFile(entitieFile);
+    var hash = await generateHashFile(entitieFileDet.file);
 
     if (files[hash] != null) {
       yield FileLog(
         file1: files[hash]!,
-        file2: entitieFile,
+        file2: entitieFileDet,
         action: Action.compare,
       );
     } else {
-      if (file == null) {
-        files[hash] = entitieFile;
+      if (fileDet == null) {
+        files[hash] = entitieFileDet;
       }
     }
   }
@@ -73,14 +76,14 @@ Stream<FileLog> findDuplicates(
 ///
 /// `dir.list(recursive: ture)` - closes the stream with an error PathAccessException.
 /// `recListFile(dir)` - skips content in derictory dir/rootDir to avoid closing the stream.
-Stream<File> recListFile(
+Stream<FileDetails> recListFile(
   Directory dir,
 ) async* {
   try {
     await for (final entitie in dir.list()) {
       switch (entitie.statSync().type) {
         case FileSystemEntityType.file:
-          yield File(entitie.path);
+          yield FileDetails(path: entitie.path);
           break;
         case FileSystemEntityType.directory:
           yield* recListFile(Directory(entitie.path));

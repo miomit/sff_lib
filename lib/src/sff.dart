@@ -5,6 +5,7 @@ import 'package:sff_lib/sff_lib.dart'
     show Storage, Permission, FileLog, SffYaml;
 import 'package:sff_lib/src/file.dart' as sff_file;
 import 'package:sff_lib/src/dir.dart' as sff_dir;
+import 'package:sff_lib/src/file_details.dart';
 
 /// A class for executing actions on sets
 /// of directories ([Storage]) simultaneously.
@@ -70,15 +71,15 @@ class Sff {
   }
 
   Stream<FileLog> findDuplicates({
-    File? file,
-    bool Function(String)? filter,
+    FileDetails? fileDet,
+    bool Function(FileDetails)? filter,
   }) {
     return sff_file.findDuplicates(
       [
         for (var dir in _dirIn) dir.getDir(),
         for (var dir in _dirSync) dir.getDir(),
       ],
-      file: file,
+      fileDet: fileDet,
       filter: filter,
     );
   }
