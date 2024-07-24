@@ -1,11 +1,17 @@
 part of '../virtual.dart';
 
 class VDir extends Dir {
-  List<FSEntity>? children;
+  String name;
+  List<FSEntity>? _children;
 
   VDir({
-    this.children,
-  });
+    required this.name,
+    List<FSEntity>? children,
+  }) {
+    _children = children;
+  }
+
+  FSEntity? getChildByName() => throw UnimplementedError();
 
   @override
   // TODO: implement stat
