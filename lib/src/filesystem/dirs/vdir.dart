@@ -21,6 +21,14 @@ class VDir extends Dir {
     return null;
   }
 
+  void addChild(FSEntity child) {
+    if (getChildByName(child.name) == null) {
+      _children!.add(child);
+    } else {
+      throw "A child by that name exists";
+    }
+  }
+
   @override
   String get name => _name;
 
