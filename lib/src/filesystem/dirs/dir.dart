@@ -1,3 +1,3 @@
-import 'package:sff_lib/src/filesystem/fs_entity.dart';
+import 'package:sff_lib/filesystem.dart';
 
 abstract class Dir extends FSEntity {}
