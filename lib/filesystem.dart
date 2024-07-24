@@ -5,6 +5,8 @@
 library;
 
 export 'src/filesystem/fs_entity.dart';
+export 'src/filesystem/stat.dart';
+
 export 'src/filesystem/dirs/dir.dart';
 export 'src/filesystem/files/file.dart';
 
