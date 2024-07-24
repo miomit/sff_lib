@@ -10,7 +10,16 @@ class VDir extends Dir {
   })  : _name = name,
         _children = children;
 
-  FSEntity? getChildByName() => throw UnimplementedError();
+  FSEntity? getChildByName(String name) {
+    if (_children != null) {
+      for (var child in _children!) {
+        if (child.name == name) {
+          return child;
+        }
+      }
+    }
+    return null;
+  }
 
   @override
   String get name => _name;
