@@ -33,10 +33,22 @@ class VDir extends Dir {
   String get name => _name;
 
   @override
-  // TODO: implement stat
-  Future<Stat> get stat => throw UnimplementedError();
+  Future<Stat> get stat => Future.value(statSync);
 
   @override
-  // TODO: implement statSync
-  Stat get statSync => throw UnimplementedError();
+  Stat get statSync {
+    int size = 0;
+
+    if (_children != null) {
+      for (var child in _children!) {
+        size += child.statSync.size;
+      }
+    }
+
+    return Stat(
+      name: name,
+      size: size,
+      type: FSType.dir,
+    );
+  }
 }
