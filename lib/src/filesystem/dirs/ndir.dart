@@ -21,4 +21,28 @@ class NDir extends Dir {
     // TODO: implement list
     throw UnimplementedError();
   }
+
+  @override
+  Future<Dir?> mkdir(String name) {
+    // TODO: implement mkdir
+    throw UnimplementedError();
+  }
+
+  @override
+  Dir? mkdirSync(String name) {
+    // TODO: implement mkdirSync
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<File?> touch(String name) {
+    // TODO: implement touch
+    throw UnimplementedError();
+  }
+
+  @override
+  File? touchSync(String name) {
+    // TODO: implement touchSync
+    throw UnimplementedError();
+  }
 }

@@ -5,4 +5,10 @@ abstract class Dir extends FSEntity {
     bool recursive = false,
     void Function(Exception e, FSEntity fse)? onException,
   });
+
+  Future<Dir?> mkdir(String name);
+  Dir? mkdirSync(String name);
+
+  Future<File?> touch(String name);
+  File? touchSync(String name);
 }

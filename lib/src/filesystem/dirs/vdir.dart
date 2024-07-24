@@ -79,4 +79,30 @@ class VDir extends Dir {
       }
     }
   }
+
+  @override
+  Future<Dir?> mkdir(String name) => Future.value(mkdirSync(name));
+
+  @override
+  Dir? mkdirSync(String name) {
+    if (getChildByName(name) == null) {
+      var dir = VDir(name: name);
+      addChild(dir);
+      return dir;
+    }
+    return null;
+  }
+
+  @override
+  Future<File?> touch(String name) => Future.value(touchSync(name));
+
+  @override
+  File? touchSync(String name) {
+    if (getChildByName(name) == null) {
+      var file = VFile(name: name);
+      addChild(file);
+      return file;
+    }
+    return null;
+  }
 }
