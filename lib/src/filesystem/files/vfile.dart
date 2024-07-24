@@ -24,4 +24,11 @@ class VFile extends File {
       type: FSType.file,
     );
   }
+
+  @override
+  Stream<List<int>> openRead() async* {
+    for (var i = 0; i < _data.length; i += 250) {
+      yield _data.sublist(i, i + 250);
+    }
+  }
 }
