@@ -51,4 +51,32 @@ class VDir extends Dir {
       type: FSType.dir,
     );
   }
+
+  @override
+  Stream<FSEntity> list({
+    bool recursive = false,
+    void Function(Exception e, FSEntity fse)? onException,
+  }) async* {
+    if (_children != null) {
+      for (var child in _children!) {
+        try {
+          if (!recursive) {
+            yield child;
+          } else if (child case Dir dir) {
+            yield* dir.list();
+          } else {
+            yield child;
+          }
+        } on Exception catch (e) {
+          if (onException != null) {
+            onException(e, child);
+          } else {
+            rethrow;
+          }
+        } catch (_) {
+          rethrow;
+        }
+      }
+    }
+  }
 }
