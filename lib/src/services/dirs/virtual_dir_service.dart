@@ -21,10 +21,8 @@ class VirtualDirService implements IDirService, IStatDirService {
         _disk = disk;
 
   Result<(), IOError> _addFileChild(VirtualFileService file) {
-    for (final fileChild in _fileChildren) {
-      if (fileChild.name == file.name) {
-        return Err(IOError.fileExist);
-      }
+    if (getFileChildByName(file.name).isSome()) {
+      return Err(IOError.fileExist);
     }
 
     _fileChildren.add(file);
@@ -33,10 +31,8 @@ class VirtualDirService implements IDirService, IStatDirService {
   }
 
   Result<(), IOError> _addDirChild(VirtualDirService dir) {
-    for (final dirChild in _dirChildren) {
-      if (dirChild.name == dir.name) {
-        return Err(IOError.dirExist);
-      }
+    if (getDirChildByName(dir.name).isSome()) {
+      return Err(IOError.dirExist);
     }
 
     _dirChildren.add(dir);
