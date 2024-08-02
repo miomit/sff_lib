@@ -1,8 +1,8 @@
 import 'package:sff_lib/services.dart';
 
 abstract interface class IStatDirService implements IStatService {
-  int get count => fileCount + dirCount;
+  Future<int> get count;
 
-  int get fileCount;
-  int get dirCount;
+  Future<int> get fileCount;
+  Future<int> get dirCount;
 }

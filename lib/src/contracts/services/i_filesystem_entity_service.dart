@@ -7,6 +7,6 @@ abstract interface class IFilesystemEntityService {
   Future<bool> exists();
   bool existsSync();
 
-  Future<T> stat<T extends IStatService>();
-  T statSync<T extends IStatService>();
+  Future<IStatService> stat();
+  IStatService statSync();
 }
