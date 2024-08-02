@@ -65,6 +65,26 @@ class VirtualDirService implements IDirService, IStatDirService {
         _ => Err(IOError.unsupportedFormat),
       };
 
+  Option<IDirService> getDirChildByName(String name) {
+    for (final dirChild in _dirChildren) {
+      if (dirChild.name == name) {
+        return Some(dirChild);
+      }
+    }
+
+    return None();
+  }
+
+  Option<IFileService> getFileChildByName(String name) {
+    for (final fileChild in _fileChildren) {
+      if (fileChild.name == name) {
+        return Some(fileChild);
+      }
+    }
+
+    return None();
+  }
+
   @override
   Future<bool> exists() => Future.value(existsSync());
 
