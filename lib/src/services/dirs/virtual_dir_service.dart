@@ -1,5 +1,6 @@
 import 'package:option_result/option.dart';
 import 'package:option_result/result.dart';
+import 'package:sff_lib/errors.dart';
 import 'package:sff_lib/services.dart';
 
 class VirtualDirService implements IDirService, IStatDirService {
@@ -18,6 +19,51 @@ class VirtualDirService implements IDirService, IStatDirService {
   )   : _name = name,
         _parent = null,
         _disk = disk;
+
+  Result<(), IOError> _addFileChild(VirtualFileService file) {
+    for (final fileChild in _fileChildren) {
+      if (fileChild.name == file.name) {
+        return Err(IOError.fileExist);
+      }
+    }
+
+    _fileChildren.add(file);
+
+    return Ok(());
+  }
+
+  Result<(), IOError> _addDirChild(VirtualDirService dir) {
+    for (final dirChild in _dirChildren) {
+      if (dirChild.name == dir.name) {
+        return Err(IOError.dirExist);
+      }
+    }
+
+    _dirChildren.add(dir);
+
+    return Ok(());
+  }
+
+  Result<(), IOError> _removeFileChild(VirtualFileService file) {
+    return _fileChildren.remove(file) ? Ok(()) : Err(IOError.doesNotExist);
+  }
+
+  Result<(), IOError> _removeDirChild(VirtualDirService dir) {
+    return _dirChildren.remove(dir) ? Ok(()) : Err(IOError.doesNotExist);
+  }
+
+  Result<(), IOError> addChild(IFilesystemEntityService fse) => switch (fse) {
+        VirtualFileService file => _addFileChild(file),
+        VirtualDirService dir => _addDirChild(dir),
+        _ => Err(IOError.unsupportedFormat),
+      };
+
+  Result<(), IOError> removeChild(IFilesystemEntityService fse) =>
+      switch (fse) {
+        VirtualFileService file => _removeFileChild(file),
+        VirtualDirService dir => _removeDirChild(dir),
+        _ => Err(IOError.unsupportedFormat),
+      };
 
   @override
   Future<bool> exists() => Future.value(existsSync());

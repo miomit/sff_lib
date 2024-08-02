@@ -3,4 +3,5 @@ enum IOError {
   doesNotExist,
   fileExist,
   dirExist,
+  unsupportedFormat,
 }
