@@ -81,7 +81,7 @@ class VirtualFileService implements IFileService, IStatFileService {
 
   @override
   String get path => switch (_parent) {
-        Some() => "${parent.path}\\$_name",
+        Some() => "${parent.path}$_name",
         None() => name,
       };
 
