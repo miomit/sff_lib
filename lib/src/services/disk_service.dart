@@ -13,7 +13,7 @@ class DiskService implements IDiskService, IIOService {
   Result<(), IOError> mount(IFilesystemService fs) {
     if (_disks[fs.rootPath] == null) {
       _disks[fs.rootPath] = fs;
-      return Ok(());
+      return fs.connect(this);
     }
 
     return Err(IOError.dirExist);
@@ -45,8 +45,9 @@ class DiskService implements IDiskService, IIOService {
 
   @override
   Result<(), IOError> umount(String target) {
-    if (_disks[target] case IFilesystemService fs) {
-      _disks.remove(fs);
+    if (_disks["$target:\\"] case IFilesystemService fs) {
+      fs.disconnect();
+      _disks.remove("$target:\\");
       return Ok(());
     }
 
