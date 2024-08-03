@@ -7,7 +7,7 @@ void main() {
 
     setUp(() {
       disk = DiskService();
-      disk.mount(VirtualFilesystemService());
+      disk.mount(VirtualFilesystemService("C"));
     });
   });
 }
