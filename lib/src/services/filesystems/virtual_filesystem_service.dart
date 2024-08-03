@@ -14,4 +14,16 @@ class VirtualFilesystemService implements IFilesystemService {
   @override
   // TODO: implement rootPath
   String get rootPath => throw UnimplementedError();
+
+  @override
+  Result<IFilesystemEntityService, IOError> mkdir(path) {
+    // TODO: implement mkdir
+    throw UnimplementedError();
+  }
+
+  @override
+  Result<IFilesystemEntityService, IOError> touch(path) {
+    // TODO: implement touch
+    throw UnimplementedError();
+  }
 }

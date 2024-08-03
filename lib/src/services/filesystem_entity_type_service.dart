@@ -1,0 +1,4 @@
+enum FilesystemEntityTypeService {
+  dir,
+  file,
+}

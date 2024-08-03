@@ -1,7 +1,10 @@
-abstract interface class IFileService {
-    read(String folderPath, String fileName);
+import 'package:option_result/result.dart';
+import 'package:sff_lib/errors.dart';
+import 'package:sff_lib/services.dart';
 
-    void save(String folderPath, String fileName, content);
+abstract interface class IFileService implements IFilesystemEntityService {
+  Result<Stream<List<int>>, IOError> openRead();
 
-    void delete(String folderPath, String fileName);
+  Future<Result<IFileService, IOError>> copy(String newPath);
+  Result<IFileService, IOError> copySync(String newPath);
 }

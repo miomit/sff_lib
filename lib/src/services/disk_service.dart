@@ -3,7 +3,7 @@ import 'package:path/path.dart';
 import 'package:sff_lib/services.dart';
 import 'package:sff_lib/src/errors/io_error.dart';
 
-class DiskService implements IDiskService {
+class DiskService implements IDiskService, IIOService {
   final Map<String, IFilesystemService> _disks = {};
 
   @override
@@ -29,7 +29,22 @@ class DiskService implements IDiskService {
   }
 
   @override
-  Result<(), IOError> uount(String target) {
+  Result<IFilesystemEntityService, IOError> create(
+    String path,
+    FilesystemEntityTypeService type,
+  ) {
+    if (_disks[rootPrefix(path)] case IFilesystemService fs) {
+      return switch (type) {
+        FilesystemEntityTypeService.dir => fs.mkdir(path),
+        FilesystemEntityTypeService.file => fs.touch(path),
+      };
+    }
+
+    return Err(IOError.doesNotExist);
+  }
+
+  @override
+  Result<(), IOError> umount(String target) {
     if (_disks[target] case IFilesystemService fs) {
       _disks.remove(fs);
       return Ok(());
@@ -37,5 +52,13 @@ class DiskService implements IDiskService {
 
     return Err(IOError.doesNotExist);
   }
-  
+
+  @override
+  Result<IFilesystemEntityService, IOError> copy(
+    String pathIn,
+    String pathOut,
+  ) {
+    // TODO: implement copy
+    throw UnimplementedError();
+  }
 }

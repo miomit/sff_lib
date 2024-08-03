@@ -6,7 +6,7 @@ import 'package:sff_lib/services.dart';
 class VirtualDirService implements IDirService, IStatDirService {
   final String _name;
   final VirtualDirService? _parent;
-  final IDiskService _disk;
+  final IIOService _io;
 
   final List<VirtualDirService> _dirChildren = [];
   final List<VirtualFileService> _fileChildren = [];
@@ -15,10 +15,10 @@ class VirtualDirService implements IDirService, IStatDirService {
 
   VirtualDirService.root(
     String name,
-    IDiskService disk,
+    IIOService io,
   )   : _name = name,
         _parent = null,
-        _disk = disk;
+        _io = io;
 
   Result<(), IOError> _addFileChild(VirtualFileService file) {
     if (getFileChildByName(file.name).isSome()) {
@@ -85,7 +85,7 @@ class VirtualDirService implements IDirService, IStatDirService {
   Future<bool> exists() => Future.value(existsSync());
 
   @override
-  bool existsSync() => _disk.open(path) is Ok;
+  bool existsSync() => _io.open(path) is Ok;
 
   @override
   IDirService get parent => _parent ?? this;
