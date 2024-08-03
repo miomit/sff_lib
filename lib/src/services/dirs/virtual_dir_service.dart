@@ -50,11 +50,11 @@ class VirtualDirService implements IDirService, IStatDirService {
       default:
         if (fse case VirtualFileService file) {
           file.io = _io.unwrap();
-          file.parent = parent;
+          file.parent = this;
           _fileChildren.add(file);
         } else if (fse case VirtualDirService dir) {
           dir.io = _io.unwrap();
-          dir.parent = parent;
+          dir.parent = this;
           _dirChildren.add(dir);
         } else {
           return Err(IOError.unsupportedFormat);
@@ -102,7 +102,7 @@ class VirtualDirService implements IDirService, IStatDirService {
 
   @override
   String get path => switch (_parent) {
-        Some() => "${parent.path}\\$_name",
+        Some() => "${parent.path}$_name\\",
         None() => "$name:\\",
       };
   @override
