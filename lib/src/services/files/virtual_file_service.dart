@@ -6,29 +6,36 @@ import 'package:sff_lib/src/errors/io_error.dart';
 
 class VirtualFileService implements IFileService, IStatFileService {
   final String _name;
-  final VirtualDirService _parent;
-  final IIOService _io;
+  Option<VirtualDirService> _parent = None();
+  Option<IIOService> _io = None();
 
   final DateTime _created = DateTime.now();
   final DateTime _changed = DateTime.now();
 
   final List<int> _data;
 
-  VirtualFileService.create(
-    String name,
-    List<int> data,
-    IIOService io,
-    VirtualDirService parent,
-  )   : _name = name,
-        _data = data,
-        _io = io,
-        _parent = parent;
+  VirtualFileService(
+    String name, {
+    List<int>? data,
+  })  : _name = name,
+        _data = data ?? [];
 
   @override
   DateTime get created => _created;
 
   @override
   DateTime get changed => _changed;
+
+  set io(IIOService io) {
+    _io = Some(io);
+  }
+
+  set parent(VirtualDirService dir) {
+    _parent = Some(dir);
+  }
+
+  @override
+  VirtualDirService get parent => _parent.unwrap();
 
   @override
   Future<Result<IFileService, IOError>> copy(String newPath) {
@@ -37,7 +44,11 @@ class VirtualFileService implements IFileService, IStatFileService {
 
   @override
   Result<IFileService, IOError> copySync(String newPath) {
-    return switch (_io.copy(path, newPath)) {
+    if (_io is None) {
+      return Err(IOError.doesNotExist);
+    }
+
+    return switch (_io.unwrap().copy(path, newPath)) {
       Ok(value: IFileService file) => Ok(file),
       Err(value: IOError err) => Err(err),
       _ => Err(IOError.unsupportedFormat),
@@ -48,7 +59,7 @@ class VirtualFileService implements IFileService, IStatFileService {
   Future<bool> exists() => Future.value(existsSync());
 
   @override
-  bool existsSync() => _io.open(path) is Ok;
+  bool existsSync() => _io.isSomeAnd((io) => io.open(path) is Ok);
 
   @override
   String get name => _name;
@@ -69,10 +80,10 @@ class VirtualFileService implements IFileService, IStatFileService {
   }
 
   @override
-  IDirService get parent => _parent;
-
-  @override
-  String get path => "${parent.path}\\$_name";
+  String get path => switch (_parent) {
+        Some() => "${parent.path}\\$_name",
+        None() => name,
+      };
 
   @override
   Option<String> get realPath => None();

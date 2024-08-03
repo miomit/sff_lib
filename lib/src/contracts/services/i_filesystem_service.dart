@@ -4,6 +4,10 @@ import "package:sff_lib/services.dart";
 
 abstract interface class IFilesystemService {
   String get rootPath;
+
+  Result<(), IOError> connect(IIOService io);
+  Result<(), IOError> disconnect();
+
   Result<IFilesystemEntityService, IOError> find(path);
 
   Result<IFilesystemEntityService, IOError> mkdir(path);
