@@ -1,5 +1,6 @@
 import 'package:option_result/option.dart';
 import 'package:option_result/result.dart';
+import 'package:path/path.dart';
 import 'package:sff_lib/errors.dart';
 import 'package:sff_lib/services.dart';
 
@@ -61,20 +62,13 @@ class VirtualDirService implements IDirService, IStatDirService {
         _ => Err(IOError.unsupportedFormat),
       };
 
-  Option<IDirService> getDirChildByName(String name) {
-    for (final dirChild in _dirChildren) {
-      if (dirChild.name == name) {
-        return Some(dirChild);
-      }
-    }
-
-    return None();
-  }
-
-  Option<IFileService> getFileChildByName(String name) {
-    for (final fileChild in _fileChildren) {
-      if (fileChild.name == name) {
-        return Some(fileChild);
+  Option<IFilesystemEntityService> getChildByName(String name) {
+    for (final IFilesystemEntityService fse in [
+      ..._dirChildren,
+      ..._fileChildren,
+    ]) {
+      if (basename(fse.path) == name) {
+        return Some(fse);
       }
     }
 
