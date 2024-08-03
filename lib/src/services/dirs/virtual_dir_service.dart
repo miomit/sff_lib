@@ -21,26 +21,6 @@ class VirtualDirService implements IDirService, IStatDirService {
         _parent = null,
         _io = io;
 
-  Result<(), IOError> _addFileChild(VirtualFileService file) {
-    if (getFileChildByName(file.name).isSome()) {
-      return Err(IOError.fileExist);
-    }
-
-    _fileChildren.add(file);
-
-    return Ok(());
-  }
-
-  Result<(), IOError> _addDirChild(VirtualDirService dir) {
-    if (getDirChildByName(dir.name).isSome()) {
-      return Err(IOError.dirExist);
-    }
-
-    _dirChildren.add(dir);
-
-    return Ok(());
-  }
-
   Result<(), IOError> _removeFileChild(VirtualFileService file) {
     return _fileChildren.remove(file) ? Ok(()) : Err(IOError.doesNotExist);
   }
@@ -49,11 +29,23 @@ class VirtualDirService implements IDirService, IStatDirService {
     return _dirChildren.remove(dir) ? Ok(()) : Err(IOError.doesNotExist);
   }
 
-  Result<(), IOError> addChild(IFilesystemEntityService fse) => switch (fse) {
-        VirtualFileService file => _addFileChild(file),
-        VirtualDirService dir => _addDirChild(dir),
-        _ => Err(IOError.unsupportedFormat),
-      };
+  Result<(), IOError> addChild(IFilesystemEntityService fse) {
+    switch (getChildByName(basename(fse.path))) {
+      case Some(value: VirtualFileService _):
+        return Err(IOError.fileExist);
+      case Some(value: VirtualDirService _):
+        return Err(IOError.dirExist);
+      default:
+        if (fse case VirtualFileService file) {
+          _fileChildren.add(file);
+        } else if (fse case VirtualDirService dir) {
+          _dirChildren.add(dir);
+        } else {
+          return Err(IOError.unsupportedFormat);
+        }
+    }
+    return Ok(());
+  }
 
   Result<(), IOError> removeChild(IFilesystemEntityService fse) =>
       switch (fse) {
