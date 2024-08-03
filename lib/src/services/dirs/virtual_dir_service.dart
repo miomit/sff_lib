@@ -159,4 +159,36 @@ class VirtualDirService implements IDirService, IStatDirService {
 
     return size;
   }
+
+  @override
+  Stream<IFilesystemEntityService> list({
+    bool recursive = false,
+    void Function(
+      Exception e,
+      IFilesystemEntityService fse,
+    )? onException,
+  }) async* {
+    for (IFilesystemEntityService child in [
+      ..._fileChildren,
+      ..._dirChildren,
+    ]) {
+      try {
+        yield child;
+        if (recursive && child is VirtualDirService) {
+          yield* child.list(
+            recursive: true,
+            onException: onException,
+          );
+        }
+      } on Exception catch (e) {
+        if (onException != null) {
+          onException(e, child);
+        } else {
+          rethrow;
+        }
+      } catch (_) {
+        rethrow;
+      }
+    }
+  }
 }
