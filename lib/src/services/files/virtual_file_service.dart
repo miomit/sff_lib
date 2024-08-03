@@ -1,3 +1,6 @@
+import 'package:convert/convert.dart';
+import 'package:crypto/crypto.dart';
+import 'package:crypto/src/digest.dart';
 import 'package:option_result/option.dart';
 import 'package:option_result/result.dart';
 import 'package:sff_lib/services.dart';
@@ -84,4 +87,7 @@ class VirtualFileService implements IFileService, IStatFileService {
 
   @override
   IStatService statSync() => this;
+
+  @override
+  Digest get hash => sha1.convert(_data);
 }
