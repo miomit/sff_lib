@@ -27,6 +27,12 @@ class VirtualDirService implements IDirService, IStatDirService {
 
   set io(IIOService io) {
     _io = Some(io);
+    for (var file in _fileChildren) {
+      file.io = io;
+    }
+    for (var dir in _dirChildren) {
+      dir.io = io;
+    }
   }
 
   set parent(VirtualDirService dir) {
