@@ -7,9 +7,10 @@ import 'package:sff_lib/src/errors/io_error.dart';
 class VirtualFilesystemService implements IFilesystemService {
   VirtualDirService root;
 
-  VirtualFilesystemService(String name,
-      {List<IFilesystemEntityService>? children})
-      : root = VirtualDirService(name) {
+  VirtualFilesystemService(
+    String name, {
+    List<IFilesystemEntityService>? children,
+  }) : root = VirtualDirService(name) {
     if (children != null) {
       root.addChildren(children);
     }

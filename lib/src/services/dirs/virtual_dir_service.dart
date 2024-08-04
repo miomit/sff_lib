@@ -55,11 +55,11 @@ class VirtualDirService implements IDirService, IStatDirService {
         return Err(IOError.dirExist);
       default:
         if (fse case VirtualFileService file) {
-          file.io = _io.unwrap();
+          if (_io.isSome()) file.io = _io.unwrap();
           file.parent = this;
           _fileChildren.add(file);
         } else if (fse case VirtualDirService dir) {
-          dir.io = _io.unwrap();
+          if (_io.isSome()) dir.io = _io.unwrap();
           dir.parent = this;
           _dirChildren.add(dir);
         } else {
