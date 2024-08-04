@@ -3,6 +3,7 @@ import 'package:path/path.dart';
 import 'package:sff_lib/errors.dart';
 import 'package:sff_lib/services.dart';
 
+/// Virtual [IDirService] for [VirtualFilesystemService].
 class VirtualDirService implements IDirService, IStatDirService {
   final String _name;
   Option<VirtualDirService> _parent = None();

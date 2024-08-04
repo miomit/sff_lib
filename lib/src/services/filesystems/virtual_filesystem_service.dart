@@ -4,6 +4,7 @@ import 'package:path/path.dart';
 import 'package:sff_lib/services.dart';
 import 'package:sff_lib/src/errors/io_error.dart';
 
+/// Virtual file system for [DiskService].
 class VirtualFilesystemService implements IFilesystemService {
   VirtualDirService root;
 

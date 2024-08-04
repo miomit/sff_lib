@@ -3,6 +3,7 @@ import 'package:path/path.dart';
 import 'package:sff_lib/services.dart';
 import 'package:sff_lib/src/errors/io_error.dart';
 
+/// Virtual disk to work with [IFilesystemService].
 class DiskService implements IDiskService, IIOService {
   final Map<String, IFilesystemService> _disks = {};
 

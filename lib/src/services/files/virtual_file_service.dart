@@ -4,6 +4,7 @@ import 'package:option_result/result.dart';
 import 'package:sff_lib/services.dart';
 import 'package:sff_lib/src/errors/io_error.dart';
 
+/// Virtual [IFileService] for [VirtualFilesystemService].
 class VirtualFileService implements IFileService, IStatFileService {
   final String _name;
   Option<VirtualDirService> _parent = None();
