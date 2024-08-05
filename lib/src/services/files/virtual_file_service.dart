@@ -21,6 +21,12 @@ class VirtualFileService implements IFileService, IStatFileService {
   })  : _name = name,
         _data = data ?? [];
 
+  VirtualFileService.clone(VirtualFileService file)
+      : this(
+          file._name,
+          data: List.from(file._data),
+        );
+
   @override
   DateTime get created => _created;
 
