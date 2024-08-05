@@ -23,6 +23,12 @@ class VirtualDirService implements IDirService, IStatDirService {
     }
   }
 
+  VirtualDirService.clone(VirtualDirService dir)
+      : this(dir._name, children: [
+          ...(dir._dirChildren).map(VirtualDirService.clone),
+          ...(dir._fileChildren).map(VirtualFileService.clone),
+        ]);
+
   @override
   VirtualDirService get parent => _parent.unwrapOr(this);
 
