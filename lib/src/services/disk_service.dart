@@ -7,6 +7,13 @@ import 'package:sff_lib/src/errors/io_error.dart';
 class DiskService implements IDiskService, IIOService {
   final Map<String, IFilesystemService> _disks = {};
 
+  Result<IFilesystemService, IOError> getFsByPath(String path) {
+    return switch (_disks[rootPrefix(path)]) {
+      IFilesystemService fs => Ok(fs),
+      _ => Err(IOError.doesNotExist),
+    };
+  }
+
   @override
   List<String> getAllTarget() => _disks.keys.toList();
 
@@ -57,10 +64,20 @@ class DiskService implements IDiskService, IIOService {
 
   @override
   Result<IFilesystemEntityService, IOError> copy(
-    String pathIn,
-    String pathOut,
+    String pathEntityIn,
+    String pathDirOut,
   ) {
-    // TODO: implement copy
-    throw UnimplementedError();
+    final entity = open(pathEntityIn);
+
+    return entity.and(open(pathDirOut)).andThen(
+      (ent) {
+        if (ent is IDirService) return Ok(ent);
+        return Err(IOError.doesNotExist);
+      },
+    ).andThen(
+      (dir) => getFsByPath(dir.path).andThen(
+        (fs) => fs.copy(entity.unwrap(), dir),
+      ),
+    );
   }
 }

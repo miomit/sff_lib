@@ -34,6 +34,8 @@ void main() {
     ),
   );
 
+  disk.copy("C:\\home\\_user\\Documents\\git.doc", "C:\\tmp");
+
   (disk.open("C:\\").unwrap() as IDirService)
       .list(recursive: true)
       .listen((vsf) => print(vsf.path));

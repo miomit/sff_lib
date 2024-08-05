@@ -15,7 +15,7 @@ abstract interface class IIOService {
 
   /// Copies a file or directory.
   Result<IFilesystemEntityService, IOError> copy(
-    String pathIn,
-    String pathOut,
+    String pathEntityIn,
+    String pathDirOut,
   );
 }
