@@ -78,4 +78,27 @@ class VirtualFilesystemService implements IFilesystemService {
 
   @override
   Result<(), IOError> disconnect() => Ok(());
+
+  @override
+  Result<IFilesystemEntityService, IOError> copy(
+    IFilesystemEntityService entityIn,
+    IDirService dirOut,
+  ) {
+    Result<IFilesystemEntityService, IOError> entity =
+        Err(IOError.unsupportedFormat);
+
+    if (dirOut case VirtualDirService dir) {
+      if (entityIn case VirtualFileService file) {
+        entity = Ok(VirtualFileService.clone(file));
+      } else if (entityIn case VirtualDirService dir) {
+        entity = Ok(VirtualDirService.clone(dir));
+      }
+
+      if (entity.andThen(dir.addChild) case Err(value: IOError ioErr)) {
+        entity = Err(ioErr);
+      }
+    }
+
+    return entity;
+  }
 }

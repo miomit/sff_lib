@@ -21,4 +21,10 @@ abstract interface class IFilesystemService {
 
   /// On the specified path Creates an empty file, otherwise returns error [IOError].
   Result<IFilesystemEntityService, IOError> touch(path);
+
+  /// Copies a file or directory.
+  Result<IFilesystemEntityService, IOError> copy(
+    IFilesystemEntityService entityIn,
+    IDirService dirOut,
+  );
 }
