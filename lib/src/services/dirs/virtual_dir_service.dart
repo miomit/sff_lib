@@ -220,4 +220,16 @@ class VirtualDirService implements IDirService, IStatDirService {
       }
     }
   }
+
+  @override
+  Future<IFilesystemEntityService> rename(String newPath) {
+    // TODO: implement rename
+    throw UnimplementedError();
+  }
+
+  @override
+  IFilesystemEntityService renameSync(String newPath) {
+    // TODO: implement renameSync
+    throw UnimplementedError();
+  }
 }

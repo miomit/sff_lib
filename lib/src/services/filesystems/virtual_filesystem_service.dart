@@ -101,4 +101,25 @@ class VirtualFilesystemService implements IFilesystemService {
 
     return entity;
   }
+
+  @override
+  Result<(), IOError> delete(String path) {
+    if (equals(path, rootPath)) {
+      return Err(IOError.lowPermission);
+    }
+
+    return find(path).andThen((ent) {
+      final parentDir = ent.parent as VirtualDirService;
+
+      if (ent case VirtualDirService dir) {
+        dir.reset();
+      } else if (ent case VirtualFileService file) {
+        file.reset();
+      } else {
+        return Err(IOError.unsupportedFormat);
+      }
+
+      return parentDir.removeChild(ent);
+    });
+  }
 }

@@ -111,4 +111,16 @@ class VirtualFileService implements IFileService, IStatFileService {
 
   @override
   Digest get hash => sha1.convert(_data);
+
+  @override
+  Future<IFilesystemEntityService> rename(String newPath) {
+    // TODO: implement rename
+    throw UnimplementedError();
+  }
+
+  @override
+  IFilesystemEntityService renameSync(String newPath) {
+    // TODO: implement renameSync
+    throw UnimplementedError();
+  }
 }

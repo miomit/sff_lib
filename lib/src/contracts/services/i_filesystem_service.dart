@@ -13,6 +13,9 @@ abstract interface class IFilesystemService {
   /// Method for disconnecting the file system, otherwise returns error [IOError].
   Result<(), IOError> disconnect();
 
+  /// Deletes this [IFilesystemEntityService]
+  Result<(), IOError> delete(String path);
+
   /// Returns [IFilesystemEntityService] on his path, otherwise returns error [IOError].
   Result<IFilesystemEntityService, IOError> find(path);
 
