@@ -9,8 +9,8 @@ class VirtualDirService implements IDirService, IStatDirService {
   Option<VirtualDirService> _parent = None();
   Option<IIOService> _io = None();
 
-  final List<VirtualDirService> _dirChildren = [];
-  final List<VirtualFileService> _fileChildren = [];
+  List<VirtualDirService> _dirChildren = [];
+  List<VirtualFileService> _fileChildren = [];
 
   final DateTime _created = DateTime.now();
 
@@ -28,6 +28,22 @@ class VirtualDirService implements IDirService, IStatDirService {
           ...(dir._dirChildren).map(VirtualDirService.clone),
           ...(dir._fileChildren).map(VirtualFileService.clone),
         ]);
+
+  void reset() {
+    for (var fileChild in _fileChildren) {
+      fileChild.reset();
+    }
+
+    for (var dirChild in _dirChildren) {
+      dirChild.reset();
+    }
+
+    _dirChildren = [];
+    _fileChildren = [];
+
+    _parent = None();
+    _io = None();
+  }
 
   @override
   VirtualDirService get parent => _parent.unwrapOr(this);
