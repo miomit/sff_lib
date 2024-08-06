@@ -27,6 +27,11 @@ class VirtualFileService implements IFileService, IStatFileService {
           data: List.from(file._data),
         );
 
+  void reset() {
+    _parent = None();
+    _io = None();
+  }
+
   @override
   DateTime get created => _created;
 
