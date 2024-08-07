@@ -25,11 +25,11 @@ abstract interface class IFilesystemEntityService {
   ///
   /// Returns a [IFilesystemEntityService] instance for the renamed entity.
   /// If `newPath` identifies an existing entity of the same type, that entity is removed first.
-  Future<IFilesystemEntityService> rename(String newPath);
+  Future<Result<IFilesystemEntityService, IOError>> rename(String newPath);
 
   /// Synchronously renames this file system entity
   ///
   /// Returns a [IFilesystemEntityService] instance for the renamed entity.
   /// If `newPath` identifies an existing entity of the same type, that entity is removed first.
-  IFilesystemEntityService renameSync(String newPath);
+  Result<IFilesystemEntityService, IOError> renameSync(String newPath);
 }

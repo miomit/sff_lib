@@ -113,14 +113,15 @@ class VirtualFileService implements IFileService, IStatFileService {
   Digest get hash => sha1.convert(_data);
 
   @override
-  Future<IFilesystemEntityService> rename(String newPath) {
-    // TODO: implement rename
-    throw UnimplementedError();
+  Future<Result<IFilesystemEntityService, IOError>> rename(String newPath) {
+    return Future.value(renameSync(newPath));
   }
 
   @override
-  IFilesystemEntityService renameSync(String newPath) {
-    // TODO: implement renameSync
-    throw UnimplementedError();
+  Result<IFilesystemEntityService, IOError> renameSync(String newPath) {
+    return switch (_io) {
+      Some() => _io.unwrap().move(path, newPath),
+      None() => Err(IOError.doesNotExist),
+    };
   }
 }

@@ -1,4 +1,5 @@
 import 'package:option_result/option_result.dart';
+import 'package:option_result/result.dart';
 import 'package:path/path.dart';
 import 'package:sff_lib/errors.dart';
 import 'package:sff_lib/services.dart';
@@ -222,14 +223,15 @@ class VirtualDirService implements IDirService, IStatDirService {
   }
 
   @override
-  Future<IFilesystemEntityService> rename(String newPath) {
-    // TODO: implement rename
-    throw UnimplementedError();
+  Future<Result<IFilesystemEntityService, IOError>> rename(String newPath) {
+    return Future.value(renameSync(newPath));
   }
 
   @override
-  IFilesystemEntityService renameSync(String newPath) {
-    // TODO: implement renameSync
-    throw UnimplementedError();
+  Result<IFilesystemEntityService, IOError> renameSync(String newPath) {
+    return switch (_io) {
+      Some() => _io.unwrap().move(path, newPath),
+      None() => Err(IOError.doesNotExist),
+    };
   }
 }
