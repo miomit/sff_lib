@@ -80,4 +80,9 @@ class DiskService implements IDiskService, IIOService {
       ),
     );
   }
+
+  @override
+  Result<(), IOError> delete(String path) {
+    return getFsByPath(path).andThen((fs) => fs.delete(path));
+  }
 }

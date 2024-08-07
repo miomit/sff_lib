@@ -7,6 +7,9 @@ abstract interface class IIOService {
   /// Returns a directory or file by its existence.
   Result<IFilesystemEntityService, IOError> open(String path);
 
+  /// Deletes file or directory.
+  Result<(), IOError> delete(String path);
+
   /// Creates an empty file or directory.
   Result<IFilesystemEntityService, IOError> create(
     String path,
