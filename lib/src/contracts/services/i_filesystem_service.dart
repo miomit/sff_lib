@@ -30,4 +30,10 @@ abstract interface class IFilesystemService {
     IFilesystemEntityService entityIn,
     IDirService dirOut,
   );
+
+  /// Moves a file or directory.
+  Result<IFilesystemEntityService, IOError> move(
+    IFilesystemEntityService entityIn,
+    IDirService dirOut,
+  );
 }

@@ -21,4 +21,10 @@ abstract interface class IIOService {
     String pathEntityIn,
     String pathDirOut,
   );
+
+  /// Moves a file or directory.
+  Result<IFilesystemEntityService, IOError> move(
+    String pathEntity,
+    String pathDir,
+  );
 }

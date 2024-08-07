@@ -122,4 +122,33 @@ class VirtualFilesystemService implements IFilesystemService {
       return parentDir.removeChild(ent);
     });
   }
+
+  @override
+  Result<IFilesystemEntityService, IOError> move(
+    IFilesystemEntityService entityIn,
+    IDirService dirOut,
+  ) {
+    Result<IFilesystemEntityService, IOError> entity =
+        Err(IOError.unsupportedFormat);
+
+    if (entityIn.parent case VirtualDirService dirParent) {
+      if (dirOut case VirtualDirService dir) {
+        if (entityIn case VirtualFileService file) {
+          file.reset();
+          entity = Ok(file);
+        } else if (entityIn case VirtualDirService dir) {
+          dir.reset();
+          entity = Ok(VirtualDirService.clone(dir));
+        }
+
+        if (entity.andThen(dir.addChild) case Err(value: IOError ioErr)) {
+          entity = Err(ioErr);
+        } else {
+          dirParent.removeChild(entity.unwrap());
+        }
+      }
+    }
+
+    return entity;
+  }
 }

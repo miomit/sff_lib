@@ -85,4 +85,23 @@ class DiskService implements IDiskService, IIOService {
   Result<(), IOError> delete(String path) {
     return getFsByPath(path).andThen((fs) => fs.delete(path));
   }
+
+  @override
+  Result<IFilesystemEntityService, IOError> move(
+    String pathEntity,
+    String pathDir,
+  ) {
+    final entity = open(pathEntity);
+
+    return entity.and(open(pathDir)).andThen(
+      (ent) {
+        if (ent is IDirService) return Ok(ent);
+        return Err(IOError.doesNotExist);
+      },
+    ).andThen(
+      (dir) => getFsByPath(dir.path).andThen(
+        (fs) => fs.move(entity.unwrap(), dir),
+      ),
+    );
+  }
 }
