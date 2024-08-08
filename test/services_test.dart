@@ -204,3 +204,96 @@ void main() {
     });
   });
 }
+
+/// newTestFS
+/// A>
+///  \
+///   | mnt>
+///        \
+///         | usb 16G>
+///                  \
+///                   | usb-file1.txt
+///                   | usb-img.png
+///   | tmp>
+///   | home>
+///         \
+///          | _user>
+///                 \
+///                  | Documents>
+///                              \
+///                               | pdf>
+///                                     \
+///                                      | file1.pdf
+///                                      | ...
+///                               | doc>
+///                                     \
+///                                      | file1.doc
+///                                      | ...
+///                               | sff.yaml
+///                  | Videos>
+///                           \
+///                            | video.mp3
+///                  | Pictures>
+///                             \
+///                              | img1.png
+///                              | ...
+IFilesystemService newTestFS([name = "A"]) {
+  return VirtualFilesystemService(
+    "A",
+    children: [
+      Dir(
+        "mnt",
+        children: [
+          Dir(
+            "usb 16G",
+            children: [
+              File("usb-file1.txt"),
+              File("usb-img.png"),
+            ],
+          )
+        ],
+      ),
+      Dir("tmp"),
+      Dir(
+        "home",
+        children: [
+          Dir(
+            "_user",
+            children: [
+              Dir(
+                "Documents",
+                children: [
+                  Dir(
+                    "pdf",
+                    children: [
+                      for (int i = 0; i < 10; i++) File("file$i.pdf"),
+                    ],
+                  ),
+                  Dir(
+                    "doc",
+                    children: [
+                      for (int i = 0; i < 5; i++) File("file$i.doc"),
+                    ],
+                  ),
+                  File("sff.yaml"),
+                ],
+              ),
+              Dir(
+                "Videos",
+                children: [
+                  File("video.mp3"),
+                ],
+              ),
+              Dir(
+                "Pictures",
+                children: [
+                  for (int i = 0; i < 30; i++) File("img$i.png"),
+                ],
+              ),
+            ],
+          )
+        ],
+      ),
+    ],
+  );
+}
