@@ -6,90 +6,37 @@ typedef File = VirtualFileService;
 
 void main() {
   group('Filesystem', () {
-    late DiskService disk;
+    DiskService disk = DiskService();
 
-    setUp(() {
-      disk = DiskService();
-      disk.mount(VirtualFilesystemService(
-        "A",
-        children: [
-          Dir("mnt"),
-          Dir("tmp"),
-          Dir(
-            "home",
-            children: [
-              Dir(
-                "_user",
-                children: [
-                  Dir(
-                    "Documents",
-                    children: [
-                      File("git.doc"),
-                      File("info.doc"),
-                    ],
-                  ),
-                  File("sff.yaml"),
-                ],
-              )
-            ],
-          ),
-        ],
-      ));
-      disk.mount(VirtualFilesystemService(
-        "B",
-        children: [
-          Dir("mnt"),
-          Dir("tmp"),
-          Dir(
-            "home",
-            children: [
-              Dir(
-                "_user",
-                children: [
-                  Dir(
-                    "Documents",
-                    children: [
-                      File("git.doc"),
-                      File("info.doc"),
-                    ],
-                  ),
-                  File("sff.yaml"),
-                ],
-              )
-            ],
-          ),
-        ],
-      ));
-
-      disk.mount(VirtualFilesystemService(
-        "C",
-        children: [
-          Dir("mnt"),
-          Dir("tmp"),
-          Dir("home"),
-        ],
-      ));
+    test("Mount and umount", () {
+      expect(disk.mount(newTestFS()).isOk(), equals(true));
+      expect(disk.umount("A").isOk(), equals(true));
     });
 
     test('Open file and dir', () {
+      expect(disk.mount(newTestFS()).isOk(), equals(true));
+
       expect(disk.open("A").isErr(), equals(true));
       expect(disk.open("A:\\").isOk(), equals(true));
       expect(disk.open("a:\\").isErr(), equals(true));
       expect(disk.open("A:\\home\\").isOk(), equals(true));
       expect(disk.open("A:\\home").isOk(), equals(true));
 
-      expect(disk.open("A:\\home\\_user\\sff.yaml\\").isOk(), equals(true));
+      expect(
+        disk.open("A:\\home\\_user\\Documents\\sff.yaml\\").isOk(),
+        equals(true),
+      );
 
       expect(
         disk
-            .open("A:\\home\\_user\\sff.yaml")
+            .open("A:\\home\\_user\\Documents\\sff.yaml")
             .isOkAnd((entity) => entity is IFileService),
         equals(true),
       );
 
       expect(
         disk
-            .open("A:\\home\\_user\\sff.yaml")
+            .open("A:\\home\\_user\\Documents\\sff.yaml")
             .isOkAnd((entity) => entity is IDirService),
         equals(false),
       );
@@ -105,57 +52,112 @@ void main() {
             .isOkAnd((entity) => entity is IFileService),
         equals(false),
       );
+
+      disk.umount("A");
     });
 
-    test('Equal disk A and B', () {
+    test('Equal', () {
+      expect(disk.mount(newTestFS()).isOk(), equals(true));
+      expect(disk.mount(newTestFS(name: "B")).isOk(), equals(true));
+
       final hashA = disk.open("A:\\").unwrap().hash;
       final hashB = disk.open("B:\\").unwrap().hash;
 
       expect(hashA == hashB, equals(true));
+
+      expect(disk.umount("A").isOk(), equals(true));
+      expect(disk.umount("B").isOk(), equals(true));
     });
 
-    test('Not equal disk B and C', () {
-      final hashB = disk.open("B:\\").unwrap().hash;
-      final hashC = disk.open("C:\\").unwrap().hash;
+    test('Not equal', () {
+      expect(disk.mount(newTestFS(mntUsb: false)).isOk(), equals(true));
+      expect(disk.mount(newTestFS(name: "B")).isOk(), equals(true));
 
-      expect(hashC != hashB, equals(true));
+      final hashA = disk.open("A:\\").unwrap().hash;
+      final hashB = disk.open("B:\\").unwrap().hash;
+
+      expect(hashA != hashB, equals(true));
+
+      expect(disk.umount("A").isOk(), equals(true));
+      expect(disk.umount("B").isOk(), equals(true));
     });
 
     test('Delete file', () {
-      final file = disk.open("A:\\home\\_user\\Documents\\info.doc").unwrap();
+      expect(disk.mount(newTestFS()).isOk(), equals(true));
 
-      expect(file.existsSync(), equals(true));
+      expect(
+        disk.delete("A:\\home\\_user\\Documents\\pdf\\file1.pdf").isOk(),
+        equals(true),
+      );
+      expect(
+        disk.delete("A:\\home\\_user\\Documents\\doc\\file1.doc").isOk(),
+        equals(true),
+      );
+      expect(
+        disk.delete("A:\\home\\_user\\Documents\\sff.yaml").isOk(),
+        equals(true),
+      );
+      expect(
+        disk.delete("A:\\mnt\\usb 16G\\usb-file1.txt").isOk(),
+        equals(true),
+      );
+      expect(
+        disk.delete("A:\\mnt\\usb 16G\\usb-img.png").isOk(),
+        equals(true),
+      );
 
-      disk.delete("A:\\home\\_user\\Documents\\info.doc");
+      expect(
+        disk.delete("A:\\home\\miomit\\Documents\\pdf\\file1.pdf").isErr(),
+        equals(true),
+      );
 
-      expect(file.existsSync(), equals(false));
+      expect(
+        disk.delete("A:\\home\\_user\\Documents\\pdf\\file1.pdf").isErr(),
+        equals(true),
+      );
+      expect(
+        disk.delete("A:\\home\\_user\\Documents\\doc\\file1.doc").isErr(),
+        equals(true),
+      );
+      expect(
+        disk.delete("A:\\home\\_user\\Documents\\sff.yaml").isErr(),
+        equals(true),
+      );
+      expect(
+        disk.delete("A:\\mnt\\usb 16G\\usb-file1.txt").isErr(),
+        equals(true),
+      );
+      expect(
+        disk.delete("A:\\mnt\\usb 16G\\usb-img.png").isErr(),
+        equals(true),
+      );
+
+      expect(disk.umount("A").isOk(), equals(true));
     });
 
     test('Delete dir', () {
-      final file = disk.open("A:\\home\\_user\\Documents\\git.doc").unwrap();
-      final dir = disk.open("A:\\home\\_user\\Documents").unwrap();
+      expect(disk.mount(newTestFS(mntUsb: false)).isOk(), equals(true));
+      expect(disk.mount(newTestFS(name: "B")).isOk(), equals(true));
 
-      expect(file.existsSync(), equals(true));
-      expect(dir.existsSync(), equals(true));
-
-      disk.delete("A:\\home\\_user\\Documents");
-
-      expect(file.existsSync(), equals(false));
-      expect(dir.existsSync(), equals(false));
-
-      disk.delete("A:\\home\\_user");
+      expect(disk.delete("B:\\mnt\\usb 16G").isOk(), equals(true));
 
       final hashA = disk.open("A:\\").unwrap().hash;
-      final hashC = disk.open("C:\\").unwrap().hash;
+      final hashB = disk.open("B:\\").unwrap().hash;
 
-      expect(hashA == hashC, equals(true));
+      expect(hashA == hashB, equals(true));
+
+      expect(disk.umount("A").isOk(), equals(true));
+      expect(disk.umount("B").isOk(), equals(true));
     });
 
     test('Create dir and file', () {
+      expect(disk.mount(newTestFS(mntUsb: false)).isOk(), equals(true));
+      expect(disk.mount(newTestFS(name: "B")).isOk(), equals(true));
+
       expect(
         disk
             .create(
-              "A:\\home\\miomit",
+              "A:\\mnt\\usb 16G",
               FilesystemEntityTypeService.dir,
             )
             .isOk(),
@@ -165,7 +167,7 @@ void main() {
       expect(
         disk
             .create(
-              "A:\\home\\miomit\\sff.yaml",
+              "A:\\mnt\\usb 16G\\usb-file1.txt",
               FilesystemEntityTypeService.file,
             )
             .isOk(),
@@ -175,32 +177,20 @@ void main() {
       expect(
         disk
             .create(
-              "A:\\err\\file",
+              "A:\\mnt\\usb 16G\\usb-img.png",
               FilesystemEntityTypeService.file,
             )
-            .isErr(),
+            .isOk(),
         equals(true),
       );
 
-      expect(
-        disk
-            .create(
-              "H:\\file",
-              FilesystemEntityTypeService.file,
-            )
-            .isErr(),
-        equals(true),
-      );
+      final hashA = disk.open("A:\\").unwrap().hash;
+      final hashB = disk.open("B:\\").unwrap().hash;
 
-      expect(
-        disk
-            .create(
-              "",
-              FilesystemEntityTypeService.file,
-            )
-            .isErr(),
-        equals(true),
-      );
+      expect(hashA == hashB, equals(true));
+
+      expect(disk.umount("A").isOk(), equals(true));
+      expect(disk.umount("B").isOk(), equals(true));
     });
   });
 }
@@ -237,20 +227,21 @@ void main() {
 ///                             \
 ///                              | img1.png
 ///                              | ...
-IFilesystemService newTestFS([name = "A"]) {
+IFilesystemService newTestFS({String name = "A", bool mntUsb = true}) {
   return VirtualFilesystemService(
-    "A",
+    name,
     children: [
       Dir(
         "mnt",
         children: [
-          Dir(
-            "usb 16G",
-            children: [
-              File("usb-file1.txt"),
-              File("usb-img.png"),
-            ],
-          )
+          if (mntUsb)
+            Dir(
+              "usb 16G",
+              children: [
+                File("usb-file1.txt"),
+                File("usb-img.png"),
+              ],
+            )
         ],
       ),
       Dir("tmp"),
