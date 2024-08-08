@@ -30,4 +30,4 @@ copyDirRec(
 
 This library is under development. With each new version, a new feature will be added.
 
-Also, do not forget to look at the [documentation](https://raw.githack.com/miomit/sff_lib/main/doc/api/index.html).
+Also, do not forget to look at the [documentation](https://raw.githack.com/miomit/sff_lib/dev/doc/api/index.html).
