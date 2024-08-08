@@ -137,8 +137,8 @@ class VirtualFilesystemService implements IFilesystemService {
           file.reset();
           entity = Ok(file);
         } else if (entityIn case VirtualDirService dir) {
-          dir.reset();
-          entity = Ok(VirtualDirService.clone(dir));
+          //dir.reset();
+          entity = Ok(dir);
         }
 
         if (entity.andThen(dir.addChild) case Err(value: IOError ioErr)) {

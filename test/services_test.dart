@@ -261,7 +261,7 @@ void main() {
       const pathDirIn2 = "A:\\home\\_user\\Pictures";
 
       const pathDirOut1 = "A:\\tmp";
-      const pathDirOut2 = "A:\\tmp";
+      const pathDirOut2 = "B:\\tmp";
 
       expect(disk.move(pathDirIn1, pathDirOut1).isOk(), equals(true));
       expect(disk.move(pathDirIn2, pathDirOut2).isOk(), equals(true));
@@ -277,6 +277,12 @@ void main() {
 
       expect(disk.open(pathPdfFile).isOk(), equals(true));
       expect(disk.open(pathPngFile).isOk(), equals(true));
+
+      final filePdf = disk.open(pathPdfFile).unwrap();
+      final filePng = disk.open(pathPngFile).unwrap();
+
+      expect(filePdf.existsSync(), equals(true));
+      expect(filePng.existsSync(), equals(true));
 
       expect(disk.umount("A").isOk(), equals(true));
       expect(disk.umount("B").isOk(), equals(true));
