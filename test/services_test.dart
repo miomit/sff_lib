@@ -229,6 +229,58 @@ void main() {
       expect(disk.umount("A").isOk(), equals(true));
       expect(disk.umount("B").isOk(), equals(true));
     });
+
+    test('Move file', () {
+      expect(disk.mount(newTestFS()).isOk(), equals(true));
+      expect(disk.mount(newTestFS(name: "B")).isOk(), equals(true));
+
+      const pathFileIn1 = "A:\\home\\_user\\Documents\\sff.yaml";
+      const pathFileIn2 = "A:\\home\\_user\\Pictures\\img2.png";
+
+      const pathDirOut1 = "A:\\tmp";
+      const pathDirOut2 = "B:\\mnt\\usb 16G";
+
+      expect(disk.move(pathFileIn1, pathDirOut1).isOk(), equals(true));
+      expect(disk.move(pathFileIn2, pathDirOut2).isOk(), equals(true));
+
+      expect(disk.open(pathFileIn1).isErr(), equals(true));
+      expect(disk.open(pathFileIn2).isErr(), equals(true));
+
+      expect(disk.open("$pathDirOut1\\sff.yaml").isOk(), equals(true));
+      expect(disk.open("$pathDirOut2\\img2.png").isOk(), equals(true));
+
+      expect(disk.umount("A").isOk(), equals(true));
+      expect(disk.umount("B").isOk(), equals(true));
+    });
+
+    test('Move dir', () {
+      expect(disk.mount(newTestFS()).isOk(), equals(true));
+      expect(disk.mount(newTestFS(name: "B")).isOk(), equals(true));
+
+      const pathDirIn1 = "A:\\home\\_user\\Documents";
+      const pathDirIn2 = "A:\\home\\_user\\Pictures";
+
+      const pathDirOut1 = "A:\\tmp";
+      const pathDirOut2 = "A:\\tmp";
+
+      expect(disk.move(pathDirIn1, pathDirOut1).isOk(), equals(true));
+      expect(disk.move(pathDirIn2, pathDirOut2).isOk(), equals(true));
+
+      expect(disk.open(pathDirIn1).isErr(), equals(true));
+      expect(disk.open(pathDirIn2).isErr(), equals(true));
+
+      expect(disk.open("$pathDirOut1\\Documents").isOk(), equals(true));
+      expect(disk.open("$pathDirOut2\\Pictures").isOk(), equals(true));
+
+      const pathPdfFile = "$pathDirOut1\\Documents\\pdf\\file1.pdf";
+      const pathPngFile = "$pathDirOut2\\Pictures\\img1.png";
+
+      expect(disk.open(pathPdfFile).isOk(), equals(true));
+      expect(disk.open(pathPngFile).isOk(), equals(true));
+
+      expect(disk.umount("A").isOk(), equals(true));
+      expect(disk.umount("B").isOk(), equals(true));
+    });
   });
 }
 
