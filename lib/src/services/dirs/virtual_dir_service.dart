@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 import 'package:crypto/src/digest.dart';
@@ -243,6 +245,11 @@ class VirtualDirService implements IDirService, IStatDirService {
     var output = AccumulatorSink<Digest>();
     var input = sha1.startChunkedConversion(output);
 
+    // root name is ignored
+    if (_parent.isSome()) {
+      input.add(utf8.encode(_name));
+    }
+
     for (final IFilesystemEntityService entity in [
       ..._dirChildren,
       ..._fileChildren,
@@ -250,6 +257,7 @@ class VirtualDirService implements IDirService, IStatDirService {
       input.add(entity.hash.bytes);
     }
 
+    input.close();
     return output.events.single;
   }
 }

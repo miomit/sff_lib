@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:crypto/crypto.dart';
 import 'package:option_result/option.dart';
 import 'package:option_result/result.dart';
@@ -110,7 +112,7 @@ class VirtualFileService implements IFileService, IStatFileService {
   IStatService statSync() => this;
 
   @override
-  Digest get hash => sha1.convert(_data);
+  Digest get hash => sha1.convert([...utf8.encode(_name), ..._data]);
 
   @override
   Future<Result<IFilesystemEntityService, IOError>> rename(String newPath) {
