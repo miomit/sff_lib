@@ -114,5 +114,57 @@ void main() {
 
       expect(hashA == hashC, equals(true));
     });
+
+    test('Create dir and file', () {
+      expect(
+        disk
+            .create(
+              "A:\\home\\miomit",
+              FilesystemEntityTypeService.dir,
+            )
+            .isOk(),
+        equals(true),
+      );
+
+      expect(
+        disk
+            .create(
+              "A:\\home\\miomit\\sff.yaml",
+              FilesystemEntityTypeService.file,
+            )
+            .isOk(),
+        equals(true),
+      );
+
+      expect(
+        disk
+            .create(
+              "A:\\err\\file",
+              FilesystemEntityTypeService.file,
+            )
+            .isErr(),
+        equals(true),
+      );
+
+      expect(
+        disk
+            .create(
+              "H:\\file",
+              FilesystemEntityTypeService.file,
+            )
+            .isErr(),
+        equals(true),
+      );
+
+      expect(
+        disk
+            .create(
+              "",
+              FilesystemEntityTypeService.file,
+            )
+            .isErr(),
+        equals(true),
+      );
+    });
   });
 }
