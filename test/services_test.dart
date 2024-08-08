@@ -71,6 +71,42 @@ void main() {
       ));
     });
 
+    test('Open file and dir', () {
+      expect(disk.open("A").isErr(), equals(true));
+      expect(disk.open("A:\\").isOk(), equals(true));
+      expect(disk.open("a:\\").isErr(), equals(true));
+      expect(disk.open("A:\\home\\").isOk(), equals(true));
+      expect(disk.open("A:\\home").isOk(), equals(true));
+
+      expect(disk.open("A:\\home\\_user\\sff.yaml\\").isOk(), equals(true));
+
+      expect(
+        disk
+            .open("A:\\home\\_user\\sff.yaml")
+            .isOkAnd((entity) => entity is IFileService),
+        equals(true),
+      );
+
+      expect(
+        disk
+            .open("A:\\home\\_user\\sff.yaml")
+            .isOkAnd((entity) => entity is IDirService),
+        equals(false),
+      );
+
+      expect(
+        disk.open("A:\\home\\_user").isOkAnd((entity) => entity is IDirService),
+        equals(true),
+      );
+
+      expect(
+        disk
+            .open("A:\\home\\_user")
+            .isOkAnd((entity) => entity is IFileService),
+        equals(false),
+      );
+    });
+
     test('Equal disk A and B', () {
       final hashA = disk.open("A:\\").unwrap().hash;
       final hashB = disk.open("B:\\").unwrap().hash;
