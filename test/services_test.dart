@@ -106,6 +106,13 @@ void main() {
 
       expect(file.existsSync(), equals(false));
       expect(dir.existsSync(), equals(false));
+
+      disk.delete("A:\\home\\_user");
+
+      final hashA = disk.open("A:\\").unwrap().hash;
+      final hashC = disk.open("C:\\").unwrap().hash;
+
+      expect(hashA == hashC, equals(true));
     });
   });
 }
