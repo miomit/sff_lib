@@ -84,5 +84,28 @@ void main() {
 
       expect(hashC != hashB, equals(true));
     });
+
+    test('Delete file', () {
+      final file = disk.open("A:\\home\\_user\\Documents\\info.doc").unwrap();
+
+      expect(file.existsSync(), equals(true));
+
+      disk.delete("A:\\home\\_user\\Documents\\info.doc");
+
+      expect(file.existsSync(), equals(false));
+    });
+
+    test('Delete dir', () {
+      final file = disk.open("A:\\home\\_user\\Documents\\git.doc").unwrap();
+      final dir = disk.open("A:\\home\\_user\\Documents").unwrap();
+
+      expect(file.existsSync(), equals(true));
+      expect(dir.existsSync(), equals(true));
+
+      disk.delete("A:\\home\\_user\\Documents");
+
+      expect(file.existsSync(), equals(false));
+      expect(dir.existsSync(), equals(false));
+    });
   });
 }
