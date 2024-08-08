@@ -1,3 +1,6 @@
+import 'package:convert/convert.dart';
+import 'package:crypto/crypto.dart';
+import 'package:crypto/src/digest.dart';
 import 'package:option_result/option_result.dart';
 import 'package:option_result/result.dart';
 import 'package:path/path.dart';
@@ -233,5 +236,20 @@ class VirtualDirService implements IDirService, IStatDirService {
       Some() => _io.unwrap().move(path, newPath),
       None() => Err(IOError.doesNotExist),
     };
+  }
+
+  @override
+  Digest get hash {
+    var output = AccumulatorSink<Digest>();
+    var input = sha1.startChunkedConversion(output);
+
+    for (final IFilesystemEntityService entity in [
+      ..._dirChildren,
+      ..._fileChildren,
+    ]) {
+      input.add(entity.hash.bytes);
+    }
+
+    return output.events.single;
   }
 }

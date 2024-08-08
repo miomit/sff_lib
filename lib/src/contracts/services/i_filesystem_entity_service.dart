@@ -1,3 +1,4 @@
+import 'package:crypto/crypto.dart';
 import 'package:option_result/result.dart';
 import 'package:sff_lib/errors.dart';
 import 'package:sff_lib/services.dart';
@@ -8,6 +9,9 @@ abstract interface class IFilesystemEntityService {
   IDirService get parent;
 
   String get path;
+
+  /// Sha1 check sum file.
+  Digest get hash;
 
   /// Checks whether the file system entity with this path exists.
   Future<bool> exists();
