@@ -192,6 +192,43 @@ void main() {
       expect(disk.umount("A").isOk(), equals(true));
       expect(disk.umount("B").isOk(), equals(true));
     });
+
+    test('Copy file', () {
+      expect(disk.mount(newTestFS()).isOk(), equals(true));
+      expect(disk.mount(newTestFS(name: "B")).isOk(), equals(true));
+
+      const pathFileIn = "A:\\home\\_user\\Documents\\sff.yaml";
+      const pathDirOut1 = "A:\\mnt\\usb 16G";
+      const pathDirOut2 = "B:\\mnt\\usb 16G";
+
+      expect(disk.copy(pathFileIn, pathDirOut1).isOk(), equals(true));
+      expect(disk.copy(pathFileIn, pathDirOut2).isOk(), equals(true));
+
+      final hash1 = disk.open(pathFileIn).unwrap().hash;
+      final hash21 = disk.open("$pathDirOut1\\sff.yaml").unwrap().hash;
+      final hash22 = disk.open("$pathDirOut2\\sff.yaml").unwrap().hash;
+
+      expect(hash1 == hash21, equals(true));
+      expect(hash1 == hash22, equals(true));
+
+      expect(disk.umount("A").isOk(), equals(true));
+      expect(disk.umount("B").isOk(), equals(true));
+    });
+
+    test('Copy dir', () {
+      expect(disk.mount(newTestFS(mntUsb: false)).isOk(), equals(true));
+      expect(disk.mount(newTestFS(name: "B")).isOk(), equals(true));
+
+      expect(disk.copy("B:\\mnt\\usb 16G", "A:\\mnt\\").isOk(), equals(true));
+
+      final hashA = disk.open("A:\\").unwrap().hash;
+      final hashB = disk.open("B:\\").unwrap().hash;
+
+      expect(hashA == hashB, equals(true));
+
+      expect(disk.umount("A").isOk(), equals(true));
+      expect(disk.umount("B").isOk(), equals(true));
+    });
   });
 }
 
