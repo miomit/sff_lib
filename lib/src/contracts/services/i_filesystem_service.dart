@@ -12,7 +12,7 @@ abstract interface class IFilesystemService {
   bool disconnect();
 
   /// Deletes this [FilesystemEntityService]
-  bool delete(String path);
+  bool delete(String path, {bool recursive = false});
 
   /// Returns [FilesystemEntityService] on his path.
   FilesystemEntityService? open(String path);
