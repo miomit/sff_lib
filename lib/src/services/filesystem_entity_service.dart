@@ -12,7 +12,11 @@ class FilesystemEntityService {
   final String target;
 
   /// File system of the current entity.
-  IFilesystemService? get fs => DiskService.getFilesystemByTarget(target);
+  IFilesystemService get fs {
+    final fs = DiskService.getFilesystemByTarget(target);
+    if (fs == null) throw "File system is not mounted";
+    return fs;
+  }
 
   FilesystemEntityService(this.path) : target = rootPrefix(path);
 
@@ -20,20 +24,14 @@ class FilesystemEntityService {
   Future<bool> exists() => Future.value(existsSync());
 
   /// Synchronously checks whether the file system entity with this path exists.
-  bool existsSync() => fs?.open(path) != null ? true : false;
+  bool existsSync() => fs.open(path) != null ? true : false;
 
   /// Returns meta data of this entity.
-  StatService stat() {
-    if (fs == null) throw "File system is not mounted";
-    return fs!.stat(path);
-  }
+  StatService stat() => fs.stat(path);
 
   /// Renames this file system entity.
   ///
   /// Returns a [FilesystemEntityService] instance for the renamed entity.
   /// If `newPath` identifies an existing entity of the same type, that entity is removed first.
-  FilesystemEntityService rename(String newPath) {
-    if (fs == null) throw "File system is not mounted";
-    return fs!.move(path, newPath);
-  }
+  FilesystemEntityService rename(String newPath) => fs.move(path, newPath);
 }
