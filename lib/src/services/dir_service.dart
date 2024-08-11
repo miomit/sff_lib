@@ -29,4 +29,16 @@ class DirService extends FilesystemEntityService {
       }
     }
   }
+
+  DirService create({
+    bool recursive = false,
+  }) {
+    return fs.mkdir(path, recursive: recursive);
+  }
+
+  bool delete({
+    bool recursive = false,
+  }) {
+    return fs.delete(path, recursive: recursive);
+  }
 }
