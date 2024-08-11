@@ -1,59 +1,63 @@
-import 'dart:io';
-
-import 'package:option_result/option.dart';
-import 'package:option_result/result.dart';
 import 'package:sff_lib/services.dart';
-import 'package:sff_lib/src/errors/io_error.dart';
 
 class NativeFilesystemService implements IFilesystemService {
-  NativeDirService _root;
-  Option<IIOService> _io = None();
-
-  NativeFilesystemService(String path) : _root = NativeDirService(path);
-
   @override
-  Result<(), IOError> connect(IIOService io) {
-    _io = Some(io);
-    return Ok(());
+  bool connect() {
+    // TODO: implement connect
+    throw UnimplementedError();
   }
 
   @override
-  Result<IFilesystemEntityService, IOError> copy(
-    IFilesystemEntityService entityIn,
-    IDirService dirOut,
-  ) {
+  FileService copy(String pathIn, String pathOut) {
     // TODO: implement copy
     throw UnimplementedError();
   }
 
   @override
-  Result<(), IOError> delete(String path) {
+  bool delete(String path, {bool recursive = false}) {
     // TODO: implement delete
     throw UnimplementedError();
   }
 
   @override
-  Result<(), IOError> disconnect() {
+  bool disconnect() {
     // TODO: implement disconnect
     throw UnimplementedError();
   }
 
   @override
-  Result<IFilesystemEntityService, IOError> find(path) {
-    // TODO: implement disconnect
+  FilesystemEntityTypeService getType(String path) {
+    // TODO: implement getType
     throw UnimplementedError();
   }
 
   @override
-  Result<IFilesystemEntityService, IOError> mkdir(path) {
+  Stream<FilesystemEntityService> list(String path) {
+    // TODO: implement list
+    throw UnimplementedError();
+  }
+
+  @override
+  DirService mkdir(String path, {bool recursive = false}) {
     // TODO: implement mkdir
     throw UnimplementedError();
   }
 
   @override
-  Result<IFilesystemEntityService, IOError> move(
-      IFilesystemEntityService entityIn, IDirService dirOut) {
+  FilesystemEntityService move(String pathIn, String pathOut) {
     // TODO: implement move
+    throw UnimplementedError();
+  }
+
+  @override
+  FilesystemEntityService? open(String path) {
+    // TODO: implement open
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<List<int>> openRead(String path) {
+    // TODO: implement openRead
     throw UnimplementedError();
   }
 
@@ -62,7 +66,13 @@ class NativeFilesystemService implements IFilesystemService {
   String get rootPath => throw UnimplementedError();
 
   @override
-  Result<IFilesystemEntityService, IOError> touch(path) {
+  StatService stat(String path) {
+    // TODO: implement stat
+    throw UnimplementedError();
+  }
+
+  @override
+  FileService touch(String path, {bool recursive = false}) {
     // TODO: implement touch
     throw UnimplementedError();
   }
