@@ -17,8 +17,8 @@ abstract interface class IFilesystemService {
   /// Returns [FilesystemEntityService] on his path.
   FilesystemEntityService? open(String path);
 
-  /// Copies a file or directory.
-  FilesystemEntityService copy(String pathIn, String pathOut);
+  /// Copies a file.
+  FileService copy(String pathIn, String pathOut);
 
   /// Moves a file or directory.
   FilesystemEntityService move(String pathIn, String pathOut);
@@ -33,4 +33,6 @@ abstract interface class IFilesystemService {
   DirService mkdir(String path, {bool recursive = false});
 
   FileService touch(String path, {bool recursive = false});
+
+  Stream<List<int>> openRead(String path);
 }
