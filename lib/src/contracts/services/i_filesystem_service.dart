@@ -30,7 +30,7 @@ abstract interface class IFilesystemService {
 
   FilesystemEntityTypeService getType(String path);
 
-  FilesystemEntityService mkdir(String path, {bool recursive = false});
+  DirService mkdir(String path, {bool recursive = false});
 
-  FilesystemEntityService touch(String path, {bool recursive = false});
+  FileService touch(String path, {bool recursive = false});
 }
