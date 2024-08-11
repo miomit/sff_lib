@@ -1,18 +1,10 @@
 import 'package:option_result/result.dart';
-import 'package:path/path.dart';
 import 'package:sff_lib/services.dart';
 import 'package:sff_lib/src/errors/io_error.dart';
 
 /// Mechanism to set up a link to [IFilesystemService].
 class DiskService {
   static final Map<String, IFilesystemService> _disks = {};
-
-  static Result<IFilesystemEntityService, IOError> open(String path) {
-    return switch (_disks[rootPrefix(path)]) {
-      IFilesystemService fs => fs.find(path),
-      _ => Err(IOError.doesNotExist),
-    };
-  }
 
   /// Return the name of all connected [IFilesystemService].
   static List<String> getAllTarget() => _disks.keys.toList();
