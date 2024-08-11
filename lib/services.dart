@@ -1,7 +1,6 @@
 // Copyright (C) 2024 Yura Movsesyan
 library;
 
-export 'src/contracts/services/i_io_service.dart';
 export 'src/contracts/services/i_filesystem_service.dart';
 
 export 'src/services/dir_service.dart';
