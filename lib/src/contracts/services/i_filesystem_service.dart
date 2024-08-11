@@ -29,4 +29,8 @@ abstract interface class IFilesystemService {
   Stream<FilesystemEntityService> list(String path);
 
   FilesystemEntityTypeService getType(String path);
+
+  FilesystemEntityService mkdir(String path, {bool recursive = false});
+
+  FilesystemEntityService touch(String path, {bool recursive = false});
 }
