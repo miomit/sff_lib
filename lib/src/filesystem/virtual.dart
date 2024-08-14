@@ -53,6 +53,8 @@ class Virtual implements IFileSystem {
       }
       return null;
     }
+
+    return entity;
   }
 
   @override
