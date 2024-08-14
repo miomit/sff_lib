@@ -3,16 +3,18 @@ import 'package:test/test.dart';
 
 void main() {
   group('Disk', () {
-    test("getFileSystemAndRelativePathByPath", () {
-      var disk = Disk();
+    group('getFileSystemAndRelativePathByPath', () {
+      group('Without fs', () {
+        test(r"'' -> (null, null)", () {});
 
-      final path1 = r"C:\";
-      final path2 = r"C:\user_\";
-      final path3 = r"C:\Users\user_\OneDrive\Рабочий стол\sff_lib";
+        test(r"F:\ -> (null, '\')", () {});
 
-      final (fs, rPath) = disk.getFileSystemAndRelativePathByPath(path1);
-      expect(fs, equals(null));
-      expect(rPath, equals(null));
+        test(r"F:\user_ -> (null, '\user_')", () {});
+
+        test(r"F:\user_\ -> (null, '\user_')", () {});
+
+        test(r"USB:\img\info.png -> (null, '\img\info.png')", () {});
+      });
     });
   });
 
