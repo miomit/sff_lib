@@ -59,10 +59,10 @@ void main() {
           );
         });
 
-        test(r"USB:\img\info.png -> (null, '\img\info.png')", () {
+        test(r"U:\img\info.png -> (null, '\img\info.png')", () {
           expect(
             Disk.io.getFileSystemAndRelativePathByPath(
-              r"USB:\img\info.png",
+              r"U:\img\info.png",
             ),
             equals((null, r'\img\info.png')),
           );
