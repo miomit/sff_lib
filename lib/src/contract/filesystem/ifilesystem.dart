@@ -3,21 +3,25 @@ import 'package:sff_lib/filesystem.dart';
 /// Mechanism for working with file system.
 abstract interface class IFileSystem {
   /// Method for connecting the file system.
-  bool connect();
+  void connect();
 
   /// Method for disconnecting the file system.
-  bool disconnect();
+  void disconnect();
 
   /// Returns [Entity] on his path.
   Entity? open(String path);
 
-  void create(Entity entity, {bool recursive = false});
+  void create(
+    String path, {
+    bool recursive = false,
+    EntityType type = EntityType.file,
+  });
 
   /// Deletes this [Entity]
   bool delete(String path, {bool recursive = false});
 
   /// Copies a file.
-  Entity copy(String pathIn, String pathOut);
+  Entity copy(String filePath, String dirPath);
 
   /// Moves a file or directory.
   Entity move(String pathIn, String pathOut);
@@ -25,7 +29,7 @@ abstract interface class IFileSystem {
   /// Returns [Stat] for [Entity].
   Stat stat(String path);
 
-  Stream<Entity> list(String path);
+  Stream<Entity> list(String dirPath);
 
-  Stream<int> openRead(String file);
+  Stream<int> openRead(String filePath);
 }
