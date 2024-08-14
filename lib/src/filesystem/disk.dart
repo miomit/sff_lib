@@ -8,15 +8,9 @@ class Disk implements IFileSystem {
 
   List<String> get targets => _fileSystems.keys.toList();
 
-  (IFileSystem?, String?) getFileSystemAndRelativePathByPath(String path) {
-    var target = rootPrefix(path);
-    if (target != "") {
-      var relativePath = relative(path, from: target);
-      if (relativePath != "") {
-        return (_fileSystems[target], relativePath);
-      }
-    }
-    return (null, null);
+  (IFileSystem?, String) getFileSystemAndRelativePathByPath(String path) {
+    final target = rootPrefix(path);
+    return (_fileSystems[target], relative(path, from: target));
   }
 
   void mount(String target, IFileSystem fs) {
@@ -50,7 +44,7 @@ class Disk implements IFileSystem {
   @override
   Entity? open(String path) {
     var (fs, rPath) = getFileSystemAndRelativePathByPath(path);
-    if (fs != null && rPath != null) {
+    if (fs != null) {
       if (fs.open(rPath) case Entity entity) {
         entity.path = join(rootPrefix(path), entity.path);
         return entity;
@@ -66,7 +60,7 @@ class Disk implements IFileSystem {
     EntityType type = EntityType.file,
   }) {
     var (fs, rPath) = getFileSystemAndRelativePathByPath(path);
-    if (fs != null && rPath != null) {
+    if (fs != null) {
       return fs.create(rPath, recursive: recursive, type: type);
     }
     throw "[Disk]: FileSystems don't mount.";
@@ -75,7 +69,7 @@ class Disk implements IFileSystem {
   @override
   Entity copy(String filePath, String dirPath) {
     var (fs, rPath) = getFileSystemAndRelativePathByPath(filePath);
-    if (fs != null && rPath != null) {
+    if (fs != null) {
       return fs.copy(rPath, dirPath);
     }
     throw "[Disk]: FileSystems don't mount.";
@@ -84,7 +78,7 @@ class Disk implements IFileSystem {
   @override
   Entity move(String pathIn, String pathOut) {
     var (fs, rPath) = getFileSystemAndRelativePathByPath(pathIn);
-    if (fs != null && rPath != null) {
+    if (fs != null) {
       return fs.copy(rPath, pathOut);
     }
     throw "[Disk]: FileSystems don't mount.";
@@ -93,7 +87,7 @@ class Disk implements IFileSystem {
   @override
   bool delete(String path, {bool recursive = false}) {
     var (fs, rPath) = getFileSystemAndRelativePathByPath(path);
-    if (fs != null && rPath != null) {
+    if (fs != null) {
       return fs.delete(rPath, recursive: recursive);
     }
     throw "[Disk]: FileSystems don't mount.";
@@ -102,7 +96,7 @@ class Disk implements IFileSystem {
   @override
   Stream<Entity> list(String dirPath) async* {
     var (fs, rPath) = getFileSystemAndRelativePathByPath(dirPath);
-    if (fs != null && rPath != null) {
+    if (fs != null) {
       yield* fs.list(rPath);
     }
   }
@@ -110,7 +104,7 @@ class Disk implements IFileSystem {
   @override
   Stream<int> openRead(String filePath) async* {
     var (fs, rPath) = getFileSystemAndRelativePathByPath(filePath);
-    if (fs != null && rPath != null) {
+    if (fs != null) {
       yield* fs.openRead(rPath);
     }
   }
@@ -118,7 +112,7 @@ class Disk implements IFileSystem {
   @override
   Stat stat(String path) {
     var (fs, rPath) = getFileSystemAndRelativePathByPath(path);
-    if (fs != null && rPath != null) {
+    if (fs != null) {
       return fs.stat(rPath);
     }
     throw "[Disk]: FileSystems don't mount.";
