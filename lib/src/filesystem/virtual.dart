@@ -1,20 +1,67 @@
+import 'package:path/path.dart';
 import 'package:sff_lib/filesystem.dart';
 
+class VEntity {
+  final String name;
+  final DateTime created;
+  VEntity(this.name) : created = DateTime.now();
+}
+
+class VDir extends VEntity {
+  final Map<String, VEntity> children;
+
+  VDir(
+    super.name, {
+    Map<String, VEntity>? children,
+  }) : children = children ?? {};
+
+  VDir.root() : this("");
+}
+
+class VFile extends VEntity {
+  DateTime changed;
+  List<int> data;
+  VFile(
+    super.name, {
+    List<int>? data,
+  })  : changed = DateTime.now(),
+        data = data ?? [];
+}
+
 class Virtual implements IFileSystem {
+  final VDir root = VDir.root();
+
   @override
   void connect() {
-    // TODO: implement connect
+    print("[Virtual FileSystem] connected");
   }
 
   @override
   void disconnect() {
-    // TODO: implement disconnect
+    print("[Virtual FileSystem] disconnected");
+  }
+
+  VEntity? virtualOpen(String path) {
+    VEntity entity = root;
+
+    for (final name in split(path)) {
+      if (entity case VDir dir) {
+        if (dir.children[name] != null) {
+          entity = dir.children[name]!;
+          continue;
+        }
+      }
+      return null;
+    }
   }
 
   @override
   Entity? open(String path) {
-    // TODO: implement open
-    throw UnimplementedError();
+    return switch (virtualOpen(path)) {
+      VDir() => Dir(path),
+      VFile() => File(path),
+      _ => null,
+    };
   }
 
   @override
@@ -23,7 +70,31 @@ class Virtual implements IFileSystem {
     bool recursive = false,
     EntityType type = EntityType.file,
   }) {
-    // TODO: implement create
+    final [...dirNames, entityName] = split(path);
+    VEntity entity = root;
+    for (final dirName in dirNames) {
+      if (entity case VDir dir) {
+        if (dir.children[dirName] != null) {
+          entity = dir.children[dirName]!;
+          continue;
+        } else if (recursive) {
+          dir.children[dirName] = entity = VDir(dirName);
+          continue;
+        }
+      }
+      return;
+    }
+
+    if (entity case VDir dir) {
+      if (dir.children[entityName] == null) {
+        dir.children[entityName] = switch (type) {
+          EntityType.file => VFile(entityName),
+          EntityType.dir => VDir(entityName)
+        };
+      } else {
+        throw "[Virtual FileSystem]: file or dir with also name exists!";
+      }
+    }
   }
 
   @override
@@ -40,20 +111,29 @@ class Virtual implements IFileSystem {
 
   @override
   bool delete(String path, {bool recursive = false}) {
-    // TODO: implement delete
-    throw UnimplementedError();
+    if (virtualOpen(dirname(path)) case VDir dir) {
+      return dir.children.remove(basename(path)) != null ? true : false;
+    }
+
+    return false;
   }
 
   @override
-  Stream<Entity> list(String dirPath) {
-    // TODO: implement list
-    throw UnimplementedError();
+  Stream<Entity> list(String dirPath) async* {
+    if (virtualOpen(dirPath) case VDir dir) {
+      for (final name in dir.children.keys) {
+        yield open("$dirPath\\$name")!;
+      }
+    }
   }
 
   @override
-  Stream<int> openRead(String filePath) {
-    // TODO: implement openRead
-    throw UnimplementedError();
+  Stream<List<int>> openRead(String filePath) async* {
+    if (virtualOpen(filePath) case VFile file) {
+      for (int i = 0; i < file.data.length; i += 250) {
+        yield file.data.sublist(i, i + 250);
+      }
+    }
   }
 
   @override
