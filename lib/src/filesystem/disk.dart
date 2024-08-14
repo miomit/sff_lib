@@ -19,6 +19,28 @@ class Disk implements IFileSystem {
     return (null, null);
   }
 
+  void mount(String target, IFileSystem fs) {
+    if (_fileSystems[target] == null) {
+      try {
+        fs.connect();
+      } catch (_) {
+        rethrow;
+      }
+      _fileSystems[target] = fs;
+    }
+  }
+
+  void unmount(String target) {
+    if (_fileSystems[target] != null) {
+      try {
+        _fileSystems[target]!.disconnect();
+      } catch (_) {
+        rethrow;
+      }
+      _fileSystems.remove(target);
+    }
+  }
+
   @override
   void connect() {}
 
