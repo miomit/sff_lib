@@ -9,6 +9,9 @@ export 'src/contract/filesystem/ifilesystem.dart';
 export 'src/filesystem/entity.dart';
 export 'src/filesystem/entity_type.dart';
 
+export 'src/filesystem/dir.dart';
+export 'src/filesystem/file.dart';
+
 export 'src/filesystem/disk.dart';
 
 export 'src/filesystem/native.dart';
