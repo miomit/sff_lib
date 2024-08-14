@@ -110,7 +110,7 @@ class Disk implements IFileSystem {
   }
 
   @override
-  Stream<int> openRead(String filePath) async* {
+  Stream<List<int>> openRead(String filePath) async* {
     var (fs, rPath) = getFileSystemAndRelativePathByPath(filePath);
     if (fs != null && rPath != null) {
       yield* fs.openRead(rPath);

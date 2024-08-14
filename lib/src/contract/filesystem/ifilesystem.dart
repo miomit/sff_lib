@@ -31,5 +31,5 @@ abstract interface class IFileSystem {
 
   Stream<Entity> list(String dirPath);
 
-  Stream<int> openRead(String filePath);
+  Stream<List<int>> openRead(String filePath);
 }

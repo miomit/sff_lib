@@ -47,7 +47,7 @@ class Native implements IFileSystem {
   }
 
   @override
-  Stream<int> openRead(String filePath) {
+  Stream<List<int>> openRead(String filePath) {
     // TODO: implement openRead
     throw UnimplementedError();
   }
