@@ -112,6 +112,12 @@ class Virtual implements IFileSystem {
   }
 
   @override
+  bool exists(String path) {
+    // TODO: implement exists
+    throw UnimplementedError();
+  }
+
+  @override
   Stream<Entity> list(String dirPath) async* {
     if (open(dirPath) case VDir dir) {
       for (final child in dir.children.values) {

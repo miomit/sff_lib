@@ -90,6 +90,12 @@ class Disk implements IFileSystem {
   }
 
   @override
+  bool exists(String path) {
+    // TODO: implement exists
+    throw UnimplementedError();
+  }
+
+  @override
   Stream<Entity> list(String dirPath) async* {
     var (fs, rPath) = getFileSystemAndRelativePathByPath(dirPath);
     if (fs != null && rPath != null) {

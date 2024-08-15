@@ -17,6 +17,8 @@ abstract interface class IFileSystem {
   /// Deletes this [Entity]
   bool delete(String path, {bool recursive = false});
 
+  bool exists(String path);
+
   /// Copies a file.
   Entity copy(String filePath, String dirPath);
 

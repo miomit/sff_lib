@@ -35,6 +35,12 @@ class Native implements IFileSystem {
   }
 
   @override
+  bool exists(String path) {
+    // TODO: implement exists
+    throw UnimplementedError();
+  }
+
+  @override
   Stream<Entity> list(String dirPath) {
     // TODO: implement list
     throw UnimplementedError();
