@@ -41,7 +41,10 @@ class Virtual implements IFileSystem {
     print("[Virtual FileSystem] disconnected");
   }
 
-  VEntity? open(String path) {
+  VEntity? open(
+    String path, {
+    EntityType type = EntityType.file,
+  }) {
     VEntity entity = root;
 
     for (final name in split(path)) {
@@ -54,7 +57,12 @@ class Virtual implements IFileSystem {
       return null;
     }
 
-    return entity;
+    if (type == EntityType.file && entity is VFile ||
+        type == EntityType.dir && entity is VDir) {
+      return entity;
+    }
+
+    return null;
   }
 
   @override
@@ -124,7 +132,7 @@ class Virtual implements IFileSystem {
     String path, {
     EntityType type = EntityType.file,
   }) =>
-      open(path) != null ? true : false;
+      open(path, type: type) != null ? true : false;
 
   @override
   Stream<Entity> list(String dirPath) async* {
