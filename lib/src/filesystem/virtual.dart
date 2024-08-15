@@ -112,10 +112,7 @@ class Virtual implements IFileSystem {
   }
 
   @override
-  bool exists(String path) {
-    // TODO: implement exists
-    throw UnimplementedError();
-  }
+  bool exists(String path) => open(path) != null ? true : false;
 
   @override
   Stream<Entity> list(String dirPath) async* {

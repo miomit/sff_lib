@@ -91,8 +91,11 @@ class Disk implements IFileSystem {
 
   @override
   bool exists(String path) {
-    // TODO: implement exists
-    throw UnimplementedError();
+    var (fs, rPath) = getFileSystemAndRelativePathByPath(path);
+    if (fs != null && rPath != null) {
+      return fs.exists(rPath);
+    }
+    throw "[Disk]: FileSystems don't mount.";
   }
 
   @override
