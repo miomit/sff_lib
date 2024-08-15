@@ -10,6 +10,30 @@ class VEntity {
 class VDir extends VEntity {
   final Map<String, VEntity> children;
 
+  int get size {
+    int size = 0;
+    for (final child in children.values) {
+      if (child case VFile file) {
+        size += file.data.length;
+      } else if (child case VDir dir) {
+        size += dir.size;
+      }
+    }
+    return size;
+  }
+
+  int get count {
+    int count = 0;
+    for (final child in children.values) {
+      if (child is File) {
+        count += 1;
+      } else if (child case VDir dir) {
+        count += dir.count;
+      }
+    }
+    return count;
+  }
+
   VDir(
     super.name, {
     Map<String, VEntity>? children,
@@ -161,7 +185,31 @@ class Virtual implements IFileSystem {
     String path, {
     EntityType type = EntityType.file,
   }) {
-    // TODO: implement stat
-    throw UnimplementedError();
+    if (type == EntityType.file) {
+      if (open(path) case VFile file) {
+        return FileStat(
+          path: path,
+          type: type,
+          size: file.data.length,
+          created: file.created,
+          changed: file.changed,
+        );
+      } else {
+        throw "[Virtual filesystem] file not exists!";
+      }
+    } else if (type == EntityType.dir) {
+      if (open(path) case VDir dir) {
+        return DirStat(
+          path: path,
+          type: type,
+          size: dir.size,
+          created: dir.created,
+          count: Future.value(dir.count),
+        );
+      } else {
+        throw "[Virtual filesystem] dir not exists!";
+      }
+    }
+    throw "[Virtual filesystem] unsupported format!";
   }
 }
