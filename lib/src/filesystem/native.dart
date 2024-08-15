@@ -1,8 +1,19 @@
+import 'dart:io' as io;
+
+import 'package:path/path.dart';
 import 'package:sff_lib/filesystem.dart';
 
 class Native implements IFileSystem {
+  final io.Directory root;
+
+  Native(String path) : root = io.Directory(path);
+
   @override
-  void connect() {}
+  void connect() {
+    if (!root.existsSync()) {
+      root.createSync();
+    }
+  }
 
   @override
   void disconnect() {}
@@ -13,7 +24,11 @@ class Native implements IFileSystem {
     bool recursive = false,
     EntityType type = EntityType.file,
   }) {
-    // TODO: implement create
+    final nPath = join(root.path, path);
+    return switch (type) {
+      EntityType.file => io.File(nPath).createSync(recursive: recursive),
+      EntityType.dir => io.Directory(nPath).createSync(recursive: recursive),
+    };
   }
 
   @override
@@ -23,21 +38,38 @@ class Native implements IFileSystem {
   }
 
   @override
-  Entity move(String pathIn, String pathOut) {
+  Entity move(
+    String pathIn,
+    String pathOut, {
+    EntityType type = EntityType.file,
+  }) {
     // TODO: implement move
     throw UnimplementedError();
   }
 
   @override
-  bool delete(String path, {bool recursive = false}) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  void delete(
+    String path, {
+    bool recursive = false,
+    EntityType type = EntityType.file,
+  }) {
+    final nPath = join(root.path, path);
+    return switch (type) {
+      EntityType.file => io.File(nPath).deleteSync(recursive: recursive),
+      EntityType.dir => io.Directory(nPath).deleteSync(recursive: recursive),
+    };
   }
 
   @override
-  bool exists(String path) {
-    // TODO: implement exists
-    throw UnimplementedError();
+  bool exists(
+    String path, {
+    EntityType type = EntityType.file,
+  }) {
+    final nPath = join(root.path, path);
+    return switch (type) {
+      EntityType.file => io.File(nPath).existsSync(),
+      EntityType.dir => io.Directory(nPath).existsSync(),
+    };
   }
 
   @override
@@ -53,7 +85,10 @@ class Native implements IFileSystem {
   }
 
   @override
-  Stat stat(String path) {
+  Stat stat(
+    String path, {
+    EntityType type = EntityType.file,
+  }) {
     // TODO: implement stat
     throw UnimplementedError();
   }

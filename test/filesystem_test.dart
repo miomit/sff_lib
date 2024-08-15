@@ -71,7 +71,7 @@ void main() {
 
       group("With fs", () {
         final aFS = Virtual();
-        final bFS = Native();
+        final bFS = Native(r"C:\");
         final cFS = Virtual();
 
         setUp(() {
