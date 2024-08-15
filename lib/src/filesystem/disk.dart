@@ -50,18 +50,6 @@ class Disk implements IFileSystem {
   void disconnect() {}
 
   @override
-  Entity? open(String path) {
-    var (fs, rPath) = getFileSystemAndRelativePathByPath(path);
-    if (fs != null && rPath != null) {
-      if (fs.open(rPath) case Entity entity) {
-        entity.path = join(rootPrefix(path), entity.path);
-        return entity;
-      }
-    }
-    return null;
-  }
-
-  @override
   void create(
     String path, {
     bool recursive = false,

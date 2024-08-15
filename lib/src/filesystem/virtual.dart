@@ -58,15 +58,6 @@ class Virtual implements IFileSystem {
   }
 
   @override
-  Entity? open(String path) {
-    return switch (virtualOpen(path)) {
-      VDir() => Dir(path),
-      VFile() => File(path),
-      _ => null,
-    };
-  }
-
-  @override
   void create(
     String path, {
     bool recursive = false,
@@ -123,8 +114,12 @@ class Virtual implements IFileSystem {
   @override
   Stream<Entity> list(String dirPath) async* {
     if (virtualOpen(dirPath) case VDir dir) {
-      for (final name in dir.children.keys) {
-        yield open("$dirPath\\$name")!;
+      for (final child in dir.children.values) {
+        yield switch (child) {
+          VDir(name: String name) => Dir("$dirPath\\$name"),
+          VFile(name: String name) => File("dirPath\\$name"),
+          VEntity() => throw UnimplementedError(),
+        };
       }
     }
   }

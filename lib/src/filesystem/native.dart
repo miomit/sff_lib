@@ -8,12 +8,6 @@ class Native implements IFileSystem {
   void disconnect() {}
 
   @override
-  Entity? open(String path) {
-    // TODO: implement open
-    throw UnimplementedError();
-  }
-
-  @override
   void create(
     String path, {
     bool recursive = false,

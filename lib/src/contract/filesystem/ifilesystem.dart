@@ -8,9 +8,6 @@ abstract interface class IFileSystem {
   /// Method for disconnecting the file system.
   void disconnect();
 
-  /// Returns [Entity] on his path.
-  Entity? open(String path);
-
   void create(
     String path, {
     bool recursive = false,
