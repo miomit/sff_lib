@@ -15,18 +15,32 @@ abstract interface class IFileSystem {
   });
 
   /// Deletes this [Entity]
-  bool delete(String path, {bool recursive = false});
+  bool delete(
+    String path, {
+    bool recursive = false,
+    EntityType type = EntityType.file,
+  });
 
-  bool exists(String path);
+  bool exists(
+    String path, {
+    EntityType type = EntityType.file,
+  });
 
   /// Copies a file.
   Entity copy(String filePath, String dirPath);
 
   /// Moves a file or directory.
-  Entity move(String pathIn, String pathOut);
+  Entity move(
+    String pathIn,
+    String pathOut, {
+    EntityType type = EntityType.file,
+  });
 
   /// Returns [Stat] for [Entity].
-  Stat stat(String path);
+  Stat stat(
+    String path, {
+    EntityType type = EntityType.file,
+  });
 
   Stream<Entity> list(String dirPath);
 

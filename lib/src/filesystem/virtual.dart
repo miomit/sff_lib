@@ -97,13 +97,21 @@ class Virtual implements IFileSystem {
   }
 
   @override
-  Entity move(String pathIn, String pathOut) {
+  Entity move(
+    String pathIn,
+    String pathOut, {
+    EntityType type = EntityType.file,
+  }) {
     // TODO: implement move
     throw UnimplementedError();
   }
 
   @override
-  bool delete(String path, {bool recursive = false}) {
+  bool delete(
+    String path, {
+    bool recursive = false,
+    EntityType type = EntityType.file,
+  }) {
     if (open(dirname(path)) case VDir dir) {
       return dir.children.remove(basename(path)) != null ? true : false;
     }
@@ -112,7 +120,11 @@ class Virtual implements IFileSystem {
   }
 
   @override
-  bool exists(String path) => open(path) != null ? true : false;
+  bool exists(
+    String path, {
+    EntityType type = EntityType.file,
+  }) =>
+      open(path) != null ? true : false;
 
   @override
   Stream<Entity> list(String dirPath) async* {
@@ -137,7 +149,10 @@ class Virtual implements IFileSystem {
   }
 
   @override
-  Stat stat(String path) {
+  Stat stat(
+    String path, {
+    EntityType type = EntityType.file,
+  }) {
     // TODO: implement stat
     throw UnimplementedError();
   }

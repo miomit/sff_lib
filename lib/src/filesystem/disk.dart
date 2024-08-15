@@ -72,7 +72,11 @@ class Disk implements IFileSystem {
   }
 
   @override
-  Entity move(String pathIn, String pathOut) {
+  Entity move(
+    String pathIn,
+    String pathOut, {
+    EntityType type = EntityType.file,
+  }) {
     var (fs, rPath) = getFileSystemAndRelativePathByPath(pathIn);
     if (fs != null && rPath != null) {
       return fs.copy(rPath, pathOut);
@@ -81,7 +85,11 @@ class Disk implements IFileSystem {
   }
 
   @override
-  bool delete(String path, {bool recursive = false}) {
+  bool delete(
+    String path, {
+    bool recursive = false,
+    EntityType type = EntityType.file,
+  }) {
     var (fs, rPath) = getFileSystemAndRelativePathByPath(path);
     if (fs != null && rPath != null) {
       return fs.delete(rPath, recursive: recursive);
@@ -90,7 +98,10 @@ class Disk implements IFileSystem {
   }
 
   @override
-  bool exists(String path) {
+  bool exists(
+    String path, {
+    EntityType type = EntityType.file,
+  }) {
     var (fs, rPath) = getFileSystemAndRelativePathByPath(path);
     if (fs != null && rPath != null) {
       return fs.exists(rPath);
@@ -115,7 +126,10 @@ class Disk implements IFileSystem {
   }
 
   @override
-  Stat stat(String path) {
+  Stat stat(
+    String path, {
+    EntityType type = EntityType.file,
+  }) {
     var (fs, rPath) = getFileSystemAndRelativePathByPath(path);
     if (fs != null && rPath != null) {
       return fs.stat(rPath);
