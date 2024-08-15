@@ -18,3 +18,4 @@ export 'src/filesystem/native.dart';
 export 'src/filesystem/virtual.dart';
 
 export 'src/filesystem/stat.dart';
+export 'src/filesystem/file_type.dart';
