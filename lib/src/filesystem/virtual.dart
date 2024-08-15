@@ -41,7 +41,7 @@ class Virtual implements IFileSystem {
     print("[Virtual FileSystem] disconnected");
   }
 
-  VEntity? virtualOpen(String path) {
+  VEntity? open(String path) {
     VEntity entity = root;
 
     for (final name in split(path)) {
@@ -104,7 +104,7 @@ class Virtual implements IFileSystem {
 
   @override
   bool delete(String path, {bool recursive = false}) {
-    if (virtualOpen(dirname(path)) case VDir dir) {
+    if (open(dirname(path)) case VDir dir) {
       return dir.children.remove(basename(path)) != null ? true : false;
     }
 
@@ -113,7 +113,7 @@ class Virtual implements IFileSystem {
 
   @override
   Stream<Entity> list(String dirPath) async* {
-    if (virtualOpen(dirPath) case VDir dir) {
+    if (open(dirPath) case VDir dir) {
       for (final child in dir.children.values) {
         yield switch (child) {
           VDir(name: String name) => Dir("$dirPath\\$name"),
@@ -126,7 +126,7 @@ class Virtual implements IFileSystem {
 
   @override
   Stream<List<int>> openRead(String filePath) async* {
-    if (virtualOpen(filePath) case VFile file) {
+    if (open(filePath) case VFile file) {
       for (int i = 0; i < file.data.length; i += 250) {
         yield file.data.sublist(i, i + 250);
       }
