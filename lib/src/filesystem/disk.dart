@@ -85,7 +85,7 @@ class Disk implements IFileSystem {
   }
 
   @override
-  bool delete(
+  void delete(
     String path, {
     bool recursive = false,
     EntityType type = EntityType.file,

@@ -107,16 +107,16 @@ class Virtual implements IFileSystem {
   }
 
   @override
-  bool delete(
+  void delete(
     String path, {
     bool recursive = false,
     EntityType type = EntityType.file,
   }) {
     if (open(dirname(path)) case VDir dir) {
-      return dir.children.remove(basename(path)) != null ? true : false;
+      dir.children.remove(basename(path)) != null ? true : false;
+    } else {
+      throw "[Virtual FileSystem]: dir not exists!";
     }
-
-    return false;
   }
 
   @override

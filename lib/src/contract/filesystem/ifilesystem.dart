@@ -15,7 +15,7 @@ abstract interface class IFileSystem {
   });
 
   /// Deletes this [Entity]
-  bool delete(
+  void delete(
     String path, {
     bool recursive = false,
     EntityType type = EntityType.file,
