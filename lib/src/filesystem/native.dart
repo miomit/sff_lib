@@ -2,6 +2,7 @@ import 'dart:io' as io;
 
 import 'package:path/path.dart';
 import 'package:sff_lib/filesystem.dart';
+import 'package:sff_lib/src/filesystem/file.dart';
 
 class Native implements IFileSystem {
   final io.Directory root;
@@ -73,9 +74,16 @@ class Native implements IFileSystem {
   }
 
   @override
-  Stream<Entity> list(String dirPath) {
-    // TODO: implement list
-    throw UnimplementedError();
+  Stream<Entity> list(String dirPath) async* {
+    final nPath = join(root.path, dirPath);
+    await for (final entity in io.Directory(nPath).list()) {
+      final rPath = relative(entity.path, from: root.path);
+      yield switch (entity.statSync().type) {
+        io.FileSystemEntityType.file => File(rPath),
+        io.FileSystemEntityType.directory => Dir(rPath),
+        _ => throw "[Native filesystem] unsupported format!",
+      };
+    }
   }
 
   @override
