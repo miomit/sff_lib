@@ -19,18 +19,14 @@ class FileStat extends Stat {
 }
 
 class DirStat extends Stat {
-  Future<int> fileCount;
-  Future<int> dirCount;
-
-  Future<int> get entityCount async => await fileCount + await dirCount;
+  Future<int> count;
 
   DirStat({
     required super.path,
     required super.type,
     required super.size,
     required super.created,
-    required this.fileCount,
-    required this.dirCount,
+    required this.count,
     super.relativePath,
   });
 }
