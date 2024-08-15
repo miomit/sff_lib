@@ -88,8 +88,8 @@ class Native implements IFileSystem {
 
   @override
   Stream<List<int>> openRead(String filePath) {
-    // TODO: implement openRead
-    throw UnimplementedError();
+    final nPath = join(root.path, filePath);
+    return io.File(nPath).openRead();
   }
 
   @override
