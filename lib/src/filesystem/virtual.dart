@@ -220,23 +220,31 @@ class Virtual implements IFileSystem {
     return File(join(dirPathOut, file.name));
   }
 
-  static File moveVirtualToVirtual({
+  static Entity moveVirtualToVirtual({
     required String filePathIn,
     required String dirPathOut,
     required Virtual fsIn,
     required Virtual fsOut,
+    EntityType type = EntityType.file,
   }) {
-    final file = fsIn.open(filePathIn)! as VFile;
-    final dirIn = fsOut.open(dirname(filePathIn))! as VDir;
-    final dirOut = fsOut.open(dirPathOut)! as VDir;
+    final entity = fsIn.open(filePathIn, type: type)!;
+    final dirOut = fsOut.open(dirPathOut, type: EntityType.dir)! as VDir;
+    final dirIn = fsOut.open(
+      dirname(filePathIn),
+      type: EntityType.dir,
+    )! as VDir;
 
-    if (dirOut.children[file.name] == null) {
-      dirOut.children[file.name] = file;
-      dirIn.children.remove(file.name);
+    if (dirOut.children[entity.name] == null) {
+      dirOut.children[entity.name] = entity;
+      dirIn.children.remove(entity.name);
     } else {
       throw "[Virtual FileSystem]: file or dir with also name exists!";
     }
 
-    return File(join(dirPathOut, file.name));
+    final path = join(dirPathOut, entity.name);
+    return switch (type) {
+      EntityType.dir => Dir(path),
+      EntityType.file => File(path),
+    };
   }
 }

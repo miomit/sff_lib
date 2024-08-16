@@ -128,16 +128,24 @@ class Native implements IFileSystem {
     return File(pathOut);
   }
 
-  static File moveNativeToNative({
+  static Entity moveNativeToNative({
     required String pathIn,
     required String pathOut,
     required Native fsIn,
     required Native fsOut,
+    EntityType type = EntityType.file,
   }) {
     final nPathIn = join(fsIn.root.path, pathIn);
     final nPathOut = join(fsOut.root.path, pathOut);
-    io.File(nPathIn).renameSync(nPathOut);
 
-    return File(pathOut);
+    if (type == EntityType.file) {
+      io.File(nPathIn).renameSync(nPathOut);
+      return File(pathOut);
+    } else if (type == EntityType.dir) {
+      io.Directory(nPathIn).renameSync(nPathOut);
+      return Dir(pathOut);
+    } else {
+      throw "[Virtual filesystem] unsupported format!";
+    }
   }
 }

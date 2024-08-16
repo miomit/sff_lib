@@ -93,7 +93,11 @@ class Disk implements IFileSystem {
     throw "[Disk]: FileSystems don't mount.";
   }
 
-  Entity move(String filePath, String dirPath) {
+  Entity move(
+    String filePath,
+    String dirPath, {
+    EntityType type = EntityType.file,
+  }) {
     var (fsIn, rFilePathIn) = getFileSystemAndRelativePathByPath(filePath);
     var (fsOut, rDirPathOut) = getFileSystemAndRelativePathByPath(dirPath);
     if (fsIn != null && fsOut != null) {
@@ -105,6 +109,7 @@ class Disk implements IFileSystem {
             pathOut: join(rDirPathOut, basename(rFilePathIn)),
             fsIn: fsIn,
             fsOut: fsOut,
+            type: type,
           );
         } else if (fsIn is Virtual && fsOut is Virtual) {
           res = Virtual.moveVirtualToVirtual(
@@ -112,6 +117,7 @@ class Disk implements IFileSystem {
             dirPathOut: rDirPathOut,
             fsIn: fsIn,
             fsOut: fsOut,
+            type: type,
           );
         } else {
           throw "[Disk]: Unsupported moving of these filesystems";
