@@ -62,25 +62,19 @@ class Disk implements IFileSystem {
     throw "[Disk]: FileSystems don't mount.";
   }
 
-  @override
   Entity copy(String filePath, String dirPath) {
     var (fs, rPath) = getFileSystemAndRelativePathByPath(filePath);
-    if (fs != null && rPath != null) {
-      return fs.copy(rPath, dirPath);
-    }
+    if (fs != null && rPath != null) {}
     throw "[Disk]: FileSystems don't mount.";
   }
 
-  @override
   Entity move(
     String pathIn,
     String pathOut, {
     EntityType type = EntityType.file,
   }) {
     var (fs, rPath) = getFileSystemAndRelativePathByPath(pathIn);
-    if (fs != null && rPath != null) {
-      return fs.copy(rPath, pathOut);
-    }
+    if (fs != null && rPath != null) {}
     throw "[Disk]: FileSystems don't mount.";
   }
 

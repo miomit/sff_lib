@@ -26,16 +26,6 @@ abstract interface class IFileSystem {
     EntityType type = EntityType.file,
   });
 
-  /// Copies a file.
-  Entity copy(String filePath, String dirPath);
-
-  /// Moves a file or directory.
-  Entity move(
-    String pathIn,
-    String pathOut, {
-    EntityType type = EntityType.file,
-  });
-
   /// Returns [Stat] for [Entity].
   Stat stat(
     String path, {

@@ -33,22 +33,6 @@ class Native implements IFileSystem {
   }
 
   @override
-  Entity copy(String filePath, String dirPath) {
-    // TODO: implement copy
-    throw UnimplementedError();
-  }
-
-  @override
-  Entity move(
-    String pathIn,
-    String pathOut, {
-    EntityType type = EntityType.file,
-  }) {
-    // TODO: implement move
-    throw UnimplementedError();
-  }
-
-  @override
   void delete(
     String path, {
     bool recursive = false,
