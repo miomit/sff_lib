@@ -93,13 +93,34 @@ class Disk implements IFileSystem {
     throw "[Disk]: FileSystems don't mount.";
   }
 
-  Entity move(
-    String pathIn,
-    String pathOut, {
-    EntityType type = EntityType.file,
-  }) {
-    var (fs, rPath) = getFileSystemAndRelativePathByPath(pathIn);
-    if (fs != null && rPath != null) {}
+  Entity move(String filePath, String dirPath) {
+    var (fsIn, rFilePathIn) = getFileSystemAndRelativePathByPath(filePath);
+    var (fsOut, rDirPathOut) = getFileSystemAndRelativePathByPath(dirPath);
+    if (fsIn != null && fsOut != null) {
+      if (rFilePathIn != null && rDirPathOut != null) {
+        Entity res;
+        if (fsIn is Native && fsOut is Native) {
+          res = Native.moveNativeToNative(
+            pathIn: rFilePathIn,
+            pathOut: join(rDirPathOut, basename(rFilePathIn)),
+            fsIn: fsIn,
+            fsOut: fsOut,
+          );
+        } else if (fsIn is Virtual && fsOut is Virtual) {
+          res = Virtual.moveVirtualToVirtual(
+            filePathIn: rFilePathIn,
+            dirPathOut: rDirPathOut,
+            fsIn: fsIn,
+            fsOut: fsOut,
+          );
+        } else {
+          throw "[Disk]: Unsupported moving of these filesystems";
+        }
+
+        res.path = join(rootPrefix(dirPath), res.path);
+        return res;
+      }
+    }
     throw "[Disk]: FileSystems don't mount.";
   }
 
