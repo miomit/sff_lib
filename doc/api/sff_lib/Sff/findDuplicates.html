@@ -63,9 +63,9 @@
     <section class="multi-line-signature">
       
 
-<span class="returntype"><a href="https://api.dart.dev/stable/3.4.3/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../sff_lib/FileLog-class.html">FileLog</a></span>&gt;</span></span>
-<span class="name ">findDuplicates</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="findDuplicates-param-file">{<span class="type-annotation"><a href="https://api.dart.dev/stable/3.4.3/dart-io/File-class.html">File</a>?</span> <span class="parameter-name">file</span>, </span></li>
-<li><span class="parameter" id="findDuplicates-param-filter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.4.3/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">filter</span>(<ol class="parameter-list"><li><span class="parameter" id="param-"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.4.3/dart-core/String-class.html">String</a></span></span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.4.4/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../sff_lib/FileLog-class.html">FileLog</a></span>&gt;</span></span>
+<span class="name ">findDuplicates</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="findDuplicates-param-fileDet">{<span class="type-annotation">FileDetails?</span> <span class="parameter-name">fileDet</span>, </span></li>
+<li><span class="parameter" id="findDuplicates-param-filter"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.4.4/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">filter</span>(<ol class="parameter-list"><li><span class="parameter" id="param-"><span class="type-annotation">FileDetails</span></span></li>
 </ol>
 )?}</span></li>
 </ol>)
@@ -80,15 +80,15 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">Stream&lt;FileLog&gt; findDuplicates({
-  File? file,
-  bool Function(String)? filter,
+  FileDetails? fileDet,
+  bool Function(FileDetails)? filter,
 }) {
   return sff_file.findDuplicates(
     [
       for (var dir in _dirIn) dir.getDir(),
       for (var dir in _dirSync) dir.getDir(),
     ],
-    file: file,
+    fileDet: fileDet,
     filter: filter,
   );
 }</code></pre>
@@ -125,7 +125,7 @@
 <footer>
   <span class="no-break">
     sff_lib
-      0.0.8
+      0.0.8+3
   </span>
 
   

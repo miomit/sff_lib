@@ -63,8 +63,8 @@
     <section class="multi-line-signature">
         
 
-<span class="returntype"><a href="https://api.dart.dev/stable/3.4.3/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.dart.dev/stable/3.4.3/dart-io/File-class.html">File</a></span>&gt;</span></span>
-<span class="name ">recListFile</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="recListFile-param-dir"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.4.3/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir</span></span></li>
+<span class="returntype"><a href="https://api.dart.dev/stable/3.4.4/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter">FileDetails</span>&gt;</span></span>
+<span class="name ">recListFile</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="recListFile-param-dir"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.4.4/dart-io/Directory-class.html">Directory</a></span> <span class="parameter-name">dir</span></span></li>
 </ol>)
 
         
@@ -72,7 +72,7 @@
     </section>
     
 <section class="desc markdown">
-  <p>Recursively browses the contents of a directory and returns type <a href="https://api.dart.dev/stable/3.4.3/dart-io/File-class.html">File</a>.</p>
+  <p>Recursively browses the contents of a directory and returns type <a href="https://api.dart.dev/stable/3.4.4/dart-io/File-class.html">File</a>.</p>
 <p>If there are not enough permissions to view the directory,
 then the directory is skipped.</p>
 <p>This method solves problem of closing stream during recursive traversal
@@ -95,14 +95,14 @@ then the directory is skipped.</p>
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Stream&lt;File&gt; recListFile(
+  <pre class="language-dart"><code class="language-dart">Stream&lt;FileDetails&gt; recListFile(
   Directory dir,
 ) async* {
   try {
     await for (final entitie in dir.list()) {
       switch (entitie.statSync().type) {
         case FileSystemEntityType.file:
-          yield File(entitie.path);
+          yield FileDetails(path: entitie.path);
           break;
         case FileSystemEntityType.directory:
           yield* recListFile(Directory(entitie.path));
@@ -147,7 +147,7 @@ then the directory is skipped.</p>
 <footer>
   <span class="no-break">
     sff_lib
-      0.0.8
+      0.0.8+3
   </span>
 
   
