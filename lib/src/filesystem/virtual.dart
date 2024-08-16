@@ -50,6 +50,11 @@ class VFile extends VEntity {
     List<int>? data,
   })  : changed = DateTime.now(),
         data = data ?? [];
+
+  VFile.clone(VFile file)
+      : changed = file.changed,
+        data = file.data.toList(),
+        super(file.name);
 }
 
 class Virtual implements IFileSystem {
@@ -195,5 +200,23 @@ class Virtual implements IFileSystem {
       }
     }
     throw "[Virtual filesystem] unsupported format!";
+  }
+
+  static File copyVirtualToVirtual({
+    required String filePathIn,
+    required String dirPathOut,
+    required Virtual fsIn,
+    required Virtual fsOut,
+  }) {
+    final file = fsIn.open(filePathIn)! as VFile;
+    final dir = fsOut.open(dirPathOut)! as VDir;
+
+    if (dir.children[file.name] == null) {
+      dir.children[file.name] = VFile.clone(file);
+    } else {
+      throw "[Virtual FileSystem]: file or dir with also name exists!";
+    }
+
+    return File(join(dirPathOut, file.name));
   }
 }
