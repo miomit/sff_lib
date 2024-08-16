@@ -219,4 +219,24 @@ class Virtual implements IFileSystem {
 
     return File(join(dirPathOut, file.name));
   }
+
+  static File moveVirtualToVirtual({
+    required String filePathIn,
+    required String dirPathOut,
+    required Virtual fsIn,
+    required Virtual fsOut,
+  }) {
+    final file = fsIn.open(filePathIn)! as VFile;
+    final dirIn = fsOut.open(dirname(filePathIn))! as VDir;
+    final dirOut = fsOut.open(dirPathOut)! as VDir;
+
+    if (dirOut.children[file.name] == null) {
+      dirOut.children[file.name] = file;
+      dirIn.children.remove(file.name);
+    } else {
+      throw "[Virtual FileSystem]: file or dir with also name exists!";
+    }
+
+    return File(join(dirPathOut, file.name));
+  }
 }
