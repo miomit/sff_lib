@@ -128,4 +128,17 @@ class Native implements IFileSystem {
 
     return File(pathOut);
   }
+
+  static File moveNativeToNative({
+    required String pathIn,
+    required String pathOut,
+    required Native fsIn,
+    required Native fsOut,
+  }) {
+    final nPathIn = join(fsIn.root.path, pathIn);
+    final nPathOut = join(fsOut.root.path, pathOut);
+    io.File(nPathIn).renameSync(nPathOut);
+
+    return File(pathOut);
+  }
 }
