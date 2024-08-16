@@ -63,8 +63,33 @@ class Disk implements IFileSystem {
   }
 
   Entity copy(String filePath, String dirPath) {
-    var (fs, rPath) = getFileSystemAndRelativePathByPath(filePath);
-    if (fs != null && rPath != null) {}
+    var (fsIn, rFilePathIn) = getFileSystemAndRelativePathByPath(filePath);
+    var (fsOut, rDirPathOut) = getFileSystemAndRelativePathByPath(dirPath);
+    if (fsIn != null && fsOut != null) {
+      if (rFilePathIn != null && rDirPathOut != null) {
+        Entity res;
+        if (fsIn is Native && fsOut is Native) {
+          res = Native.copyNativeToNative(
+            pathIn: rFilePathIn,
+            pathOut: join(rDirPathOut, basename(rFilePathIn)),
+            fsIn: fsIn,
+            fsOut: fsOut,
+          );
+        } else if (fsIn is Virtual && fsOut is Virtual) {
+          res = Virtual.copyVirtualToVirtual(
+            filePathIn: rFilePathIn,
+            dirPathOut: rDirPathOut,
+            fsIn: fsIn,
+            fsOut: fsOut,
+          );
+        } else {
+          throw "[Disk]: Unsupported copying of these filesystems";
+        }
+
+        res.path = join(rootPrefix(dirPath), res.path);
+        return res;
+      }
+    }
     throw "[Disk]: FileSystems don't mount.";
   }
 
