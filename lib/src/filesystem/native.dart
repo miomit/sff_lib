@@ -115,4 +115,17 @@ class Native implements IFileSystem {
     }
     throw "[Native filesystem] unsupported format!";
   }
+
+  static File copyNativeToNative({
+    required String pathIn,
+    required String pathOut,
+    required Native fsIn,
+    required Native fsOut,
+  }) {
+    final nPathIn = join(fsIn.root.path, pathIn);
+    final nPathOut = join(fsOut.root.path, pathOut);
+    io.File(nPathIn).copySync(nPathOut);
+
+    return File(pathOut);
+  }
 }
