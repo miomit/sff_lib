@@ -62,12 +62,12 @@ class Disk implements IFileSystem {
     throw "[Disk]: FileSystems don't mount.";
   }
 
-  Entity copy(String filePath, String dirPath) {
+  File copy(String filePath, String dirPath) {
     var (fsIn, rFilePathIn) = getFileSystemAndRelativePathByPath(filePath);
     var (fsOut, rDirPathOut) = getFileSystemAndRelativePathByPath(dirPath);
     if (fsIn != null && fsOut != null) {
       if (rFilePathIn != null && rDirPathOut != null) {
-        Entity res;
+        File res;
         if (fsIn is Native && fsOut is Native) {
           res = Native.copyNativeToNative(
             pathIn: rFilePathIn,
