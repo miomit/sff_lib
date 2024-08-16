@@ -2,7 +2,6 @@ import 'dart:io' as io;
 
 import 'package:path/path.dart';
 import 'package:sff_lib/filesystem.dart';
-import 'package:sff_lib/src/filesystem/stat.dart';
 
 class Native implements IFileSystem {
   final io.Directory root;
