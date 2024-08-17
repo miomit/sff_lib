@@ -27,13 +27,23 @@ class Disk implements IFileSystem {
   }
 
   void mount(String target, IFileSystem fs) {
+    logStack.push(Log.info("[Disk] called mount"));
     if (_fileSystems[target] == null) {
       try {
         fs.connect();
       } catch (_) {
+        logStack.push(Log.error("[Disk] file system connection error"));
         rethrow;
       }
       _fileSystems[target] = fs;
+
+      logStack.push(Log.success("[Disk] a $fs with this $target was mounted"));
+    } else {
+      logStack.push(
+        Log.warring(
+          "[Disk] a $fs with the same $target already exists",
+        ),
+      );
     }
   }
 
