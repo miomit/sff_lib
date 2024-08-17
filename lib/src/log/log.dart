@@ -10,6 +10,11 @@ class Log {
     required this.message,
   }) : dateTime = DateTime.now();
 
+  Log.info(String message) : this(type: LogType.info, message: message);
+  Log.error(String message) : this(type: LogType.error, message: message);
+  Log.warring(String message) : this(type: LogType.warring, message: message);
+  Log.success(String message) : this(type: LogType.success, message: message);
+
   @override
   String toString() {
     return "[$dateTime]\t${type.name}\t$message";
