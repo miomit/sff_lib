@@ -10,6 +10,8 @@ class LogStack {
 
   final bool autoPrint;
 
+  static LogStack global = LogStack();
+
   LogStack({this.autoPrint = false});
 
   void clear() {

@@ -1,5 +1,6 @@
 import 'package:path/path.dart';
 import 'package:sff_lib/filesystem.dart';
+import 'package:sff_lib/log.dart';
 
 class Disk implements IFileSystem {
   static Disk io = Disk();
@@ -7,6 +8,10 @@ class Disk implements IFileSystem {
   final Map<String, IFileSystem> _fileSystems = {};
 
   List<String> get targets => _fileSystems.keys.toList();
+
+  LogStack logStack;
+
+  Disk({LogStack? logStack}) : logStack = logStack ?? LogStack.global;
 
   (IFileSystem?, String?) getFileSystemAndRelativePathByPath(String path) {
     var target = rootPrefix(path);
