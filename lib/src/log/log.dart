@@ -9,4 +9,9 @@ class Log {
     required this.type,
     required this.message,
   }) : dateTime = DateTime.now();
+
+  @override
+  String toString() {
+    return "[$dateTime]\t${type.name}\t$message";
+  }
 }
