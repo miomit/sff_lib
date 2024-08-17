@@ -1,7 +1,12 @@
 import 'package:sff_lib/log.dart';
 
 class Log {
-  LogType type;
+  final DateTime dateTime;
+  final LogType type;
+  final String message;
 
-  Log(this.type);
+  Log({
+    required this.type,
+    required this.message,
+  }) : dateTime = DateTime.now();
 }
