@@ -1,4 +1,4 @@
-enum LogType {
+enum TypeLog {
   success,
   warring,
   error,
