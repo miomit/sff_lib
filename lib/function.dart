@@ -2,3 +2,4 @@
 library;
 
 export 'src/function/copy_dir_rec.dart';
+export 'src/function/sync_dir.dart';
