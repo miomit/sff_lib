@@ -1,17 +1,14 @@
-import 'dart:io';
-
-import 'package:sff_lib/sff_lib.dart';
-import 'package:sff_lib/src/file_details.dart';
+import 'package:sff_lib/filesystem.dart';
+import 'package:sff_lib/function.dart';
 
 void main() {
+  Disk.io.mount(r"U:\", Native(r"C:\Users\user_"));
   findDuplicates(
     [
-      Directory('C:\\Users\\user_\\Изображения'),
-      Directory('C:\\Users\\user_\\Документы')
+      Dir(r'U:\Изображения'),
+      Dir(r'U:\Документы'),
     ],
-    fileDet: FileDetails(
-      path: "C:\\Users\\user_\\Изображения\\Ава\\1257855.jpg",
-    ),
-    filter: (fd) => fd.extension == ".jpg",
+    file: File(r"C:\Изображения\Ава\1257855.jpg"),
+    filter: (fd) => (fd.stat() as FileStat).fileType == FileType.picture,
   ).listen(print);
 }

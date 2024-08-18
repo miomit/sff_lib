@@ -1,10 +1,11 @@
-import 'dart:io';
-
-import 'package:sff_lib/sff_lib.dart';
+import 'package:sff_lib/filesystem.dart';
+import 'package:sff_lib/function.dart';
 
 void main() {
+  Disk.io.mount(r"H:\", Native(r"/home/yura"));
+  Disk.io.mount(r"E:\", Native(r"/media/yura/Elements"));
   syncDir(
-    Directory('/media/yura/Elements/Music'),
-    Directory('/home/yura/Music'),
+    Dir(r"H:\Music"),
+    Dir(r"E:\Music"),
   ).listen(print);
 }
