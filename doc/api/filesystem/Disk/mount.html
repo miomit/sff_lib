@@ -78,13 +78,23 @@
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">void mount(String target, IFileSystem fs) {
+  logStack.push(Log.info(&quot;[Disk] called mount&quot;));
   if (_fileSystems[target] == null) {
     try {
       fs.connect();
     } catch (_) {
+      logStack.push(Log.error(&quot;[Disk] file system connection error&quot;));
       rethrow;
     }
     _fileSystems[target] = fs;
+
+    logStack.push(Log.success(&quot;[Disk] a $fs with this $target was mounted&quot;));
+  } else {
+    logStack.push(
+      Log.warring(
+        &quot;[Disk] a $fs with the same $target already exists&quot;,
+      ),
+    );
   }
 }</code></pre>
 </section>
@@ -120,7 +130,7 @@
 <footer>
   <span class="no-break">
     sff_lib
-      0.0.8+3
+      0.0.8+4
   </span>
 
   

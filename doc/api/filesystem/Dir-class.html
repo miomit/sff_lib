@@ -92,7 +92,7 @@
 
     <dl class="constructor-summary-list">
         <dt id="Dir" class="callable">
-          <span class="name"><a href="../filesystem/Dir/Dir.html">Dir</a></span><span class="signature">(<span class="parameter" id="-param-path"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.4.4/dart-core/String-class.html">String</a></span> <span class="parameter-name">path</span></span>)</span>
+          <span class="name"><a href="../filesystem/Dir/Dir.html">Dir</a></span><span class="signature">(<span class="parameter" id="-param-path"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.4.4/dart-core/String-class.html">String</a></span> <span class="parameter-name">path</span>, </span><span class="parameter" id="-param-io">{<span class="type-annotation"><a href="../filesystem/Disk-class.html">Disk</a>?</span> <span class="parameter-name">io</span>}</span>)</span>
         </dt>
         <dd>
           
@@ -185,6 +185,19 @@
       id="instance-methods">
     <h2>Methods</h2>
     <dl class="callables">
+        <dt id="create" class="callable">
+  <span class="name"><a href="../filesystem/Dir/create.html">create</a></span><span class="signature">(<wbr><span class="parameter" id="create-param-recursive">{<span class="type-annotation"><a href="https://api.dart.dev/stable/3.4.4/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">recursive</span> = <span class="default-value">false</span>}</span>)
+    <span class="returntype parameter">&#8594; void</span>
+  </span>
+  
+
+</dt>
+<dd>
+  
+  
+
+</dd>
+
         <dt id="delete" class="callable inherited">
   <span class="name"><a href="../filesystem/Entity/delete.html">delete</a></span><span class="signature">(<wbr><span class="parameter" id="delete-param-recursive">{<span class="type-annotation"><a href="https://api.dart.dev/stable/3.4.4/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">recursive</span> = <span class="default-value">false</span>}</span>)
     <span class="returntype parameter">&#8594; void</span>
@@ -212,14 +225,14 @@
 </dd>
 
         <dt id="list" class="callable">
-  <span class="name"><a href="../filesystem/Dir/list.html">list</a></span><span class="signature">(<wbr><span class="parameter" id="list-param-recursive">{<span class="type-annotation"><a href="https://api.dart.dev/stable/3.4.4/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">recursive</span> = <span class="default-value">false</span>}</span>)
+  <span class="name"><a href="../filesystem/Dir/list.html">list</a></span><span class="signature">(<wbr><span class="parameter" id="list-param-recursive">{<span class="type-annotation"><a href="https://api.dart.dev/stable/3.4.4/dart-core/bool-class.html">bool</a></span> <span class="parameter-name">recursive</span> = <span class="default-value">false</span>, </span><span class="parameter" id="list-param-onException"><span class="type-annotation">void</span> <span class="parameter-name">onException</span>(<span class="parameter" id="param-e"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.4.4/dart-core/Exception-class.html">Exception</a></span> <span class="parameter-name">e</span>, </span><span class="parameter" id="param-entity"><span class="type-annotation"><a href="../filesystem/Entity-class.html">Entity</a></span> <span class="parameter-name">entity</span></span>)?}</span>)
     <span class="returntype parameter">&#8594; <a href="https://api.dart.dev/stable/3.4.4/dart-async/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../filesystem/Entity-class.html">Entity</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  
+  Recursively browses the contents of a directory and returns type <a href="../filesystem/File-class.html">File</a>.
   
 
 </dd>
@@ -333,7 +346,7 @@
 <footer>
   <span class="no-break">
     sff_lib
-      0.0.8+3
+      0.0.8+4
   </span>
 
   

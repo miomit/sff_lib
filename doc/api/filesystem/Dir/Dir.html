@@ -62,7 +62,8 @@
 
     <section class="multi-line-signature">
       
-      <span class="name ">Dir</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-path"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.4.4/dart-core/String-class.html">String</a></span> <span class="parameter-name">path</span></span></li>
+      <span class="name ">Dir</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="-param-path"><span class="type-annotation"><a href="https://api.dart.dev/stable/3.4.4/dart-core/String-class.html">String</a></span> <span class="parameter-name">path</span>, </span></li>
+<li><span class="parameter" id="-param-io">{<span class="type-annotation"><a href="../../filesystem/Disk-class.html">Disk</a>?</span> <span class="parameter-name">io</span>}</span></li>
 </ol>)
     </section>
 
@@ -72,7 +73,7 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">Dir(String path) : super(path, type: EntityType.dir);</code></pre>
+  <pre class="language-dart"><code class="language-dart">Dir(String path, {Disk? io}) : super(path, type: EntityType.dir, io: io);</code></pre>
 </section>
 
 
@@ -106,7 +107,7 @@
 <footer>
   <span class="no-break">
     sff_lib
-      0.0.8+3
+      0.0.8+4
   </span>
 
   
